@@ -7,6 +7,7 @@
 /auto-save-list/
 /backups/
 /elpa/
+/snippets/
 /eshell/history
 /eshell/lastdir
 /request/
@@ -24,5 +25,4 @@ session.*
 bookmarks
 /url
 ido.last
-recentf
 .ido.last

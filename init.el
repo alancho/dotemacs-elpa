@@ -405,7 +405,9 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Para editar los yaml a ingresar en R scripts cuando render
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
-
+(add-hook 'yaml-mode-hook
+        (lambda ()
+            (define-key yaml-mode-map "<return>" 'newline-and-indent)))
 ;; Para ver las lineas vacias tambien
 (setq-default indicate-empty-lines t)
 (when (not indicate-empty-lines)
