@@ -7,9 +7,10 @@
 (package-initialize)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")))
+                         ("melpa" . "http://melpa.org/packages/")
+			 ("melpa-stable" . "http://stable.melpa.org/packages/")))
 
-;;(setq package-archive-enable-alist '(("melpa" deft magit)))
+(add-to-list 'package-pinned-packages '(magit . "melpa-stable"))
 
 ;; Y estos son mis paquetes
 (defvar alancho/packages '(autopair
@@ -253,7 +254,7 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; My magit setup
 ;; ========================================================
 ;; (require 'magit)
-;; (global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x g") 'magit-status)
 
 ;; Recent mode
 ;; ========================================================
