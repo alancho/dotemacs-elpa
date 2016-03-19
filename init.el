@@ -10,7 +10,7 @@
                          ("melpa" . "http://melpa.org/packages/")
 			 ("melpa-stable" . "http://stable.melpa.org/packages/")))
 
-(add-to-list 'package-pinned-packages '(magit . "melpa-stable"))
+;; (add-to-list 'package-pinned-packages '(magit . "melpa-stable"))
 
 ;; Y estos son mis paquetes
 (defvar alancho/packages '(autopair
