@@ -416,3 +416,20 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Backup files no sirven para nada y nunca los he usado
 (setq make-backup-files nil)
+
+;; Autocomplete
+;; ========================================================
+(ac-config-default)
+
+(defun my-ac-ess-config ()
+  (setq ac-souces
+	'(ac-source-R-objects)))
+
+(add-hook 'ess-mode-hook 'my-ac-ess-config)
+(add-hook 'ess-post-run-hook 'my-ac-ess-config)
+
+(setq ac-source-R
+      '((prefix . ess-ac-start)
+	(requires . 2)
+	(candidates . ess-ac-candidates)
+	(document . ess-ac-help)))
