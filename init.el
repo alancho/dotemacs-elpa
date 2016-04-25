@@ -125,6 +125,8 @@
         (setq w1 (selected-window))
         (setq w1name (buffer-name))
         (setq w2 (split-window w1 nil t))
+        ;; (setq w2 (split-window-below w1 nil t))
+        ;; (setq w2 (split-window-horizontally w1 nil t))
         (R)
         (set-window-buffer w2 "*R*")
         (set-window-buffer w1 w1name))))
@@ -420,10 +422,11 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Autocomplete
 ;; ========================================================
 (ac-config-default)
+(setq ac-auto-show-menu nil)
 
 (defun my-ac-ess-config ()
   (setq ac-souces
-	'(ac-source-R-objects)))
+	'(ac-source-R)))
 
 (add-hook 'ess-mode-hook 'my-ac-ess-config)
 (add-hook 'ess-post-run-hook 'my-ac-ess-config)
