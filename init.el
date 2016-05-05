@@ -423,6 +423,7 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; ========================================================
 (ac-config-default)
 (setq ac-auto-show-menu nil)
+(setq ac-use-quick-help nil)
 
 (defun my-ac-ess-config ()
   (setq ac-souces
