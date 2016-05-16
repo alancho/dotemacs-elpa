@@ -186,6 +186,14 @@
 
 (define-key inferior-ess-mode-map (kbd "C--") 'then_assign_rightwards)
 
+;; En conjuncion con la funcion precedente, me parece mas comodo tener
+;; el assignment arrow leftwards de ESS activado por C-= en lugar de
+;; underscore. Para esto hay que desactivar C-= en expand-region
+(setq ess-S-assign-key (kbd "C-="))
+(ess-toggle-S-assign-key t) ; enable above key definition
+;; leave my underscore key alone!
+(ess-toggle-underscore nil)
+
 ;; RStudio indentation!
 (setq ess-default-style 'RStudio)
 
@@ -205,7 +213,7 @@
 ;; Expand region
 ;; ========================================================
 ;; (require 'expand-region)
-(global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "C-.") 'er/expand-region)
 
 ;; This are my faces, fonts, etcetera
 ;; ========================================================
