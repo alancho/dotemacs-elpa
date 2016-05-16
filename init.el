@@ -170,10 +170,6 @@
   (insert "+")
   (reindent-then-newline-and-indent))
 
-(defun ess-roxygen-print-one-param (p)
-  "Insert parameter P to the roxygen comments."
-  (insert (format "##' @param %s\n" p)))
-
 (define-key ess-mode-map (kbd "C-+") 'then_ggplot_plus)
 
 (define-key inferior-ess-mode-map (kbd "C-+") 'then_ggplot_plus)
