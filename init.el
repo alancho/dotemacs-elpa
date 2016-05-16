@@ -178,6 +178,18 @@
 
 (define-key inferior-ess-mode-map (kbd "C-+") 'then_ggplot_plus)
 
+;; Esto es para rematar con un assignment arrow al final de un pipe de
+;; dplyr
+(defun then_assign_rightwards ()
+  (interactive)
+  (just-one-space 1)
+  (insert "->")
+  (reindent-then-newline-and-indent))
+
+(define-key ess-mode-map (kbd "C--") 'then_assign_rightwards)
+
+(define-key inferior-ess-mode-map (kbd "C--") 'then_assign_rightwards)
+
 ;; RStudio indentation!
 (setq ess-default-style 'RStudio)
 
