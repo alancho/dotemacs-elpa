@@ -34,6 +34,7 @@
 			   ido-ubiquitous
 			   julia-mode
 			   magit
+			   org
 			   paredit
 			   pkg-info
 			   popup
@@ -454,3 +455,81 @@ convoluted. We use part of it --- skip comment par we are in."
 	(requires . 2)
 	(candidates . ess-ac-candidates)
 	(document . ess-ac-help)))
+
+;; My org-mode setup
+;; =================
+(require 'org)
+
+;; This is to have no blank lines inserted after headings
+(setq org-blank-before-new-entry nil)
+
+;; This is to view all at startup
+(setq org-startup-folded nil)
+
+;; Change todo state with C-c C-t KEY
+(setq org-use-fast-todo-selection t)
+
+;; Fixing task state with S-arrow
+;; (setq org-treat-S-cursor-todo-selection-as-state-change nil)
+
+;; To allow S-arrow to work only with time stamps
+;; (setq org-support-shift-select (quote always))
+
+(global-set-key (kbd "<f12>") 'org-agenda)
+(global-set-key (kbd "<f11>") 'org-capture)
+
+(setq org-agenda-files (list "~/Dropbox/gtd/tutti.org"))
+
+; Targets include this file and any file contributing to the agenda - up to 5 levels deep
+(setq org-refile-targets '((nil :maxlevel . 5)
+			   (org-agenda-files :maxlevel . 5)))
+
+;; Capture templates for: TODO tasks, Notes, appointments, phone calls, and org-protocol
+(setq org-capture-templates
+      (quote (("i" "Inbox" entry (file+headline "~/Dropbox/gtd/tutti.org" "Inbox")
+               "* TODO %?\n %i"))))
+
+;; Stop using paths for refile targets - we file directly with IDO
+(setq org-refile-use-outline-path nil)
+
+;; Targets complete directly with IDO
+(setq org-outline-path-complete-in-steps nil)
+
+;; Allow refile to create parent tasks with confirmation
+(setq org-refile-allow-creating-parent-nodes (quote confirm))
+
+;; Use IDO for both buffer and file completion and ido-everywhere to t
+(setq org-completion-use-ido t)
+(setq ido-everywhere t)
+(setq ido-max-directory-size 100000)
+(ido-mode (quote both))
+
+;; Remove completed deadline tasks from the agenda view
+(setq org-agenda-skip-deadline-if-done t)
+
+;; Remove completed scheduled tasks from the agenda view
+(setq org-agenda-skip-scheduled-if-done t)
+
+;; Remove completed items from search results
+(setq org-agenda-skip-timestamp-if-done t)
+
+;; ;; This is to have always the 7 coming days in the week
+(setq org-agenda-start-on-weekday nil)
+(setq org-agenda-ndays 21)
+
+(setf org-todo-keyword-faces '(("TODO" . (:foreground "cyan" :background "steelblue" :bold t :weight bold))
+			       ("STARTED" . (:foreground "green" :background "steelblue" :bold t :weight bold))
+			       ("NEXT" . (:foreground "yellow" :background "red" :bold t :weight bold))
+			       ("WAITING" . (:foreground "yellow" :background "magenta2" :bold t :weight bold))
+			       ("DONE" . (:foreground "gray50" :background "gray30"))))
+
+(setq org-tag-alist '(("OFICINA" . ?o)
+		       ("CASA" . ?c)
+		       ("FINDE" . ?f)
+		       ))
+
+(setq org-todo-keywords '((sequence "TODO" "STARTED" "NEXT" "WAITING" "DONE")
+  			  ))
+
+(setq org-hide-leading-stars t)
+(setq org-startup-indented t)
