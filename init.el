@@ -517,11 +517,11 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-ndays 21)
 
-(setf org-todo-keyword-faces '(("TODO" . (:foreground "cyan" :background "steelblue" :bold t :weight bold))
-			       ("STARTED" . (:foreground "green" :background "steelblue" :bold t :weight bold))
-			       ("NEXT" . (:foreground "yellow" :background "red" :bold t :weight bold))
-			       ("WAITING" . (:foreground "yellow" :background "magenta2" :bold t :weight bold))
-			       ("DONE" . (:foreground "gray50" :background "gray30"))))
+(setf org-todo-keyword-faces '(("TODO" . (:foreground "cyan" :bold t :weight bold))
+			       ("STARTED" . (:foreground "green" :bold t :weight bold))
+			       ("NEXT" . (:foreground "yellow" :bold t :weight bold))
+			       ("WAITING" . (:foreground "orange" :bold t :weight bold))
+			       ("DONE" . (:foreground "gray50" :bold t :weight bold))))
 
 (setq org-tag-alist '(("OFICINA" . ?o)
 		       ("CASA" . ?c)
