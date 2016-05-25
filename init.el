@@ -519,7 +519,6 @@ convoluted. We use part of it --- skip comment par we are in."
 
 (setf org-todo-keyword-faces '(("TODO" . (:foreground "cyan" :bold t :weight bold))
 			       ("STARTED" . (:foreground "green" :bold t :weight bold))
-			       ("NEXT" . (:foreground "yellow" :bold t :weight bold))
 			       ("WAITING" . (:foreground "orange" :bold t :weight bold))
 			       ("DONE" . (:foreground "gray50" :bold t :weight bold))))
 
@@ -528,7 +527,7 @@ convoluted. We use part of it --- skip comment par we are in."
 		       ("FINDE" . ?f)
 		       ))
 
-(setq org-todo-keywords '((sequence "TODO" "STARTED" "NEXT" "WAITING" "DONE")
+(setq org-todo-keywords '((sequence "TODO" "STARTED" "WAITING" "DONE")
   			  ))
 
 (setq org-hide-leading-stars t)
