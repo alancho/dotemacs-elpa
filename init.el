@@ -487,7 +487,7 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, and org-protocol
 (setq org-capture-templates
       (quote (("i" "Inbox" entry (file+headline "~/Dropbox/gtd/tutti.org" "Inbox")
-               "* TODO %?\n %i"))))
+               "* %?\n %U"))))
 
 ;; Stop using paths for refile targets - we file directly with IDO
 (setq org-refile-use-outline-path nil)
