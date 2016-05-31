@@ -532,3 +532,5 @@ convoluted. We use part of it --- skip comment par we are in."
 
 (setq org-hide-leading-stars t)
 (setq org-startup-indented t)
+
+(setq org-agenda-window-setup 'only-window)
