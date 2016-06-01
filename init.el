@@ -534,10 +534,13 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-startup-indented t)
 
 ;; Para que org-agenda ocupe toda la pantalla
-(setq org-agenda-window-setup 'only-window)
+(setq org-agenda-window-setup 'current-window)
 
 ;; Con solo tres priorities no me alcanza -- necesito desde A a E, en
 ;; concordancia con Eat That Frog
 (setq org-highest-priority ?A)
 (setq org-lowest-priority ?E)
 (setq org-default-priority ?C)
+
+;; Set default column view headings: Task Effort Clock_Summary
+(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
