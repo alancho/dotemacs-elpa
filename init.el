@@ -518,7 +518,7 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-agenda-ndays 21)
 
 (setf org-todo-keyword-faces '(("TODO" . (:foreground "cyan" :bold t :weight bold))
-			       ("NEXT" . (:foreground "blue" :bold t :weight bold))
+			       ("NEXT" . (:foreground "yellow" :bold t :weight bold))
 			       ("WAITING" . (:foreground "orange" :bold t :weight bold))
 			       ("DONE" . (:foreground "gray50" :bold t :weight bold))))
 
