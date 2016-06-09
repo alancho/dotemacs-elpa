@@ -518,6 +518,7 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-agenda-ndays 21)
 
 (setf org-todo-keyword-faces '(("TODO" . (:foreground "cyan" :bold t :weight bold))
+			       ("NEXT" . (:foreground "blue" :bold t :weight bold))
 			       ("WAITING" . (:foreground "orange" :bold t :weight bold))
 			       ("DONE" . (:foreground "gray50" :bold t :weight bold))))
 
@@ -526,7 +527,7 @@ convoluted. We use part of it --- skip comment par we are in."
 		       ("FINDE" . ?f)
 		       ))
 
-(setq org-todo-keywords '((sequence "TODO" "WAITING" "DONE")
+(setq org-todo-keywords '((sequence "TODO" "NEXT" "WAITING" "DONE")
   			  ))
 
 (setq org-hide-leading-stars t)
@@ -543,3 +544,9 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Set default column view headings: Task Effort Clock_Summary
 (setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
+
+;; Para visualizar mas rapido en agenda
+(setq org-agenda-custom-commands
+      '(("w" todo "WAITING" nil)
+	("n" todo "NEXT" nil)
+	("d" "Agenda + Next Actions" ((agenda) (todo "NEXT")))))
