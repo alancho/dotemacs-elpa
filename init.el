@@ -35,6 +35,7 @@
 			   julia-mode
 			   magit
 			   org
+			   org-journal
 			   paredit
 			   pkg-info
 			   popup
@@ -506,10 +507,11 @@ convoluted. We use part of it --- skip comment par we are in."
 			       ("WAITING" . (:foreground "orange" :bold t :weight bold))
 			       ("DONE" . (:foreground "gray50" :bold t :weight bold))))
 
-(setq org-tag-alist '(("OFICINA" . ?o)
-		       ("CASA" . ?c)
-		       ("FINDE" . ?f)
-		       ))
+(setq org-tag-alist '(("MORNING" . ?m)
+		      ("AFTERNOON" . ?a)
+		      ("EVENING" . ?e)
+		      ("FINDE" . ?f)
+		      ))
 
 (setq org-todo-keywords '((sequence "TODO" "NEXT" "WAITING" "DONE")
   			  ))
@@ -534,3 +536,6 @@ convoluted. We use part of it --- skip comment par we are in."
       '(("w" todo "WAITING" nil)
 	("n" todo "NEXT" nil)
 	("d" "Agenda + Next Actions" ((agenda) (todo "NEXT")))))
+
+;; Vamos a empezar a usar org-journal
+(setq org-journal-dir "~/Dropbox/gtd/journal/")
