@@ -464,10 +464,14 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-refile-targets '((nil :maxlevel . 5)
 			   (org-agenda-files :maxlevel . 5)))
 
-;; Capture templates for: TODO tasks, Notes, appointments, phone calls, and org-protocol
+;; Capture templates for TODO tasks, Notes, and journal
 (setq org-capture-templates
-      (quote (("i" "Inbox" entry (file+headline "~/Dropbox/gtd/tutti.org" "Inbox")
-               "* %?\n %U"))))
+      (quote (("t" "Tareas" entry (file+headline "~/Dropbox/gtd/inbox.org" "Tareas")
+               "* TODO %? %^g \n %U ")
+              ("j" "Journal" entry (file+datetree "~/Dropbox/gtd/journal.org")
+               "* %? \n %U")
+	      ("i" "Inbox" entry (file+headline "~/Dropbox/gtd/tutti.org" "Inbox")
+               "* %? \n %U"))))
 
 ;; Stop using paths for refile targets - we file directly with IDO
 (setq org-refile-use-outline-path nil)
