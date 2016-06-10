@@ -469,8 +469,6 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-capture-templates
       (quote (("t" "Tareas" entry (file+headline "~/Dropbox/gtd/inbox.org" "Tareas")
                "* TODO %? %^g \n %U ")
-              ("j" "Journal" entry (file+datetree "~/Dropbox/gtd/journal.org")
-               "* %? \n %U")
 	      ("i" "Inbox" entry (file+headline "~/Dropbox/gtd/tutti.org" "Inbox")
                "* %? \n %U"))))
 
