@@ -505,10 +505,10 @@ convoluted. We use part of it --- skip comment par we are in."
 			       ("WAITING" . (:foreground "orange" :bold t :weight bold))
 			       ("DONE" . (:foreground "gray50" :bold t :weight bold))))
 
-(setq org-tag-alist '(("MORNING" . ?m)
-		      ("AFTERNOON" . ?a)
-		      ("EVENING" . ?e)
-		      ("FINDE" . ?f)
+(setq org-tag-alist '(("morning" . ?m)
+		      ("afternoon" . ?a)
+		      ("evening" . ?e)
+		      ("finde" . ?f)
 		      ))
 
 (setq org-todo-keywords '((sequence "TODO" "NEXT" "WAITING" "DONE")
@@ -529,11 +529,40 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Set default column view headings: Task Effort Clock_Summary
 (setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
 
-;; Para visualizar mas rapido en agenda
-(setq org-agenda-custom-commands
-      '(("w" todo "WAITING" nil)
-	("n" todo "NEXT" nil)
-	("d" "Agenda + Next Actions" ((agenda) (todo "NEXT")))))
+;; (setq org-agenda-custom-commands
+;;       '(("m" . "A la mañana")
+;; 	("mn" tags-todo "morning/NEXT")
+;; 	("mw" tags-todo "morning/WAITING")
+;; 	("a" . "Despues de comer")
+;; 	("an" tags-todo "afternoon/NEXT")
+;; 	("aw" tags-todo "afternoon/WAITING")
+;; 	("e" . "Al llegar a casa")
+;; 	("en" tags-todo "evening/NEXT")
+;; 	("ew" tags-todo "evening/WAITING")
+;; 	("f" tags-todo "finde")
+;; 	))
 
+(setq org-agenda-custom-commands
+      '(("m" "A la mañana"
+	 ((agenda "")
+	  (tags-todo "morning/NEXT")
+	  (tags-todo "morning/WAITING")
+	  (tags-todo "morning/TODO")))
+	("a" "Después de comer"
+	 ((agenda "")
+	  (tags-todo "afternoon/NEXT")
+	  (tags-todo "afternoon/WAITING")
+	  (tags-todo "afternoon/TODO")))
+	("e" "Al llegar a casa"
+	 ((agenda "")
+	  (tags-todo "evening/NEXT")
+	  (tags-todo "evening/WAITING")
+	  (tags-todo "evening/TODO")))
+	("f" "Para el fin de semana"
+	 ((agenda "")
+	  (tags-todo "finde/NEXT")
+	  (tags-todo "finde/WAITING")
+	  (tags-todo "finde/TODO")))))
+      
 ;; Vamos a empezar a usar org-journal
 (setq org-journal-dir "~/Dropbox/gtd/journal/")
