@@ -468,7 +468,7 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Capture templates for TODO tasks, Notes, and journal
 (setq org-capture-templates
       (quote (("t" "Tareas" entry (file+headline "~/Dropbox/gtd/inbox.org" "Tareas")
-               "* TODO %? %^g \n %U ")
+               "* TODO %? %(org-set-tags) \n %U ")
 	      ("i" "Inbox" entry (file+headline "~/Dropbox/gtd/tutti.org" "Inbox")
                "* %? \n %U"))))
 
@@ -511,8 +511,9 @@ convoluted. We use part of it --- skip comment par we are in."
 		      ("finde" . ?f)
 		      ))
 
-(setq org-todo-keywords '((sequence "TODO" "NEXT" "WAITING" "DONE")
-  			  ))
+(setq org-todo-keywords
+      '((sequence "TODO" "NEXT" "WAITING" "DONE")
+	))
 
 (setq org-hide-leading-stars t)
 (setq org-startup-indented t)
@@ -528,19 +529,6 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Set default column view headings: Task Effort Clock_Summary
 (setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
-
-;; (setq org-agenda-custom-commands
-;;       '(("m" . "A la mañana")
-;; 	("mn" tags-todo "morning/NEXT")
-;; 	("mw" tags-todo "morning/WAITING")
-;; 	("a" . "Despues de comer")
-;; 	("an" tags-todo "afternoon/NEXT")
-;; 	("aw" tags-todo "afternoon/WAITING")
-;; 	("e" . "Al llegar a casa")
-;; 	("en" tags-todo "evening/NEXT")
-;; 	("ew" tags-todo "evening/WAITING")
-;; 	("f" tags-todo "finde")
-;; 	))
 
 (setq org-agenda-custom-commands
       '(("m" "A la mañana"
