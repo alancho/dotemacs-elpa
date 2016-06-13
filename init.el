@@ -531,17 +531,17 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
 
 (setq org-agenda-custom-commands
-      '(("m" "A la mañana"
+      '(("1" "A la mañana"
 	 ((agenda "")
 	  (tags-todo "morning/NEXT")
 	  (tags-todo "morning/WAITING")
 	  (tags-todo "morning/TODO")))
-	("a" "Después de comer"
+	("2" "Después de comer"
 	 ((agenda "")
 	  (tags-todo "afternoon/NEXT")
 	  (tags-todo "afternoon/WAITING")
 	  (tags-todo "afternoon/TODO")))
-	("e" "Al llegar a casa"
+	("3" "Al llegar a casa"
 	 ((agenda "")
 	  (tags-todo "evening/NEXT")
 	  (tags-todo "evening/WAITING")
