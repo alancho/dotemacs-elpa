@@ -45,7 +45,7 @@
 			   websocket
 			   yaml-mode
 			   ;; yasnippet
-)
+			   )
   "Default packages")
 
 (defun alancho/packages-installed-p ()
@@ -408,7 +408,7 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
 (add-hook 'yaml-mode-hook
-        (lambda ()
+	  (lambda ()
             (define-key yaml-mode-map "<return>" 'newline-and-indent)))
 ;; Para ver las lineas vacias tambien
 (setq-default indicate-empty-lines t)
@@ -461,7 +461,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 (setq org-agenda-files (list "~/Dropbox/gtd/tutti.org"))
 
-; Targets include this file and any file contributing to the agenda - up to 5 levels deep
+					; Targets include this file and any file contributing to the agenda - up to 5 levels deep
 (setq org-refile-targets '((nil :maxlevel . 5)
 			   (org-agenda-files :maxlevel . 5)))
 
@@ -532,25 +532,29 @@ convoluted. We use part of it --- skip comment par we are in."
 
 (setq org-agenda-custom-commands
       '(("1" "A la mañana"
-	 ((agenda "")
+	 (
+	  ;; (agenda "")
 	  (tags-todo "morning/NEXT")
 	  (tags-todo "morning/WAITING")
 	  (tags-todo "morning/TODO")))
 	("2" "Después de comer"
-	 ((agenda "")
+	 (
+	  ;; (agenda "")
 	  (tags-todo "afternoon/NEXT")
 	  (tags-todo "afternoon/WAITING")
 	  (tags-todo "afternoon/TODO")))
 	("3" "Al llegar a casa"
-	 ((agenda "")
+	 (
+	  ;; (agenda "")
 	  (tags-todo "evening/NEXT")
 	  (tags-todo "evening/WAITING")
 	  (tags-todo "evening/TODO")))
 	("f" "Para el fin de semana"
-	 ((agenda "")
+	 (
+	  ;; (agenda "")
 	  (tags-todo "finde/NEXT")
 	  (tags-todo "finde/WAITING")
 	  (tags-todo "finde/TODO")))))
-      
+
 ;; Vamos a empezar a usar org-journal
 (setq org-journal-dir "~/Dropbox/gtd/journal/")
