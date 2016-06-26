@@ -459,8 +459,8 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-agenda-files (list "~/Dropbox/gtd/tutti.org"))
 
 ;; Targets include this file and any file contributing to the agenda - up to 5 levels deep
-(setq org-refile-targets '((nil :maxlevel . 5)
-			   (org-agenda-files :maxlevel . 5)))
+(setq org-refile-targets '((nil :maxlevel . 3)
+			   (org-agenda-files :maxlevel . 3)))
 
 ;; Capture templates for TODO tasks, Notes, and journal
 (setq org-capture-templates
@@ -503,17 +503,15 @@ convoluted. We use part of it --- skip comment par we are in."
 			       ("DONE" . (:foreground "gray50" :bold t :weight bold))))
 
 ;; Tags with fast selection keys
-(setq org-tag-alist (quote ((:startgroup)
-                            ("supermercado" . ?s)
+(setq org-tag-alist (quote (("supermercado" . ?s)
                             ("oficina" . ?o)
                             ("casa" . ?c)
                             ("finde" . ?f)
-                            (:endgroup)
                             ("NOTE" . ?n))))
 
 (setq org-todo-keywords
-      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-              (sequence "WAITING(w@/!)"))))
+      (quote ((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)")
+	      )))
 
 (setq org-hide-leading-stars t)
 (setq org-startup-indented t)
@@ -563,9 +561,6 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-clock-persist t)
 ;; Do not prompt to resume an active clock
 (setq org-clock-persist-query-resume nil)
-
-;; Allow setting single tags without the menu
-(setq org-fast-tag-selection-single-key (quote expert))
 
 ;; For tag searches ignore tasks with scheduled and deadline dates
 (setq org-agenda-tags-todo-honor-ignore-options t)
