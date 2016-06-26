@@ -307,9 +307,6 @@ convoluted. We use part of it --- skip comment par we are in."
    (set-face-attribute face nil :weight 'normal :underline nil))
  (face-list))
 
-;; Show line number in the mode line.
-(line-number-mode 1)
-
 ;; I've found that it's better and a best practice not to wrap lines
 ;; when editing in LaTeX
 (set-default 'truncate-lines t)
@@ -461,16 +458,16 @@ convoluted. We use part of it --- skip comment par we are in."
 
 (setq org-agenda-files (list "~/Dropbox/gtd/tutti.org"))
 
-					; Targets include this file and any file contributing to the agenda - up to 5 levels deep
+;; Targets include this file and any file contributing to the agenda - up to 5 levels deep
 (setq org-refile-targets '((nil :maxlevel . 5)
 			   (org-agenda-files :maxlevel . 5)))
 
 ;; Capture templates for TODO tasks, Notes, and journal
 (setq org-capture-templates
-      (quote (("t" "Tareas" entry (file+headline "~/Dropbox/gtd/inbox.org" "Tareas")
-               "* TODO %? %(org-set-tags) \n %U ")
-	      ("i" "Inbox" entry (file+headline "~/Dropbox/gtd/tutti.org" "Inbox")
-               "* %? \n %U"))))
+      (quote (("t" "Tareas" entry (file+headline "~/Dropbox/gtd/tutti.org" "Tareas")
+               "* TODO %?%(org-set-tags)\n%U\n")
+              ("n" "Notes" entry (file+headline "~/Dropbox/gtd/tutti.org" "Notas")
+               "* %? :NOTE:\n%U\n"))))
 
 ;; Stop using paths for refile targets - we file directly with IDO
 (setq org-refile-use-outline-path nil)
@@ -496,7 +493,7 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Remove completed items from search results
 (setq org-agenda-skip-timestamp-if-done t)
 
-;; ;; This is to have always the 7 coming days in the week
+;; ;; This is to have always the 10 coming days in the week
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-ndays 21)
 
@@ -505,15 +502,18 @@ convoluted. We use part of it --- skip comment par we are in."
 			       ("WAITING" . (:foreground "orange" :bold t :weight bold))
 			       ("DONE" . (:foreground "gray50" :bold t :weight bold))))
 
-(setq org-tag-alist '(("morning" . ?m)
-		      ("afternoon" . ?a)
-		      ("evening" . ?e)
-		      ("finde" . ?f)
-		      ))
+;; Tags with fast selection keys
+(setq org-tag-alist (quote ((:startgroup)
+                            ("supermercado" . ?s)
+                            ("oficina" . ?o)
+                            ("casa" . ?c)
+                            ("finde" . ?f)
+                            (:endgroup)
+                            ("NOTE" . ?n))))
 
 (setq org-todo-keywords
-      '((sequence "TODO" "NEXT" "WAITING" "DONE")
-	))
+      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+              (sequence "WAITING(w@/!)"))))
 
 (setq org-hide-leading-stars t)
 (setq org-startup-indented t)
@@ -531,30 +531,80 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
 
 (setq org-agenda-custom-commands
-      '(("1" "A la mañana"
-	 (
-	  ;; (agenda "")
-	  (tags-todo "morning/NEXT")
-	  (tags-todo "morning/WAITING")
-	  (tags-todo "morning/TODO")))
-	("2" "Después de comer"
-	 (
-	  ;; (agenda "")
-	  (tags-todo "afternoon/NEXT")
-	  (tags-todo "afternoon/WAITING")
-	  (tags-todo "afternoon/TODO")))
-	("3" "Al llegar a casa"
-	 (
-	  ;; (agenda "")
-	  (tags-todo "evening/NEXT")
-	  (tags-todo "evening/WAITING")
-	  (tags-todo "evening/TODO")))
-	("f" "Para el fin de semana"
-	 (
-	  ;; (agenda "")
+      '(("n" "Notes"
+	 ((tags "NOTE")))
+	("s" "Supermercado"
+	 ((tags "supermercado")))
+	("o" "En la oficina"
+	 ((agenda "" ((org-agenda-ndays 1)))
+	  (tags-todo "oficina/NEXT")
+	  (tags-todo "oficina/WAITING")))
+	("c" "En casa"
+	 ((agenda "" ((org-agenda-ndays 1)))
+	 ;; ((agenda "")
+	  (tags-todo "casa/NEXT")
+	  (tags-todo "casa/WAITING")))
+	("f" "El fin de semana"
+	 ((agenda "" ((org-agenda-ndays 1)))
+	 ;; ((agenda "")
 	  (tags-todo "finde/NEXT")
-	  (tags-todo "finde/WAITING")
-	  (tags-todo "finde/TODO")))))
+	  (tags-todo "finde/WAITING")))))
 
 ;; Vamos a empezar a usar org-journal
 (setq org-journal-dir "~/Dropbox/gtd/journal/")
+
+;; Separate drawers for clocking and logs
+(setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
+;; Save clock data and state changes and notes in the LOGBOOK drawer
+(setq org-clock-into-drawer t)
+;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
+(setq org-clock-out-remove-zero-time-clocks t)
+;; Clock out when moving task to a done state
+(setq org-clock-out-when-done t)
+;; Save the running clock and all clock history when exiting Emacs, load it on startup
+(setq org-clock-persist t)
+;; Do not prompt to resume an active clock
+(setq org-clock-persist-query-resume nil)
+
+;; Allow setting single tags without the menu
+(setq org-fast-tag-selection-single-key (quote expert))
+
+;; For tag searches ignore tasks with scheduled and deadline dates
+(setq org-agenda-tags-todo-honor-ignore-options t)
+(setq org-archive-mark-done nil)
+(setq org-alphabetical-lists t)
+
+;; ;; Always highlight the current agenda line
+;; (global-hl-line-mode 1)
+;; (set-face-background 'hl-line "#3e4446")
+;; (set-face-foreground 'highlight nil)
+;; (add-hook 'org-agenda-mode-hook
+;;           '(lambda () (hl-line-mode 1))
+;;           'append)
+;; ;; But I don't need to highlight current line globally
+;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
+
+
+;; Remove completed items from search results
+(setq org-agenda-skip-timestamp-if-done t)
+
+;; Show all future entries for repeating tasks
+(setq org-agenda-repeating-timestamp-show-all t)
+
+;; Show all agenda dates - even if they are empty
+(setq org-agenda-show-all-dates t)
+
+;; Sorting order for tasks on the agenda
+(setq org-agenda-sorting-strategy
+      (quote ((agenda time-up user-defined-up effort-up category-keep)
+              (todo category-up effort-up)
+              (tags category-up effort-up)
+              (search category-up))))
+
+;; Display tags farther right
+(setq org-agenda-tags-column -102)
+
+;; Para que el mouse no haga highlight sobre la agenda
+(add-hook 'org-finalize-agenda-hook
+	  (lambda () (remove-text-properties
+		      (point-min) (point-max) '(mouse-face t))))
