@@ -541,13 +541,11 @@ convoluted. We use part of it --- skip comment par we are in."
 	  (tags-todo "oficina/WAITING")))
 	("c" "En casa"
 	 ((agenda "" ((org-agenda-ndays 1)))
-	 ;; ((agenda "")
-	  (tags-todo "casa/NEXT")
+	  (tags-todo "casa/TODO")
 	  (tags-todo "casa/WAITING")))
 	("f" "El fin de semana"
 	 ((agenda "" ((org-agenda-ndays 1)))
-	 ;; ((agenda "")
-	  (tags-todo "finde/NEXT")
+	  (tags-todo "finde/TODO")
 	  (tags-todo "finde/WAITING")))))
 
 ;; Vamos a empezar a usar org-journal
