@@ -27,3 +27,5 @@ bookmarks
 ido.last
 .ido.last
 abbrev_defs
+.org-id-locations
+org-clock-save.el
