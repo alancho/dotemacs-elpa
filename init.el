@@ -547,10 +547,8 @@ convoluted. We use part of it --- skip comment par we are in."
 	  (tags-todo "finde/WAITING")))))
 
 (setq org-agenda-sorting-strategy
-      '((agenda category-up)
-        (todo priority-down category-up)
-        (tags priority-down category-keep)
-        (search category-keep)))
+      '((todo priority-down)
+        (tags priority-down)))
 
 ;; Vamos a empezar a usar org-journal
 (setq org-journal-dir "~/Dropbox/gtd/journal/")
