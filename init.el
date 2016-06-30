@@ -27,7 +27,7 @@
 			   epc
 			   epl
 			   ess
-			   ;; esup
+			   esup
 			   exec-path-from-shell
 			   expand-region
 			   idle-highlight-mode
@@ -98,11 +98,13 @@
 
 ;; Python
 ;; ========================================================
-(elpy-enable)
-(elpy-use-ipython)
-(setq elpy-rpc-backend "jedi")
-(define-key elpy-mode-map [(shift return)] 'elpy-shell-send-region-or-buffer)
-(define-key elpy-mode-map [(C-return)] 'elpy-company-backend)
+;; No estoy usando Python ni elpy, y de acuerdo a esup este ultimo
+;; esta usando bastante tiempo del startup. Por ende, lo desactivo:
+;; (elpy-enable)
+;; (elpy-use-ipython)
+;; (setq elpy-rpc-backend "jedi")
+;; (define-key elpy-mode-map [(shift return)] 'elpy-shell-send-region-or-buffer)
+;; (define-key elpy-mode-map [(C-return)] 'elpy-company-backend)
 
 ;; Encryption
 ;; ========================================================
