@@ -499,6 +499,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 (setf org-todo-keyword-faces '(("TODO" . (:foreground "cyan" :bold t :weight bold))
 			       ("NEXT" . (:foreground "yellow" :bold t :weight bold))
+			       ("STARTED" . (:foreground "green" :bold t :weight bold))
 			       ("WAITING" . (:foreground "orange" :bold t :weight bold))
 			       ("DONE" . (:foreground "gray50" :bold t :weight bold))))
 
@@ -510,7 +511,7 @@ convoluted. We use part of it --- skip comment par we are in."
                             ("NOTE" . ?n))))
 
 (setq org-todo-keywords
-      (quote ((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)")
+      (quote ((sequence "TODO(t)" "STARTED(s)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)")
 	      )))
 
 (setq org-hide-leading-stars t)
@@ -535,10 +536,13 @@ convoluted. We use part of it --- skip comment par we are in."
 	 ((tags "supermercado")))
 	("o" "En la oficina"
 	 ((agenda "" ((org-agenda-ndays 1)))
+	  (tags-todo "oficina/STARTED")
 	  (tags-todo "oficina/NEXT")
 	  (tags-todo "oficina/WAITING")))
 	("c" "En casa"
 	 ((agenda "" ((org-agenda-ndays 1)))
+	  (tags-todo "casa/STARTED")
+	  (tags-todo "casa/NEXT")
 	  (tags-todo "casa/TODO")
 	  (tags-todo "casa/WAITING")))
 	("f" "El fin de semana"
