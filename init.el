@@ -538,21 +538,21 @@ convoluted. We use part of it --- skip comment par we are in."
 	 ((agenda "" ((org-agenda-ndays 1)))
 	  (tags-todo "oficina/STARTED")
 	  (tags-todo "oficina/NEXT")
-	  (tags-todo "oficina/WAITING")))
+	  (tags-todo "oficina/WAITING"))
+	 ((org-agenda-sorting-strategy '(priority-down))))
 	("c" "En casa"
 	 ((agenda "" ((org-agenda-ndays 1)))
 	  (tags-todo "casa/STARTED")
 	  (tags-todo "casa/NEXT")
 	  (tags-todo "casa/TODO")
-	  (tags-todo "casa/WAITING")))
+	  (tags-todo "casa/WAITING"))
+	 ((org-agenda-sorting-strategy '(priority-down))))
 	("f" "El fin de semana"
 	 ((agenda "" ((org-agenda-ndays 1)))
 	  (tags-todo "finde/TODO")
-	  (tags-todo "finde/WAITING")))))
-
-(setq org-agenda-sorting-strategy
-      '((todo priority-down)
-        (tags priority-down)))
+	  (tags-todo "finde/WAITING"))
+	 ((org-agenda-sorting-strategy '(priority-down))))
+	))
 
 ;; Vamos a empezar a usar org-journal
 (setq org-journal-dir "~/Dropbox/gtd/journal/")
