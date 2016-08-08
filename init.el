@@ -27,9 +27,10 @@
 			   epc
 			   epl
 			   ess
-			   esup
+			   ;; esup
 			   exec-path-from-shell
 			   expand-region
+			   ;; helm
 			   idle-highlight-mode
 			   ido-ubiquitous
 			   julia-mode
@@ -468,8 +469,11 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-capture-templates
       (quote (("t" "Tareas" entry (file+headline "~/Dropbox/gtd/tutti.org" "Tareas")
                "* TODO %?%(org-set-tags)\n%U\n")
-              ("n" "Notes" entry (file+headline "~/Dropbox/gtd/tutti.org" "Notas")
-               "* %? :NOTE:\n%U\n"))))
+              ;; ("n" "Notes" entry (file+headline "~/Dropbox/gtd/tutti.org" "Notas")
+              ;;  "* %? :NOTE:\n%U\n")
+	      ("c" "Calendar" entry (file+headline "~/Dropbox/gtd/tutti.org" "Agenda")
+               "* %? \n%U\n")
+	      )))
 
 ;; Stop using paths for refile targets - we file directly with IDO
 (setq org-refile-use-outline-path nil)
@@ -536,6 +540,10 @@ convoluted. We use part of it --- skip comment par we are in."
 	 ((tags "NOTE")))
 	("s" "Supermercado"
 	 ((tags "supermercado")))
+	("h" "Habits" tags-todo "STYLE=\"habit\""
+	 ((org-agenda-overriding-header "Habits")
+	  (org-agenda-sorting-strategy
+	   '(todo-state-down effort-up category-keep))))
 	("o" "En la oficina"
 	 ((agenda "" ((org-agenda-ndays 1)))
 	  (tags-todo "oficina/STARTED" ((org-agenda-sorting-strategy '(priority-down))))
@@ -549,6 +557,7 @@ convoluted. We use part of it --- skip comment par we are in."
 	  (tags-todo "casa/WAITING" ((org-agenda-sorting-strategy '(priority-down))))))
 	("f" "El fin de semana"
 	 ((agenda "" ((org-agenda-ndays 1)))
+	  (tags-todo "finde/STARTED" ((org-agenda-sorting-strategy '(priority-down))))
 	  (tags-todo "finde/TODO" ((org-agenda-sorting-strategy '(priority-down))))
 	  (tags-todo "finde/WAITING" ((org-agenda-sorting-strategy '(priority-down))))))))
 
@@ -607,3 +616,13 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-hook 'org-finalize-agenda-hook
 	  (lambda () (remove-text-properties
 		      (point-min) (point-max) '(mouse-face t))))
+
+;; A ver si esto sirve
+;; (require 'helm-config)
+
+;; Voy a empezar a usar habits tracking en org. Para ello lo primero
+;; es habilitar el modulo
+(setq org-modules (quote (org-habit)))
+
+;; Formato en que habits aparecen en la agenda
+(setq org-habit-graph-column 50)
