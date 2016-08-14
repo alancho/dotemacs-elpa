@@ -459,7 +459,7 @@ convoluted. We use part of it --- skip comment par we are in."
 (global-set-key (kbd "<f12>") 'org-agenda)
 (global-set-key (kbd "<f11>") 'org-capture)
 
-(setq org-agenda-files (list "~/Dropbox/gtd/tutti.org"))
+(setq org-agenda-files (list "~/Dropbox/Scripts/gtd/tutti.org"))
 
 ;; Targets include this file and any file contributing to the agenda - up to 5 levels deep
 (setq org-refile-targets '((nil :maxlevel . 3)
@@ -467,11 +467,11 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Capture templates for TODO tasks, Notes, and journal
 (setq org-capture-templates
-      (quote (("t" "Tareas" entry (file+headline "~/Dropbox/gtd/tutti.org" "Tareas")
+      (quote (("t" "Tareas" entry (file+headline "~/Dropbox/Scripts/gtd/tutti.org" "Tareas")
                "* TODO %?%(org-set-tags)\n%U\n")
               ;; ("n" "Notes" entry (file+headline "~/Dropbox/gtd/tutti.org" "Notas")
               ;;  "* %? :NOTE:\n%U\n")
-	      ("c" "Calendar" entry (file+headline "~/Dropbox/gtd/tutti.org" "Agenda")
+	      ("c" "Calendar" entry (file+headline "~/Dropbox/Scripts/gtd/tutti.org" "Agenda")
                "* %? \n%U\n")
 	      )))
 
@@ -562,7 +562,7 @@ convoluted. We use part of it --- skip comment par we are in."
 	  (tags-todo "finde/WAITING" ((org-agenda-sorting-strategy '(priority-down))))))))
 
 ;; Vamos a empezar a usar org-journal
-(setq org-journal-dir "~/Dropbox/gtd/journal/")
+(setq org-journal-dir "~/Dropbox/Scripts/gtd/journal/")
 
 ;; Separate drawers for clocking and logs
 (setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
@@ -626,3 +626,16 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Formato en que habits aparecen en la agenda
 (setq org-habit-graph-column 50)
+
+;; Para guardar y cerrar un entry de org-journal
+(defun save-and-kill-org-journal-entry ()
+  (save-buffer)
+  (kill-buffer (current-buffer)))
+  
+(defun save-and-kill-org-journal-entry-hook ()
+  (local-set-key (kbd "C-c C-c") 'save-and-kill-org-journal-entry))
+
+;; Para crear entries con F9
+(global-set-key (kbd "<f9>") 'org-journal-new-entry)
+
+
