@@ -627,15 +627,8 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Formato en que habits aparecen en la agenda
 (setq org-habit-graph-column 50)
 
-;; Para guardar y cerrar un entry de org-journal
-(defun save-and-kill-org-journal-entry ()
-  (save-buffer)
-  (kill-buffer (current-buffer)))
-  
-(defun save-and-kill-org-journal-entry-hook ()
-  (local-set-key (kbd "C-c C-c") 'save-and-kill-org-journal-entry))
-
 ;; Para crear entries con F9
 (global-set-key (kbd "<f9>") 'org-journal-new-entry)
 
-
+;; Para que las entries se abran en el mismo buffer, sin split
+(setq org-journal-find-file 'find-file)
