@@ -473,7 +473,10 @@ convoluted. We use part of it --- skip comment par we are in."
               ;;  "* %? :NOTE:\n%U\n")
 	      ("c" "Calendar" entry (file+headline "~/Dropbox/Scripts/gtd/tutti.org" "Agenda")
                "* %? \n%U\n")
-	      )))
+	      ;; ("j" "Journal"
+	      ;;  entry (file (get-journal-file-today))
+	      ;; "* %?\n")
+	     )))
 
 ;; Stop using paths for refile targets - we file directly with IDO
 (setq org-refile-use-outline-path nil)
@@ -538,8 +541,8 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-agenda-custom-commands
       '(("n" "Notes"
 	 ((tags "NOTE")))
-	("s" "Supermercado"
-	 ((tags "supermercado")))
+	;; ("s" "Supermercado"
+	;;  ((tags "supermercado")))
 	("h" "Habits" tags-todo "STYLE=\"habit\""
 	 ((org-agenda-overriding-header "Habits")
 	  (org-agenda-sorting-strategy
