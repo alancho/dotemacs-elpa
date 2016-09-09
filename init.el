@@ -82,16 +82,24 @@
 
 (add-hook 'LaTeX-mode-hook 'turn-on-flyspell)
 
+;; Para que use biber en lugar de bibtex
+;; (http://tex.stackexchange.com/questions/154751/biblatex-with-biber-configuring-my-editor-to-avoid-undefined-citations)
+;; (setq TeX-parse-self t)
+;; (setq LaTeX-biblatex-use-Biber t)
+;; (setq LaTeX-always-use-Biber t)
+
 ;; To save and then run LaTeX in one command
-(defun my-run-latex ()
-  (interactive)
-  (TeX-save-document (TeX-master-file))
-  (TeX-command "LaTeX" 'TeX-master-file -1))
+;; (defun my-run-latex ()
+;;   (interactive)
+;;   (TeX-save-document (TeX-master-file))
+;;   (TeX-command "LaTeX" 'TeX-master-file -1)
+;;   (TeX-command "Biber" 'TeX-master-file -1)
+;;   (TeX-command "LaTeX" 'TeX-master-file -1))
 
-(defun my-LaTeX-hook ()
-  (local-set-key (kbd "C-c C-c") 'my-run-latex))
+;; (defun my-LaTeX-hook ()
+;;   (local-set-key (kbd "C-c C-c") 'my-run-latex))
 
-(add-hook 'LaTeX-mode-hook 'my-LaTeX-hook)
+;; (add-hook 'LaTeX-mode-hook 'my-LaTeX-hook)
 
 ;; Default directory
 ;; ========================================================
