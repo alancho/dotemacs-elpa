@@ -467,7 +467,7 @@ convoluted. We use part of it --- skip comment par we are in."
 (global-set-key (kbd "<f12>") 'org-agenda)
 (global-set-key (kbd "<f11>") 'org-capture)
 
-(setq org-agenda-files (list "~/Dropbox/Scripts/gtd/tutti.org"))
+(setq org-agenda-files (list "~/Dropbox/scripts/gtd/tutti.org"))
 
 ;; Targets include this file and any file contributing to the agenda - up to 5 levels deep
 (setq org-refile-targets '((nil :maxlevel . 3)
@@ -475,11 +475,11 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Capture templates for TODO tasks, Notes, and journal
 (setq org-capture-templates
-      (quote (("t" "Tareas" entry (file+headline "~/Dropbox/Scripts/gtd/tutti.org" "Tareas")
+      (quote (("t" "Tareas" entry (file+headline "~/Dropbox/scripts/gtd/tutti.org" "Tareas")
                "* TODO %?%(org-set-tags)\n%U\n")
               ;; ("n" "Notes" entry (file+headline "~/Dropbox/gtd/tutti.org" "Notas")
               ;;  "* %? :NOTE:\n%U\n")
-	      ("c" "Calendar" entry (file+headline "~/Dropbox/Scripts/gtd/tutti.org" "Agenda")
+	      ("c" "Calendar" entry (file+headline "~/Dropbox/scripts/gtd/tutti.org" "Agenda")
                "* %? \n%U\n")
 	      ;; ("j" "Journal"
 	      ;;  entry (file (get-journal-file-today))
@@ -573,7 +573,7 @@ convoluted. We use part of it --- skip comment par we are in."
 	  (tags-todo "finde/WAITING" ((org-agenda-sorting-strategy '(priority-down))))))))
 
 ;; Vamos a empezar a usar org-journal
-(setq org-journal-dir "~/Dropbox/Scripts/gtd/journal/")
+(setq org-journal-dir "~/Dropbox/scripts/gtd/journal/")
 
 ;; Separate drawers for clocking and logs
 (setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
