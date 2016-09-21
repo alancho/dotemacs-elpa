@@ -475,16 +475,18 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Capture templates for TODO tasks, Notes, and journal
 (setq org-capture-templates
-      (quote (("t" "Tareas" entry (file+headline "~/Dropbox/scripts/gtd/tutti.org" "Tareas")
-               "* TODO %?%(org-set-tags)\n%U\n")
+      (quote (;; ("t" "Tareas" entry (file+headline "~/Dropbox/scripts/gtd/tutti.org" "Tareas")
+              ;;  "* TODO %?%(org-set-tags)\n%U\n")
+	      ("i" "Inbox" entry (file+headline "~/Dropbox/scripts/gtd/tutti.org" "Inbox")
+               "* %?\n%U\n")
               ;; ("n" "Notes" entry (file+headline "~/Dropbox/gtd/tutti.org" "Notas")
               ;;  "* %? :NOTE:\n%U\n")
-	      ("c" "Calendar" entry (file+headline "~/Dropbox/scripts/gtd/tutti.org" "Agenda")
-               "* %? \n%U\n")
+	      ;; ("c" "Calendar" entry (file+headline "~/Dropbox/scripts/gtd/tutti.org" "Agenda")
+              ;;  "* %? \n%U\n")
 	      ;; ("j" "Journal"
 	      ;;  entry (file (get-journal-file-today))
 	      ;; "* %?\n")
-	     )))
+	      )))
 
 ;; Stop using paths for refile targets - we file directly with IDO
 (setq org-refile-use-outline-path nil)
@@ -515,20 +517,23 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-agenda-ndays 21)
 
 (setf org-todo-keyword-faces '(("TODO" . (:foreground "cyan" :bold t :weight bold))
-			       ("NEXT" . (:foreground "yellow" :bold t :weight bold))
-			       ("STARTED" . (:foreground "green" :bold t :weight bold))
-			       ("WAITING" . (:foreground "orange" :bold t :weight bold))
+			       ;; ("NEXT" . (:foreground "yellow" :bold t :weight bold))
+			       ;; ("STARTED" . (:foreground "green" :bold t :weight bold))
+			       ;; ("WAITING" . (:foreground "orange" :bold t :weight bold))
 			       ("DONE" . (:foreground "gray50" :bold t :weight bold))))
 
 ;; Tags with fast selection keys
-(setq org-tag-alist (quote (("supermercado" . ?s)
-                            ("oficina" . ?o)
-                            ("casa" . ?c)
-                            ("finde" . ?f)
-                            ("NOTE" . ?n))))
+(setq org-tag-alist (quote (;; ("supermercado" . ?s)
+                            ("PROJECT" . ?p)
+                            ("OFICINA" . ?o)
+                            ("CASA" . ?c)
+                            ;; ("finde" . ?f)
+                            ;; ("NOTE" . ?n)
+			    )))
 
 (setq org-todo-keywords
-      (quote ((sequence "TODO(t)" "STARTED(s)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)")
+      ;; (quote ((sequence "TODO(t)" "STARTED(s)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)")
+      (quote ((sequence "TODO(t)" "|" "DONE(d)")
 	      )))
 
 (setq org-hide-leading-stars t)
@@ -541,36 +546,41 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; concordancia con Eat That Frog
 (setq org-highest-priority ?A)
 (setq org-lowest-priority ?E)
-(setq org-default-priority ?C)
+(setq org-default-priority ?B)
 
 ;; Set default column view headings: Task Effort Clock_Summary
 (setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
 
 (setq org-agenda-custom-commands
-      '(("n" "Notes"
-	 ((tags "NOTE")))
+      '(;; ("n" "Notes"
+	;;  ((tags "NOTE")))
 	;; ("s" "Supermercado"
 	;;  ((tags "supermercado")))
-	("h" "Habits" tags-todo "STYLE=\"habit\""
-	 ((org-agenda-overriding-header "Habits")
-	  (org-agenda-sorting-strategy
-	   '(todo-state-down effort-up category-keep))))
+	;; ("h" "Habits" tags-todo "STYLE=\"habit\""
+	;;  ((org-agenda-overriding-header "Habits")
+	;;   (org-agenda-sorting-strategy
+	;;    '(todo-state-down effort-up category-keep))))
 	("o" "En la oficina"
 	 ((agenda "" ((org-agenda-ndays 1)))
-	  (tags-todo "oficina/STARTED" ((org-agenda-sorting-strategy '(priority-down))))
-	  (tags-todo "oficina/NEXT" ((org-agenda-sorting-strategy '(priority-down))))
-	  (tags-todo "oficina/WAITING" ((org-agenda-sorting-strategy '(priority-down))))))
+	  ;; (tags-todo "oficina/STARTED" ((org-agenda-sorting-strategy '(priority-down))))
+	  (tags "PROJECT" ((org-agenda-sorting-strategy '(priority-down))))
+	  (todo "TODO" ((org-agenda-sorting-strategy '(priority-down))))
+	  ;; (tags-todo "OFICINA/TODO" ((org-agenda-sorting-strategy '(priority-down))))
+	  ;; (tags-todo "OFICINA/WAITING" ((org-agenda-sorting-strategy '(priority-down))))
+	  ))
 	("c" "En casa"
 	 ((agenda "" ((org-agenda-ndays 1)))
-	  (tags-todo "casa/STARTED" ((org-agenda-sorting-strategy '(priority-down))))
-	  (tags-todo "casa/NEXT" ((org-agenda-sorting-strategy '(priority-down))))
-	  (tags-todo "casa/TODO" ((org-agenda-sorting-strategy '(priority-down))))
-	  (tags-todo "casa/WAITING" ((org-agenda-sorting-strategy '(priority-down))))))
-	("f" "El fin de semana"
-	 ((agenda "" ((org-agenda-ndays 1)))
-	  (tags-todo "finde/STARTED" ((org-agenda-sorting-strategy '(priority-down))))
-	  (tags-todo "finde/TODO" ((org-agenda-sorting-strategy '(priority-down))))
-	  (tags-todo "finde/WAITING" ((org-agenda-sorting-strategy '(priority-down))))))))
+	  ;; (tags-todo "casa/STARTED" ((org-agenda-sorting-strategy '(priority-down))))
+	  (tags-todo "CASA/TODO" ((org-agenda-sorting-strategy '(priority-down))))
+	  ;; (tags-todo "casa/TODO" ((org-agenda-sorting-strategy '(priority-down))))
+	  ;; (tags-todo "CASA/WAITING" ((org-agenda-sorting-strategy '(priority-down))))
+	  ))
+	;; ("f" "El fin de semana"
+	;;  ((agenda "" ((org-agenda-ndays 1)))
+	;;   ;; (tags-todo "finde/STARTED" ((org-agenda-sorting-strategy '(priority-down))))
+	;;   (tags-todo "finde/TODO" ((org-agenda-sorting-strategy '(priority-down))))
+	;;   (tags-todo "finde/WAITING" ((org-agenda-sorting-strategy '(priority-down))))))
+	))
 
 ;; Vamos a empezar a usar org-journal
 (setq org-journal-dir "~/Dropbox/scripts/gtd/journal/")
@@ -643,3 +653,6 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Para que las entries se abran en el mismo buffer, sin split
 (setq org-journal-find-file 'find-file)
+
+;; Para que los headings debajo de uno teniendo tag PROJECT no lo hereden
+(setq org-tags-exclude-from-inheritance '("PROJECT"))
