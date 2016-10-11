@@ -18,7 +18,7 @@
 			   color-theme
 			   color-theme-tango
 			   auctex
-			   auto-complete
+			   ;; auto-complete
 			   ctable
 			   dash
 			   deferred
@@ -109,11 +109,13 @@
 ;; ========================================================
 ;; No estoy usando Python ni elpy, y de acuerdo a esup este ultimo
 ;; esta usando bastante tiempo del startup. Por ende, lo desactivo:
-;; (elpy-enable)
-;; (elpy-use-ipython)
+(elpy-enable)
+(elpy-use-ipython)
+(setq python-shell-interpreter "ipython" python-shell-interpreter-args "--simple-prompt --pprint")
 ;; (setq elpy-rpc-backend "jedi")
-;; (define-key elpy-mode-map [(shift return)] 'elpy-shell-send-region-or-buffer)
-;; (define-key elpy-mode-map [(C-return)] 'elpy-company-backend)
+;; (setq ac-modes (remove 'python-mode ac-modes))
+(define-key elpy-mode-map [(shift return)] 'elpy-shell-send-region-or-buffer)
+(define-key elpy-mode-map [(C-return)] 'elpy-company-backend)
 
 ;; Encryption
 ;; ========================================================
@@ -204,6 +206,19 @@
   (interactive)
   (ess-swv-run-in-R "rmarkdown::render"))
 
+;; En lugar de auto-complete empezar a usar company-mode con estos keybindings
+(add-hook 'after-init-hook 'global-company-mode)
+
+(define-key company-active-map [tab] 'company-complete-selection)
+(define-key company-active-map (kbd "TAB") 'company-complete-selection)
+(define-key company-active-map [return] 'company-complete-selection)
+(define-key company-active-map (kbd "RET") 'company-complete-selection)
+(define-key company-active-map (kbd "M-n") nil)
+(define-key company-active-map (kbd "M-p") nil)
+(define-key company-active-map (kbd "M-h") 'company-show-doc-buffer)
+(define-key company-active-map (kbd "M-,") 'company-select-next)
+(define-key company-active-map (kbd "M-k") 'company-select-previous)
+
 ;; Expand region
 ;; ========================================================
 ;; (require 'expand-region)
@@ -251,17 +266,16 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; When C-x C-f I don't want to see this extensions
 ;; ========================================================
 (custom-set-variables
- '(completion-ignored-extensions (quote (".docx" ".xlsx" ".wmf" ".doc"
-					 ".xls" ".csv" ".bib" ".o" "~" ".bin" ".bak"
-					 ".obj" ".map" ".ico" ".pif" ".lnk" ".a" ".ln"
-					 ".blg" ".bbl" ".dll" ".drv" ".vxd" ".386" ".elc"
-					 ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/"
-					 ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class"
-					 ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".fasl" ".ufsl"
-					 ".fsl" ".dxl" ".pfsl" ".dfsl" ".p64fsl" ".d64fsl"
-					 ".dx64fsl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp"
-					 ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs"
-					 ".tps" ".vrs" ".pyc" ".pyo" ".odt" ".pptx" ".ppt" ".txt" ".dat"))))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(completion-ignored-extensions
+   (quote
+    (".docx" ".xlsx" ".wmf" ".doc" ".xls" ".csv" ".bib" ".o" "~" ".bin" ".bak" ".obj" ".map" ".ico" ".pif" ".lnk" ".a" ".ln" ".blg" ".bbl" ".dll" ".drv" ".vxd" ".386" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".fasl" ".ufsl" ".fsl" ".dxl" ".pfsl" ".dfsl" ".p64fsl" ".d64fsl" ".dx64fsl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".odt" ".pptx" ".ppt" ".txt" ".dat")))
+ '(elpy-modules
+   (quote
+    (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults))))
 
 ;; My magit setup
 ;; ========================================================
@@ -271,9 +285,7 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Recent mode
 ;; ========================================================
 (recentf-mode t)
-;; 50 files ought to be enough.
 (setq recentf-max-saved-items 50)
-(global-set-key (kbd "C-x C-r") 'ido-recentf)
 
 (defun ido-recentf ()
   "Use ido to select a recently opened file from the `recentf-list'"
@@ -287,6 +299,14 @@ convoluted. We use part of it --- skip comment par we are in."
                 (replace-regexp-in-string home "~" path))
               recentf-list)
       nil t))))
+
+(global-set-key (kbd "C-x C-r") 'ido-recentf)
+;; (global-set-key (kbd "C-x C-r") 'recentf-open-files)
+
+;; Para que recentf ignore ido.last
+;; (setq recentf-exclude '("\\.ido.last$"
+;; 			"\\.recentf"
+;; 			"\\.emacs"))
 
 ;; This is my color theme
 ;; ========================================================
@@ -428,22 +448,23 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Autocomplete
 ;; ========================================================
-(ac-config-default)
-(setq ac-auto-show-menu nil)
-(setq ac-use-quick-help nil)
+;; (require 'auto-complete)
+;; (ac-config-default)
+;; (setq ac-auto-show-menu nil)
+;; (setq ac-use-quick-help nil)
 
-(defun my-ac-ess-config ()
-  (setq ac-souces
-	'(ac-source-R)))
+;; (defun my-ac-ess-config ()
+;;   (setq ac-souces
+;; 	'(ac-source-R)))
 
-(add-hook 'ess-mode-hook 'my-ac-ess-config)
-(add-hook 'ess-post-run-hook 'my-ac-ess-config)
+;; (add-hook 'ess-mode-hook 'my-ac-ess-config)
+;; (add-hook 'ess-post-run-hook 'my-ac-ess-config)
 
-(setq ac-source-R
-      '((prefix . ess-ac-start)
-	(requires . 2)
-	(candidates . ess-ac-candidates)
-	(document . ess-ac-help)))
+;; (setq ac-source-R
+;;       '((prefix . ess-ac-start)
+;; 	(requires . 2)
+;; 	(candidates . ess-ac-candidates)
+;; 	(document . ess-ac-help)))
 
 ;; My org-mode setup
 ;; =================
@@ -458,16 +479,15 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Change todo state with C-c C-t KEY
 (setq org-use-fast-todo-selection t)
 
-;; Fixing task state with S-arrow
-;; (setq org-treat-S-cursor-todo-selection-as-state-change nil)
-
-;; To allow S-arrow to work only with time stamps
-;; (setq org-support-shift-select (quote always))
-
-(global-set-key (kbd "<f12>") 'org-agenda)
+(global-set-key (kbd "<f2>") 'calendar)
+(global-set-key (kbd "<f9>") 'org-journal-new-entry)
 (global-set-key (kbd "<f11>") 'org-capture)
+(global-set-key (kbd "<f12>") 'org-agenda)
 
-(setq org-agenda-files (list "~/Dropbox/scripts/gtd/tutti.org"))
+(setq org-agenda-files (list "~/Dropbox/scripts/gtd/projects.org"
+			     "~/Dropbox/scripts/gtd/tareas.org"
+			     "~/Dropbox/scripts/gtd/notas.org"
+			     "~/Dropbox/scripts/gtd/agenda.org"))
 
 ;; Targets include this file and any file contributing to the agenda - up to 5 levels deep
 (setq org-refile-targets '((nil :maxlevel . 3)
@@ -475,18 +495,10 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Capture templates for TODO tasks, Notes, and journal
 (setq org-capture-templates
-      (quote (;; ("t" "Tareas" entry (file+headline "~/Dropbox/scripts/gtd/tutti.org" "Tareas")
-              ;;  "* TODO %?%(org-set-tags)\n%U\n")
-	      ("i" "Inbox" entry (file+headline "~/Dropbox/scripts/gtd/tutti.org" "Inbox")
-               "* %?\n%U\n")
-              ;; ("n" "Notes" entry (file+headline "~/Dropbox/gtd/tutti.org" "Notas")
-              ;;  "* %? :NOTE:\n%U\n")
-	      ;; ("c" "Calendar" entry (file+headline "~/Dropbox/scripts/gtd/tutti.org" "Agenda")
-              ;;  "* %? \n%U\n")
-	      ;; ("j" "Journal"
-	      ;;  entry (file (get-journal-file-today))
-	      ;; "* %?\n")
-	      )))
+      (quote (("i" "Inbox" entry (file "~/Dropbox/scripts/gtd/inbox.org")
+               "* TODO %?\n%U\n")
+              ("n" "Notes" entry (file+datetree "~/Dropbox/scripts/gtd/notas.org")
+               "* %? :NOTE:\n%U\n"))))
 
 ;; Stop using paths for refile targets - we file directly with IDO
 (setq org-refile-use-outline-path nil)
@@ -516,25 +528,27 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-ndays 21)
 
-(setf org-todo-keyword-faces '(("TODO" . (:foreground "cyan" :bold t :weight bold))
-			       ;; ("NEXT" . (:foreground "yellow" :bold t :weight bold))
-			       ;; ("STARTED" . (:foreground "green" :bold t :weight bold))
-			       ;; ("WAITING" . (:foreground "orange" :bold t :weight bold))
-			       ("DONE" . (:foreground "gray50" :bold t :weight bold))))
+(setq org-todo-keywords
+      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+              (sequence "WAITING(w)" "|" "CANCELLED(c)"))))
+
+(setq org-todo-keyword-faces
+      (quote (("TODO" :foreground "cyan" :weight bold)
+              ("NEXT" :foreground "yellow" :weight bold)
+              ("DONE" :foreground "forest green" :weight bold)
+              ("WAITING" :foreground "orange" :weight bold)
+              ("CANCELLED" :foreground "gray" :weight bold))))
 
 ;; Tags with fast selection keys
-(setq org-tag-alist (quote (;; ("supermercado" . ?s)
+(setq org-tag-alist (quote (("ACTIVE" . ?a)
+                            ("DORMANT" . ?d)
                             ("PROJECT" . ?p)
                             ("OFICINA" . ?o)
                             ("CASA" . ?c)
-                            ;; ("finde" . ?f)
-                            ;; ("NOTE" . ?n)
+                            ("NOTE" . ?n)
+                            ("URGENT" . ?u)
+                            ("IMPORTANT" . ?i)
 			    )))
-
-(setq org-todo-keywords
-      ;; (quote ((sequence "TODO(t)" "STARTED(s)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)")
-      (quote ((sequence "TODO(t)" "|" "DONE(d)")
-	      )))
 
 (setq org-hide-leading-stars t)
 (setq org-startup-indented t)
@@ -548,38 +562,46 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-lowest-priority ?E)
 (setq org-default-priority ?B)
 
-;; Set default column view headings: Task Effort Clock_Summary
-(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
-
 (setq org-agenda-custom-commands
-      '(;; ("n" "Notes"
-	;;  ((tags "NOTE")))
-	;; ("s" "Supermercado"
-	;;  ((tags "supermercado")))
-	;; ("h" "Habits" tags-todo "STYLE=\"habit\""
-	;;  ((org-agenda-overriding-header "Habits")
-	;;   (org-agenda-sorting-strategy
-	;;    '(todo-state-down effort-up category-keep))))
-	("o" "En la oficina"
+      '(("n" "Notas" tags "NOTE")
+	("p" . "Proyectos")
+	("pl" "Listado de proyectos"
+	 ((tags "+PROJECT+ACTIVE")
+	  (tags "+PROJECT+DORMANT")))
+	("pa" "NEXT tasks de proyectos activos"
+	 ((tags-todo "+OFICINA+ACTIVE/NEXT")))
+	("pd" "NEXT tasks de proyectos dormidos"
+	 ((tags-todo "+OFICINA+DORMANT/NEXT")))
+	("o" "Stand-alone tasks en la oficina"
 	 ((agenda "" ((org-agenda-ndays 1)))
-	  ;; (tags-todo "oficina/STARTED" ((org-agenda-sorting-strategy '(priority-down))))
-	  (tags "PROJECT" ((org-agenda-sorting-strategy '(priority-down))))
-	  (todo "TODO" ((org-agenda-sorting-strategy '(priority-down))))
-	  ;; (tags-todo "OFICINA/TODO" ((org-agenda-sorting-strategy '(priority-down))))
-	  ;; (tags-todo "OFICINA/WAITING" ((org-agenda-sorting-strategy '(priority-down))))
-	  ))
-	("c" "En casa"
+	  (tags-todo "+OFICINA-IMPORTANT+URGENT/TODO"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		      (org-agenda-overriding-header "Urgente pero no importante")))
+	  (tags-todo "+OFICINA+IMPORTANT+URGENT/TODO"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		     (org-agenda-overriding-header "Urgente e importante")))
+	  (tags-todo "+OFICINA-IMPORTANT-URGENT-ACTIVE-DORMANT/TODO"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		      (org-agenda-overriding-header "Ni urgente ni importante")))
+	  (tags-todo "+OFICINA+IMPORTANT-URGENT/TODO"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		     (org-agenda-overriding-header "No urgente pero importante")))))
+	("c" "Stand-alone tasks en casa"
 	 ((agenda "" ((org-agenda-ndays 1)))
-	  ;; (tags-todo "casa/STARTED" ((org-agenda-sorting-strategy '(priority-down))))
-	  (tags-todo "CASA/TODO" ((org-agenda-sorting-strategy '(priority-down))))
-	  ;; (tags-todo "casa/TODO" ((org-agenda-sorting-strategy '(priority-down))))
-	  ;; (tags-todo "CASA/WAITING" ((org-agenda-sorting-strategy '(priority-down))))
-	  ))
-	;; ("f" "El fin de semana"
-	;;  ((agenda "" ((org-agenda-ndays 1)))
-	;;   ;; (tags-todo "finde/STARTED" ((org-agenda-sorting-strategy '(priority-down))))
-	;;   (tags-todo "finde/TODO" ((org-agenda-sorting-strategy '(priority-down))))
-	;;   (tags-todo "finde/WAITING" ((org-agenda-sorting-strategy '(priority-down))))))
+	  (tags-todo "+CASA-IMPORTANT+URGENT/TODO"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		      (org-agenda-overriding-header "Urgente pero no importante")))
+	  (tags-todo "+CASA+IMPORTANT+URGENT/TODO"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		     (org-agenda-overriding-header "Urgente e importante")))
+	  (tags-todo "+CASA-IMPORTANT-URGENT-ACTIVE-DORMANT/TODO"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		      (org-agenda-overriding-header "Ni urgente ni importante")))
+	  (tags-todo "+CASA+IMPORTANT-URGENT/TODO"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		     (org-agenda-overriding-header "No urgente pero importante")))))
+	("r" "Cosas que organizar"
+	 ((todo "TODO" ((org-agenda-files '("~/Dropbox/scripts/gtd/inbox.org"))))))
 	))
 
 ;; Vamos a empezar a usar org-journal
@@ -643,16 +665,21 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Voy a empezar a usar habits tracking en org. Para ello lo primero
 ;; es habilitar el modulo
-(setq org-modules (quote (org-habit)))
+;; (setq org-modules (quote (org-habit)))
 
 ;; Formato en que habits aparecen en la agenda
-(setq org-habit-graph-column 50)
-
-;; Para crear entries con F9
-(global-set-key (kbd "<f9>") 'org-journal-new-entry)
+;; (setq org-habit-graph-column 50)
 
 ;; Para que las entries se abran en el mismo buffer, sin split
 (setq org-journal-find-file 'find-file)
 
 ;; Para que los headings debajo de uno teniendo tag PROJECT no lo hereden
 (setq org-tags-exclude-from-inheritance '("PROJECT"))
+
+;; A esto lo agregue manually con botones
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
