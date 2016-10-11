@@ -495,7 +495,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Capture templates for TODO tasks, Notes, and journal
 (setq org-capture-templates
-      (quote (("i" "Inbox" entry (file "~/Dropbox/scripts/gtd/inbox.org")
+      (quote (("i" "Tareas" entry (file "~/Dropbox/scripts/gtd/tareas.org")
                "* TODO %?\n%U\n")
               ("n" "Notes" entry (file+datetree "~/Dropbox/scripts/gtd/notas.org")
                "* %? :NOTE:\n%U\n"))))
@@ -563,15 +563,18 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-default-priority ?B)
 
 (setq org-agenda-custom-commands
-      '(("n" "Notas" tags "NOTE")
-	("p" . "Proyectos")
-	("pl" "Listado de proyectos"
-	 ((tags "+PROJECT+ACTIVE")
-	  (tags "+PROJECT+DORMANT")))
-	("pa" "NEXT tasks de proyectos activos"
-	 ((tags-todo "+OFICINA+ACTIVE/NEXT")))
-	("pd" "NEXT tasks de proyectos dormidos"
-	 ((tags-todo "+OFICINA+DORMANT/NEXT")))
+      '(("N" "Notas" tags "NOTE")
+	("p" "Listado de proyectos"
+	 ((tags "+PROJECT+ACTIVE" ((org-agenda-overriding-header "Proyectos activos")))
+	  (tags "+PROJECT+DORMANT" ((org-agenda-overriding-header "Proyectos inactivos")))))
+	("n" "NEXT tasks de proyectos"
+	 ((tags-todo "+OFICINA+ACTIVE/NEXT"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		      (org-agenda-overriding-header "Next de proyectos activos")))
+	  (tags-todo "+OFICINA+DORMANT/NEXT"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		     (org-agenda-overriding-header "Next de proyectos inactivos")))
+	  ))
 	("o" "Stand-alone tasks en la oficina"
 	 ((agenda "" ((org-agenda-ndays 1)))
 	  (tags-todo "+OFICINA-IMPORTANT+URGENT/TODO"
@@ -600,8 +603,8 @@ convoluted. We use part of it --- skip comment par we are in."
 	  (tags-todo "+CASA+IMPORTANT-URGENT/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
 		     (org-agenda-overriding-header "No urgente pero importante")))))
-	("r" "Cosas que organizar"
-	 ((todo "TODO" ((org-agenda-files '("~/Dropbox/scripts/gtd/inbox.org"))))))
+	;; ("r" "Cosas que organizar"
+	;;  ((todo "TODO" ((org-agenda-files '("~/Dropbox/scripts/gtd/inbox.org"))))))
 	))
 
 ;; Vamos a empezar a usar org-journal
