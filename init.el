@@ -486,7 +486,6 @@ convoluted. We use part of it --- skip comment par we are in."
 
 (setq org-agenda-files (list "~/Dropbox/scripts/gtd/projects.org"
 			     "~/Dropbox/scripts/gtd/tareas.org"
-			     "~/Dropbox/scripts/gtd/notas.org"
 			     "~/Dropbox/scripts/gtd/agenda.org"))
 
 ;; Targets include this file and any file contributing to the agenda - up to 5 levels deep
@@ -495,10 +494,10 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Capture templates for TODO tasks, Notes, and journal
 (setq org-capture-templates
-      (quote (("i" "Tareas" entry (file "~/Dropbox/scripts/gtd/tareas.org")
-               "* TODO %?\n%U\n")
-              ("n" "Notes" entry (file+datetree "~/Dropbox/scripts/gtd/notas.org")
-               "* %? :NOTE:\n%U\n"))))
+      (quote (("i" "Tareas" entry (file+headline "~/Dropbox/scripts/gtd/tareas.org" "Tareas")
+               "* TODO %?  %(org-set-tags)\n")
+              ("n" "Notas" entry (file+headline "~/Dropbox/scripts/gtd/tareas.org" "Notas")
+               "* %?  :NOTE:\n"))))
 
 ;; Stop using paths for refile targets - we file directly with IDO
 (setq org-refile-use-outline-path nil)
