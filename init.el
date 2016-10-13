@@ -494,7 +494,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Capture templates for TODO tasks, Notes, and journal
 (setq org-capture-templates
-      (quote (("i" "Tareas" entry (file+headline "~/Dropbox/scripts/gtd/tareas.org" "Tareas")
+      (quote (("t" "Tareas" entry (file+headline "~/Dropbox/scripts/gtd/tareas.org" "Tareas")
                "* TODO %?  %(org-set-tags)\n")
               ("n" "Notas" entry (file+headline "~/Dropbox/scripts/gtd/tareas.org" "Notas")
                "* %?  :NOTE:\n"))))
@@ -567,10 +567,10 @@ convoluted. We use part of it --- skip comment par we are in."
 	 ((tags "+PROJECT+ACTIVE" ((org-agenda-overriding-header "Proyectos activos")))
 	  (tags "+PROJECT+DORMANT" ((org-agenda-overriding-header "Proyectos inactivos")))))
 	("n" "NEXT tasks de proyectos"
-	 ((tags-todo "+OFICINA+ACTIVE/NEXT"
+	 ((tags-todo "+ACTIVE/NEXT"
 		     ((org-agenda-sorting-strategy '(priority-down))
 		      (org-agenda-overriding-header "Next de proyectos activos")))
-	  (tags-todo "+OFICINA+DORMANT/NEXT"
+	  (tags-todo "+DORMANT/NEXT"
 		     ((org-agenda-sorting-strategy '(priority-down))
 		     (org-agenda-overriding-header "Next de proyectos inactivos")))
 	  ))
