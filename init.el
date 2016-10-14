@@ -561,6 +561,9 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-lowest-priority ?E)
 (setq org-default-priority ?B)
 
+;; Para definir que es un stuck project
+(setq org-stuck-projects '("+PROJECT" ("NEXT") () ""))
+
 (setq org-agenda-custom-commands
       '(("N" "Notas" tags "NOTE")
 	("p" "Listado de proyectos"
@@ -573,6 +576,9 @@ convoluted. We use part of it --- skip comment par we are in."
 	  (tags-todo "+DORMANT/NEXT"
 		     ((org-agenda-sorting-strategy '(priority-down))
 		     (org-agenda-overriding-header "Next de proyectos inactivos")))
+	  (stuck ""
+		 ((org-agenda-sorting-strategy '(priority-down))
+		  (org-agenda-overriding-header "Stuck projects")))
 	  ))
 	("o" "Stand-alone tasks en la oficina"
 	 ((agenda "" ((org-agenda-ndays 1)))
