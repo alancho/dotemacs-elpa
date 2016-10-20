@@ -486,7 +486,14 @@ convoluted. We use part of it --- skip comment par we are in."
 
 (setq org-agenda-files (list "~/Dropbox/scripts/gtd/projects.org"
 			     "~/Dropbox/scripts/gtd/tareas.org"
-			     "~/Dropbox/scripts/gtd/agenda.org"))
+			     "~/Dropbox/scripts/gtd/agenda.org"
+			     "~/Dropbox/scripts/gtd/journal/"
+			     ))
+
+;; Vamos a empezar a usar org-journal
+(setq org-journal-dir "~/Dropbox/scripts/gtd/journal/")
+;; Para que se vean en la agenda
+(setq org-agenda-file-regexp "\\`[^.].*\\.org\\'\\|[0-9]+")
 
 ;; Targets include this file and any file contributing to the agenda - up to 5 levels deep
 (setq org-refile-targets '((nil :maxlevel . 3)
@@ -611,9 +618,6 @@ convoluted. We use part of it --- skip comment par we are in."
 	;; ("r" "Cosas que organizar"
 	;;  ((todo "TODO" ((org-agenda-files '("~/Dropbox/scripts/gtd/inbox.org"))))))
 	))
-
-;; Vamos a empezar a usar org-journal
-(setq org-journal-dir "~/Dropbox/scripts/gtd/journal/")
 
 ;; Separate drawers for clocking and logs
 (setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
