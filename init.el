@@ -408,10 +408,10 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq eshell-cmpl-ignore-case t)
 
 ;; Start emacs in eshell
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (cd default-directory)
-            (eshell)))
+;; (add-hook 'emacs-startup-hook
+;;           (lambda ()
+;;             (cd default-directory)
+;;             (eshell)))
 
 ;; I use to enable ido mode in org-mode. Because I don't use org
 ;; anymore I need to define how to use ido next
