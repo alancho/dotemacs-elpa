@@ -35,8 +35,10 @@
 			   ido-ubiquitous
 			   julia-mode
 			   magit
+			   markdown-mode
 			   org
 			   org-journal
+			   ;; pandoc-mode
 			   paredit
 			   pkg-info
 			   popup
@@ -44,6 +46,7 @@
 			   s
 			   smex
 			   websocket
+			   ;; writeroom-mode
 			   yaml-mode
 			   ;; yasnippet
 			   )
@@ -468,230 +471,249 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; My org-mode setup
 ;; =================
-(require 'org)
+;; (require 'org)
 
-;; This is to have no blank lines inserted after headings
-(setq org-blank-before-new-entry nil)
+;; ;; This is to have no blank lines inserted after headings
+;; (setq org-blank-before-new-entry nil)
 
-;; This is to view all at startup
-(setq org-startup-folded nil)
+;; ;; This is to view all at startup
+;; (setq org-startup-folded nil)
 
-;; Change todo state with C-c C-t KEY
-(setq org-use-fast-todo-selection t)
+;; ;; Change todo state with C-c C-t KEY
+;; (setq org-use-fast-todo-selection t)
 
-(global-set-key (kbd "<f2>") 'calendar)
-(global-set-key (kbd "<f9>") 'org-journal-new-entry)
-(global-set-key (kbd "<f11>") 'org-capture)
-(global-set-key (kbd "<f12>") 'org-agenda)
+;; (global-set-key (kbd "<f2>") 'calendar)
+;; (global-set-key (kbd "<f9>") 'org-journal-new-entry)
+;; (global-set-key (kbd "<f11>") 'org-capture)
+;; (global-set-key (kbd "<f12>") 'org-agenda)
 
-(setq org-agenda-files (list "~/Dropbox/scripts/gtd/projects.org"
-			     "~/Dropbox/scripts/gtd/tareas.org"
-			     "~/Dropbox/scripts/gtd/agenda.org"
-			     "~/Dropbox/scripts/gtd/journal/"
-			     ))
+;; (setq org-agenda-files (list "~/Dropbox/scripts/gtd/projects.org"
+;; 			     "~/Dropbox/scripts/gtd/tareas.org"
+;; 			     "~/Dropbox/scripts/gtd/agenda.org"
+;; 			     ;; "~/Dropbox/scripts/gtd/journal/"
+;; 			     ))
 
-;; Vamos a empezar a usar org-journal
-(setq org-journal-dir "~/Dropbox/scripts/gtd/journal/")
-;; Para que se vean en la agenda
-(setq org-agenda-file-regexp "\\`[^.].*\\.org\\'\\|[0-9]+")
+;; ;; Vamos a empezar a usar org-journal
+;; (setq org-journal-dir "~/Dropbox/scripts/gtd/journal/")
+;; ;; Para que se vean en la agenda
+;; ;; (setq org-agenda-file-regexp "\\`[^.].*\\.org\\'\\|[0-9]+")
 
-;; Targets include this file and any file contributing to the agenda - up to 5 levels deep
-(setq org-refile-targets '((nil :maxlevel . 3)
-			   (org-agenda-files :maxlevel . 3)))
+;; ;; Targets include this file and any file contributing to the agenda - up to 5 levels deep
+;; (setq org-refile-targets '((nil :maxlevel . 3)
+;; 			   (org-agenda-files :maxlevel . 3)))
 
-;; Capture templates for TODO tasks, Notes, and journal
-(setq org-capture-templates
-      (quote (("t" "Tareas" entry (file+headline "~/Dropbox/scripts/gtd/tareas.org" "Tareas")
-               "* TODO %?  %(org-set-tags)\n")
-              ("n" "Notas" entry (file+headline "~/Dropbox/scripts/gtd/tareas.org" "Notas")
-               "* %?  :NOTE:\n"))))
+;; ;; Capture templates for TODO tasks, Notes, and journal
+;; (setq org-capture-templates
+;;       (quote (("t" "Tareas" entry (file+headline "~/Dropbox/scripts/gtd/tareas.org" "Tareas")
+;;                "* TODO %?  %(org-set-tags)\n")
+;;               ("n" "Notas" entry (file+headline "~/Dropbox/scripts/gtd/tareas.org" "Notas")
+;;                "* %?  :NOTE:\n"))))
 
-;; Stop using paths for refile targets - we file directly with IDO
-(setq org-refile-use-outline-path nil)
+;; ;; Stop using paths for refile targets - we file directly with IDO
+;; (setq org-refile-use-outline-path nil)
 
-;; Targets complete directly with IDO
-(setq org-outline-path-complete-in-steps nil)
+;; ;; Targets complete directly with IDO
+;; (setq org-outline-path-complete-in-steps nil)
 
-;; Allow refile to create parent tasks with confirmation
-(setq org-refile-allow-creating-parent-nodes (quote confirm))
+;; ;; Allow refile to create parent tasks with confirmation
+;; (setq org-refile-allow-creating-parent-nodes (quote confirm))
 
-;; Use IDO for both buffer and file completion and ido-everywhere to t
-(setq org-completion-use-ido t)
-(setq ido-everywhere t)
-(setq ido-max-directory-size 100000)
-(ido-mode (quote both))
+;; ;; Use IDO for both buffer and file completion and ido-everywhere to t
+;; (setq org-completion-use-ido t)
+;; (setq ido-everywhere t)
+;; (setq ido-max-directory-size 100000)
+;; (ido-mode (quote both))
 
-;; Remove completed deadline tasks from the agenda view
-(setq org-agenda-skip-deadline-if-done t)
+;; ;; Remove completed deadline tasks from the agenda view
+;; (setq org-agenda-skip-deadline-if-done t)
 
-;; Remove completed scheduled tasks from the agenda view
-(setq org-agenda-skip-scheduled-if-done t)
+;; ;; Remove completed scheduled tasks from the agenda view
+;; (setq org-agenda-skip-scheduled-if-done t)
 
-;; Remove completed items from search results
-(setq org-agenda-skip-timestamp-if-done t)
+;; ;; Remove completed items from search results
+;; (setq org-agenda-skip-timestamp-if-done t)
 
-;; ;; This is to have always the 10 coming days in the week
-(setq org-agenda-start-on-weekday nil)
-(setq org-agenda-ndays 21)
+;; ;; ;; This is to have always the 10 coming days in the week
+;; (setq org-agenda-start-on-weekday nil)
+;; (setq org-agenda-ndays 21)
 
-(setq org-todo-keywords
-      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-              (sequence "WAITING(w)" "|" "CANCELLED(c)"))))
+;; (setq org-todo-keywords
+;;       (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+;;               (sequence "WAITING(w)" "|" "CANCELLED(c)"))))
 
-(setq org-todo-keyword-faces
-      (quote (("TODO" :foreground "cyan" :weight bold)
-              ("NEXT" :foreground "yellow" :weight bold)
-              ("DONE" :foreground "forest green" :weight bold)
-              ("WAITING" :foreground "orange" :weight bold)
-              ("CANCELLED" :foreground "gray" :weight bold))))
+;; (setq org-todo-keyword-faces
+;;       (quote (("TODO" :foreground "cyan" :weight bold)
+;;               ("NEXT" :foreground "yellow" :weight bold)
+;;               ("DONE" :foreground "forest green" :weight bold)
+;;               ("WAITING" :foreground "orange" :weight bold)
+;;               ("CANCELLED" :foreground "gray" :weight bold))))
 
-;; Tags with fast selection keys
-(setq org-tag-alist (quote (("ACTIVE" . ?a)
-                            ("DORMANT" . ?d)
-                            ("PROJECT" . ?p)
-                            ("OFICINA" . ?o)
-                            ("CASA" . ?c)
-                            ("NOTE" . ?n)
-                            ("URGENT" . ?u)
-                            ("IMPORTANT" . ?i)
-			    )))
+;; ;; Tags with fast selection keys
+;; (setq org-tag-alist (quote (("ACTIVE" . ?a)
+;;                             ("DORMANT" . ?d)
+;;                             ("PROJECT" . ?p)
+;;                             ("OFICINA" . ?o)
+;;                             ("CASA" . ?c)
+;;                             ("NOTE" . ?n)
+;;                             ("TODAY" . ?t)
+;;                             ("WEEK" . ?w)
+;;                             ("URGENT" . ?u)
+;;                             ("IMPORTANT" . ?i)
+;; 			    )))
 
-(setq org-hide-leading-stars t)
-(setq org-startup-indented t)
+;; (setq org-hide-leading-stars t)
+;; (setq org-startup-indented t)
 
-;; Para que org-agenda ocupe toda la pantalla
-(setq org-agenda-window-setup 'current-window)
+;; ;; Para que org-agenda ocupe toda la pantalla
+;; (setq org-agenda-window-setup 'current-window)
 
-;; Con solo tres priorities no me alcanza -- necesito desde A a E, en
-;; concordancia con Eat That Frog
-(setq org-highest-priority ?A)
-(setq org-lowest-priority ?E)
-(setq org-default-priority ?B)
+;; ;; Con solo tres priorities no me alcanza -- necesito desde A a E, en
+;; ;; concordancia con Eat That Frog
+;; (setq org-highest-priority ?A)
+;; (setq org-lowest-priority ?E)
+;; (setq org-default-priority ?B)
 
-;; Para definir que es un stuck project
-(setq org-stuck-projects '("+PROJECT" ("NEXT") () ""))
+;; ;; Para definir que es un stuck project
+;; (setq org-stuck-projects '("+PROJECT" ("NEXT") () ""))
 
-(setq org-agenda-custom-commands
-      '(("N" "Notas" tags "NOTE")
-	("p" "Listado de proyectos"
-	 ((tags "+PROJECT+ACTIVE" ((org-agenda-overriding-header "Proyectos activos")))
-	  (tags "+PROJECT+DORMANT" ((org-agenda-overriding-header "Proyectos inactivos")))))
-	("n" "NEXT tasks de proyectos"
-	 ((tags-todo "+ACTIVE/NEXT"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-overriding-header "Next de proyectos activos")))
-	  (tags-todo "+DORMANT/NEXT"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		     (org-agenda-overriding-header "Next de proyectos inactivos")))
-	  (stuck ""
-		 ((org-agenda-sorting-strategy '(priority-down))
-		  (org-agenda-overriding-header "Stuck projects")))
-	  ))
-	("o" "Stand-alone tasks en la oficina"
-	 ((agenda "" ((org-agenda-ndays 1)))
-	  (tags-todo "+OFICINA-IMPORTANT+URGENT/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-overriding-header "Urgente pero no importante")))
-	  (tags-todo "+OFICINA+IMPORTANT+URGENT/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		     (org-agenda-overriding-header "Urgente e importante")))
-	  (tags-todo "+OFICINA-IMPORTANT-URGENT-ACTIVE-DORMANT/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-overriding-header "Ni urgente ni importante")))
-	  (tags-todo "+OFICINA+IMPORTANT-URGENT/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		     (org-agenda-overriding-header "No urgente pero importante")))))
-	("c" "Stand-alone tasks en casa"
-	 ((agenda "" ((org-agenda-ndays 1)))
-	  (tags-todo "+CASA-IMPORTANT+URGENT/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-overriding-header "Urgente pero no importante")))
-	  (tags-todo "+CASA+IMPORTANT+URGENT/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		     (org-agenda-overriding-header "Urgente e importante")))
-	  (tags-todo "+CASA-IMPORTANT-URGENT-ACTIVE-DORMANT/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-overriding-header "Ni urgente ni importante")))
-	  (tags-todo "+CASA+IMPORTANT-URGENT/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		     (org-agenda-overriding-header "No urgente pero importante")))))
-	;; ("r" "Cosas que organizar"
-	;;  ((todo "TODO" ((org-agenda-files '("~/Dropbox/scripts/gtd/inbox.org"))))))
-	))
+;; (setq org-agenda-custom-commands
+;;       '(("N" "Notas" tags "NOTE")
+;; 	("p" "Listado de proyectos"
+;; 	 ((tags "+PROJECT+ACTIVE" ((org-agenda-overriding-header "Proyectos activos")))
+;; 	  (tags "+PROJECT+DORMANT" ((org-agenda-overriding-header "Proyectos inactivos")))))
+;; 	("n" "NEXT tasks de proyectos"
+;; 	 ((tags-todo "+ACTIVE/NEXT"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-overriding-header "Next de proyectos activos")))
+;; 	  (tags-todo "+DORMANT/NEXT"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-overriding-header "Next de proyectos inactivos")))
+;; 	  (stuck ""
+;; 		 ((org-agenda-sorting-strategy '(priority-down))
+;; 		  (org-agenda-overriding-header "Stuck projects")))
+;; 	  ))
+;; 	("o" "Stand-alone tasks en la oficina"
+;; 	 ((agenda "" ((org-agenda-ndays 1)))
+;; 	  (tags-todo "+OFICINA-IMPORTANT+URGENT/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-overriding-header "Urgente pero no importante")))
+;; 	  (tags-todo "+OFICINA+IMPORTANT+URGENT/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-overriding-header "Urgente e importante")))
+;; 	  (tags-todo "+OFICINA-IMPORTANT-URGENT-ACTIVE-DORMANT/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-overriding-header "Ni urgente ni importante")))
+;; 	  (tags-todo "+OFICINA+IMPORTANT-URGENT/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-overriding-header "No urgente pero importante")))))
+;; 	("c" "Stand-alone tasks en casa"
+;; 	 ((agenda "" ((org-agenda-ndays 1)))
+;; 	  (tags-todo "+CASA-IMPORTANT+URGENT/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-overriding-header "Urgente pero no importante")))
+;; 	  (tags-todo "+CASA+IMPORTANT+URGENT/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-overriding-header "Urgente e importante")))
+;; 	  (tags-todo "+CASA-IMPORTANT-URGENT-ACTIVE-DORMANT/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-overriding-header "Ni urgente ni importante")))
+;; 	  (tags-todo "+CASA+IMPORTANT-URGENT/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-overriding-header "No urgente pero importante")))))
+;; 	("t" "3 cosas que elijo para completar hoy"
+;; 	 ((tags-todo "+TODAY/TODO|NEXT"
+;; 	  ((org-agenda-overriding-header "3 cosas que elijo para completar hoy")))))
+;; 	("w" "5 cosas que elijo para completar esta semana"
+;; 	 ((tags-todo "+WEEK/TODO|NEXT"
+;; 	  ((org-agenda-overriding-header "5 cosas que elijo para completar esta semana")))))
+;; 	;; ("r" "Cosas que organizar"
+;; 	;;  ((todo "TODO" ((org-agenda-files '("~/Dropbox/scripts/gtd/inbox.org"))))))
+;; 	))
 
-;; Separate drawers for clocking and logs
-(setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
-;; Save clock data and state changes and notes in the LOGBOOK drawer
-(setq org-clock-into-drawer t)
-;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
-(setq org-clock-out-remove-zero-time-clocks t)
-;; Clock out when moving task to a done state
-(setq org-clock-out-when-done t)
-;; Save the running clock and all clock history when exiting Emacs, load it on startup
-(setq org-clock-persist t)
-;; Do not prompt to resume an active clock
-(setq org-clock-persist-query-resume nil)
+;; ;; Separate drawers for clocking and logs
+;; (setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
+;; ;; Save clock data and state changes and notes in the LOGBOOK drawer
+;; (setq org-clock-into-drawer t)
+;; ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
+;; (setq org-clock-out-remove-zero-time-clocks t)
+;; ;; Clock out when moving task to a done state
+;; (setq org-clock-out-when-done t)
+;; ;; Save the running clock and all clock history when exiting Emacs, load it on startup
+;; (setq org-clock-persist t)
+;; ;; Do not prompt to resume an active clock
+;; (setq org-clock-persist-query-resume nil)
 
-;; For tag searches ignore tasks with scheduled and deadline dates
-(setq org-agenda-tags-todo-honor-ignore-options t)
-(setq org-archive-mark-done nil)
-(setq org-alphabetical-lists t)
+;; ;; For tag searches ignore tasks with scheduled and deadline dates
+;; (setq org-agenda-tags-todo-honor-ignore-options t)
+;; (setq org-archive-mark-done nil)
+;; (setq org-alphabetical-lists t)
 
-;; ;; Always highlight the current agenda line
-;; (global-hl-line-mode 1)
-;; (set-face-background 'hl-line "#3e4446")
-;; (set-face-foreground 'highlight nil)
-;; (add-hook 'org-agenda-mode-hook
-;;           '(lambda () (hl-line-mode 1))
-;;           'append)
-;; ;; But I don't need to highlight current line globally
-;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
+;; ;; ;; Always highlight the current agenda line
+;; ;; (global-hl-line-mode 1)
+;; ;; (set-face-background 'hl-line "#3e4446")
+;; ;; (set-face-foreground 'highlight nil)
+;; ;; (add-hook 'org-agenda-mode-hook
+;; ;;           '(lambda () (hl-line-mode 1))
+;; ;;           'append)
+;; ;; ;; But I don't need to highlight current line globally
+;; ;; (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
 
 
-;; Remove completed items from search results
-(setq org-agenda-skip-timestamp-if-done t)
+;; ;; Remove completed items from search results
+;; (setq org-agenda-skip-timestamp-if-done t)
 
-;; Show all future entries for repeating tasks
-(setq org-agenda-repeating-timestamp-show-all t)
+;; ;; Show all future entries for repeating tasks
+;; (setq org-agenda-repeating-timestamp-show-all t)
 
-;; Show all agenda dates - even if they are empty
-(setq org-agenda-show-all-dates t)
+;; ;; Show all agenda dates - even if they are empty
+;; (setq org-agenda-show-all-dates t)
 
-;; Sorting order for tasks on the agenda
-(setq org-agenda-sorting-strategy
-      (quote ((agenda time-up user-defined-up effort-up category-keep)
-              (todo category-up effort-up)
-              (tags category-up effort-up)
-              (search category-up))))
+;; ;; Sorting order for tasks on the agenda
+;; (setq org-agenda-sorting-strategy
+;;       (quote ((agenda time-up user-defined-up effort-up category-keep)
+;;               (todo category-up effort-up)
+;;               (tags category-up effort-up)
+;;               (search category-up))))
 
-;; Display tags farther right
-(setq org-agenda-tags-column -102)
+;; ;; Display tags farther right
+;; (setq org-agenda-tags-column -102)
 
-;; Para que el mouse no haga highlight sobre la agenda
-(add-hook 'org-finalize-agenda-hook
-	  (lambda () (remove-text-properties
-		      (point-min) (point-max) '(mouse-face t))))
+;; ;; Para que el mouse no haga highlight sobre la agenda
+;; (add-hook 'org-finalize-agenda-hook
+;; 	  (lambda () (remove-text-properties
+;; 		      (point-min) (point-max) '(mouse-face t))))
 
-;; A ver si esto sirve
-;; (require 'helm-config)
+;; ;; A ver si esto sirve
+;; ;; (require 'helm-config)
 
-;; Voy a empezar a usar habits tracking en org. Para ello lo primero
-;; es habilitar el modulo
-;; (setq org-modules (quote (org-habit)))
+;; ;; Voy a empezar a usar habits tracking en org. Para ello lo primero
+;; ;; es habilitar el modulo
+;; ;; (setq org-modules (quote (org-habit)))
 
-;; Formato en que habits aparecen en la agenda
-;; (setq org-habit-graph-column 50)
+;; ;; Formato en que habits aparecen en la agenda
+;; ;; (setq org-habit-graph-column 50)
 
-;; Para que las entries se abran en el mismo buffer, sin split
-(setq org-journal-find-file 'find-file)
+;; ;; Para que las entries se abran en el mismo buffer, sin split
+;; (setq org-journal-find-file 'find-file)
 
-;; Para que los headings debajo de uno teniendo tag PROJECT no lo hereden
-(setq org-tags-exclude-from-inheritance '("PROJECT"))
+;; ;; Para que los headings debajo de uno teniendo tag PROJECT no lo hereden
+;; (setq org-tags-exclude-from-inheritance '("PROJECT"))
 
-;; A esto lo agregue manually con botones
+;; ;; A esto lo agregue manually con botones
+;; (custom-set-faces
+;;  ;; custom-set-faces was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  )
+
+;; Para tener fuente mas grande en markdown
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+ '(markdown-header-face ((t (:inherit font-lock-function-name-face :weight bold :family "variable-pitch"))))
+ '(markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.7))))
+ '(markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.5))))
+ '(markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.3)))))
+
+;; (add-hook 'markdown-mode-hook 'pandoc-mode)
+;; (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+(setq markdown-command "/home/alancho/.cabal/bin/pandoc --from markdown_github -t html5 --mathjax==https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML --highlight-style pygments --standalone")
