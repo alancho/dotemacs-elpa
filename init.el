@@ -92,17 +92,18 @@
 ;; (setq LaTeX-always-use-Biber t)
 
 ;; To save and then run LaTeX in one command
-;; (defun my-run-latex ()
-;;   (interactive)
-;;   (TeX-save-document (TeX-master-file))
-;;   (TeX-command "LaTeX" 'TeX-master-file -1)
-;;   (TeX-command "Biber" 'TeX-master-file -1)
-;;   (TeX-command "LaTeX" 'TeX-master-file -1))
+(defun my-run-latex ()
+  (interactive)
+  (TeX-save-document (TeX-master-file))
+  (TeX-command "LaTeX" 'TeX-master-file -1)
+  ;; (TeX-command "Biber" 'TeX-master-file -1)
+  ;; (TeX-command "LaTeX" 'TeX-master-file -1)
+  )
 
-;; (defun my-LaTeX-hook ()
-;;   (local-set-key (kbd "C-c C-c") 'my-run-latex))
+(defun my-LaTeX-hook ()
+  (local-set-key (kbd "C-c C-c") 'my-run-latex))
 
-;; (add-hook 'LaTeX-mode-hook 'my-LaTeX-hook)
+(add-hook 'LaTeX-mode-hook 'my-LaTeX-hook)
 
 ;; Default directory
 ;; ========================================================
@@ -707,13 +708,4 @@ convoluted. We use part of it --- skip comment par we are in."
 ;;  ;; If there is more than one, they won't work right.
 ;;  )
 
-;; Para tener fuente mas grande en markdown
-(custom-set-faces
- '(markdown-header-face ((t (:inherit font-lock-function-name-face :weight bold :family "variable-pitch"))))
- '(markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.7))))
- '(markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.5))))
- '(markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.3)))))
-
-;; (add-hook 'markdown-mode-hook 'pandoc-mode)
-;; (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
-(setq markdown-command "/home/alancho/.cabal/bin/pandoc --from markdown_github -t html5 --mathjax==https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML --highlight-style pygments --standalone")
+(add-hook 'markdown-mode-hook 'flyspell-mode)
