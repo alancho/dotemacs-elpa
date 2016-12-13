@@ -19,6 +19,7 @@
 			   color-theme-tango
 			   auctex
 			   ;; auto-complete
+			   company-math
 			   ctable
 			   dash
 			   deferred
@@ -45,6 +46,7 @@
 			   request
 			   s
 			   smex
+			   synonyms
 			   websocket
 			   ;; writeroom-mode
 			   yaml-mode
@@ -230,7 +232,8 @@
 
 ;; This are my faces, fonts, etcetera
 ;; ========================================================
-(set-face-attribute 'default nil :height 120 :family "Inconsolata")
+;; (set-face-attribute 'default nil :family "Ubuntu Mono" :height 120 :weight 'normal)
+;; (set-face-attribute 'default nil :height 120 :family "Inconsolata")
 
 
 ;; This is to unfill paragraphs
@@ -709,3 +712,48 @@ convoluted. We use part of it --- skip comment par we are in."
 ;;  )
 
 (add-hook 'markdown-mode-hook 'flyspell-mode)
+
+;; (custom-set-variables
+;;  '(markdown-command "/home/alancho/.cabal/bin/pandoc"))
+
+(custom-set-variables
+ '(markdown-command "make"))
+
+;; So that RefTeX finds my bibliography
+(setq reftex-default-bibliography '("/home/alancho/Dropbox/papers/all-my-zotero-library.bib"))
+
+;; (eval-after-load 'reftex-vars
+;;   '(progn 
+;;      (setq reftex-cite-format '((?\C-m . "[@%l]")))))
+
+;;; Code:
+(defvar reftex-cite-format-markdown
+      '((?\C-m . "[@%l]")
+	(?k . "@%l")
+	)
+      "Reftex citation format compatible with pandoc markdown.")
+
+;; Enable math
+(setq markdown-enable-math t)
+
+(defun my-markdown-mode-hook()
+  (define-key markdown-mode-map "\C-c["
+    (lambda ()
+      (interactive)
+      (let ((reftex-cite-format reftex-cite-format-markdown))
+	(reftex-citation))))
+  (setq-local
+   company-backends
+   (append '(company-math-symbols-latex) company-backends))
+   (setq-local company-math-allow-latex-symbols-in-faces t)
+   (setq-local company-math-disallow-latex-symbols-in-faces nil)
+   (setq-local company-math-allow-unicode-symbols-in-faces t)
+   (setq-local company-math-disallow-unicode-symbols-in-faces nil)
+   )
+
+(add-hook 'markdown-mode-hook 'my-markdown-mode-hook)
+
+;; Use synonyms package
+(setq synonyms-file "/home/alancho/mthesaur.txt")
+(setq synonyms-cache-file "/home/alancho/mthesaur.txt.cache")
+(require 'synonyms)
