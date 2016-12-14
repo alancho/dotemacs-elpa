@@ -711,33 +711,24 @@ convoluted. We use part of it --- skip comment par we are in."
 ;;  ;; If there is more than one, they won't work right.
 ;;  )
 
-(add-hook 'markdown-mode-hook 'flyspell-mode)
-
 ;; (custom-set-variables
 ;;  '(markdown-command "/home/alancho/.cabal/bin/pandoc"))
 
-(custom-set-variables
- '(markdown-command "make"))
+;; (custom-set-variables
+;;  '(markdown-command "make"))
 
 ;; So that RefTeX finds my bibliography
 (setq reftex-default-bibliography '("/home/alancho/Dropbox/papers/all-my-zotero-library.bib"))
 
-;; (eval-after-load 'reftex-vars
-;;   '(progn 
-;;      (setq reftex-cite-format '((?\C-m . "[@%l]")))))
-
-;;; Code:
 (defvar reftex-cite-format-markdown
-      '((?\C-m . "[@%l]")
-	(?k . "@%l")
-	)
-      "Reftex citation format compatible with pandoc markdown.")
+  '((?p . "[@%l]")
+    (?k . "@%l")))
 
 ;; Enable math
 (setq markdown-enable-math t)
 
 (defun my-markdown-mode-hook()
-  (define-key markdown-mode-map "\C-c["
+  (define-key markdown-mode-map [f12]
     (lambda ()
       (interactive)
       (let ((reftex-cite-format reftex-cite-format-markdown))
@@ -745,13 +736,14 @@ convoluted. We use part of it --- skip comment par we are in."
   (setq-local
    company-backends
    (append '(company-math-symbols-latex) company-backends))
-   (setq-local company-math-allow-latex-symbols-in-faces t)
-   (setq-local company-math-disallow-latex-symbols-in-faces nil)
-   (setq-local company-math-allow-unicode-symbols-in-faces t)
-   (setq-local company-math-disallow-unicode-symbols-in-faces nil)
-   )
+  (setq-local company-math-allow-latex-symbols-in-faces t)
+  (setq-local company-math-disallow-latex-symbols-in-faces nil)
+  (setq-local company-math-allow-unicode-symbols-in-faces t)
+  (setq-local company-math-disallow-unicode-symbols-in-faces nil))
 
 (add-hook 'markdown-mode-hook 'my-markdown-mode-hook)
+(add-hook 'markdown-mode-hook 'flyspell-mode)
+(add-hook 'markdown-mode-hook 'visual-line-mode)
 
 ;; Use synonyms package
 (setq synonyms-file "/home/alancho/mthesaur.txt")
