@@ -48,6 +48,7 @@
 			   smex
 			   synonyms
 			   websocket
+			   window-margin
 			   ;; writeroom-mode
 			   yaml-mode
 			   ;; yasnippet
@@ -744,8 +745,23 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-hook 'markdown-mode-hook 'my-markdown-mode-hook)
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 (add-hook 'markdown-mode-hook 'visual-line-mode)
+;; (add-hook 'markdown-mode-hook 'turn-on-window-margin-mode)
 
 ;; Use synonyms package
 (setq synonyms-file "/home/alancho/mthesaur.txt")
 (setq synonyms-cache-file "/home/alancho/mthesaur.txt.cache")
 (require 'synonyms)
+
+(defun my-set-margins ()
+  "Set margins in current buffer."
+  (linum-mode -1)
+  (setq left-margin-width 50)
+  (setq right-margin-width 50))
+
+(defun my-tone-down-fringes ()
+  (set-face-attribute 'fringe nil
+                      :foreground (face-foreground 'default)
+                      :background (face-background 'default)))
+
+(add-hook 'markdown-mode-hook 'my-set-margins)
+(add-hook 'markdown-mode-hook 'my-tone-down-fringes)
