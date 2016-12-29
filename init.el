@@ -6,9 +6,9 @@
 (load "package")
 (package-initialize)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")
-                         ("org" . "http://orgmode.org/elpa/")
+			 ("marmalade" . "http://marmalade-repo.org/packages/")
+			 ("melpa" . "http://melpa.org/packages/")
+			 ("org" . "http://orgmode.org/elpa/")
 			 ("melpa-stable" . "http://stable.melpa.org/packages/")))
 
 ;; (add-to-list 'package-pinned-packages '(magit . "melpa-stable"))
@@ -57,8 +57,8 @@
 
 (defun alancho/packages-installed-p ()
   (loop for pkg in alancho/packages
-        when (not (package-installed-p pkg)) do (return nil)
-        finally (return t)))
+	when (not (package-installed-p pkg)) do (return nil)
+	finally (return t)))
 
 (unless (alancho/packages-installed-p)
   (message "%s" "Refreshing package database...")
@@ -144,15 +144,15 @@
   (interactive)
   (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
       (progn
-        (delete-other-windows)
-        (setq w1 (selected-window))
-        (setq w1name (buffer-name))
-        (setq w2 (split-window w1 nil t))
-        ;; (setq w2 (split-window-below w1 nil t))
-        ;; (setq w2 (split-window-horizontally w1 nil t))
-        (R)
-        (set-window-buffer w2 "*R*")
-        (set-window-buffer w1 w1name))))
+	(delete-other-windows)
+	(setq w1 (selected-window))
+	(setq w1name (buffer-name))
+	(setq w2 (split-window w1 nil t))
+	;; (setq w2 (split-window-below w1 nil t))
+	;; (setq w2 (split-window-horizontally w1 nil t))
+	(R)
+	(set-window-buffer w2 "*R*")
+	(set-window-buffer w1 w1name))))
 
 (defun my-ess-eval ()
   (interactive)
@@ -162,17 +162,17 @@
     (call-interactively 'ess-eval-line-and-step)))
 
 (add-hook 'ess-mode-hook
-          '(lambda()
-             (local-set-key [(shift return)] 'my-ess-eval)))
+	  '(lambda()
+	     (local-set-key [(shift return)] 'my-ess-eval)))
 
 (add-hook 'inferior-ess-mode-hook
-          '(lambda()
-             (local-set-key [C-up] 'comint-previous-input)
-             (local-set-key [C-down] 'comint-next-input)))
+	  '(lambda()
+	     (local-set-key [C-up] 'comint-previous-input)
+	     (local-set-key [C-down] 'comint-next-input)))
 
 (add-hook 'Rnw-mode-hook
-          '(lambda()
-             (local-set-key [(shift return)] 'my-ess-eval)))
+	  '(lambda()
+	     (local-set-key [(shift return)] 'my-ess-eval)))
 
 ;; This is to be quicker when writing the %>% operator from dplyr
 (defun then_R_operator ()
@@ -246,7 +246,7 @@ AUCTeX's latex.el reimplements the fill functions and is *very*
 convoluted. We use part of it --- skip comment par we are in."
   (interactive)
   (if (save-excursion
-        (beginning-of-line) (looking-at TeX-comment-start-regexp))
+	(beginning-of-line) (looking-at TeX-comment-start-regexp))
       (TeX-comment-forward)
     (let ((to (progn
 		(LaTeX-forward-paragraph)
@@ -304,8 +304,8 @@ convoluted. We use part of it --- skip comment par we are in."
      (ido-completing-read
       "Recentf open: "
       (mapcar (lambda (path)
-                (replace-regexp-in-string home "~" path))
-              recentf-list)
+		(replace-regexp-in-string home "~" path))
+	      recentf-list)
       nil t))))
 
 (global-set-key (kbd "C-x C-r") 'ido-recentf)
@@ -445,7 +445,7 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-to-list 'auto-mode-alist '("\\.yaml$" . yaml-mode))
 (add-hook 'yaml-mode-hook
 	  (lambda ()
-            (define-key yaml-mode-map "<return>" 'newline-and-indent)))
+	    (define-key yaml-mode-map "<return>" 'newline-and-indent)))
 ;; Para ver las lineas vacias tambien
 (setq-default indicate-empty-lines t)
 (when (not indicate-empty-lines)
@@ -755,13 +755,25 @@ convoluted. We use part of it --- skip comment par we are in."
 (defun my-set-margins ()
   "Set margins in current buffer."
   (linum-mode -1)
-  (setq left-margin-width 50)
-  (setq right-margin-width 50))
+  (setq left-margin-width 45)
+  (setq right-margin-width 45))
 
 (defun my-tone-down-fringes ()
   (set-face-attribute 'fringe nil
-                      :foreground (face-foreground 'default)
-                      :background (face-background 'default)))
+		      :foreground (face-foreground 'default)
+		      :background (face-background 'default)))
 
 (add-hook 'markdown-mode-hook 'my-set-margins)
 (add-hook 'markdown-mode-hook 'my-tone-down-fringes)
+
+;; Para cambiar el idioma de ispell con un shortcut
+(global-set-key
+ [f5]
+ (lambda ()
+   (interactive)
+   (ispell-change-dictionary "spanish")))
+(global-set-key
+ [f6]
+ (lambda ()
+   (interactive)
+   (ispell-change-dictionary "english")))
