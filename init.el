@@ -747,6 +747,11 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-hook 'markdown-mode-hook 'visual-line-mode)
 ;; (add-hook 'markdown-mode-hook 'turn-on-window-margin-mode)
 
+;; Pandoc mode está bueno porque pese a que no uso sus keybindings me
+;; permite tener syntax highlighting específico para pandoc
+;; (e.g. citations)
+(add-hook 'markdown-mode-hook 'pandoc-mode)
+
 ;; Use synonyms package
 (setq synonyms-file "/home/alancho/mthesaur.txt")
 (setq synonyms-cache-file "/home/alancho/mthesaur.txt.cache")
