@@ -755,8 +755,8 @@ convoluted. We use part of it --- skip comment par we are in."
 (defun my-set-margins ()
   "Set margins in current buffer."
   (linum-mode -1)
-  (setq left-margin-width 45)
-  (setq right-margin-width 45))
+  (setq left-margin-width 40)
+  (setq right-margin-width 40))
 
 (defun my-tone-down-fringes ()
   (set-face-attribute 'fringe nil
@@ -776,4 +776,4 @@ convoluted. We use part of it --- skip comment par we are in."
  [f6]
  (lambda ()
    (interactive)
-   (ispell-change-dictionary "english")))
+   (ispell-change-dictionary "british")))
