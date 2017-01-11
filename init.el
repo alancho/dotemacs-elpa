@@ -771,6 +771,9 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-hook 'markdown-mode-hook 'my-set-margins)
 (add-hook 'markdown-mode-hook 'my-tone-down-fringes)
 
+(add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
+
+
 ;; Para cambiar el idioma de ispell con un shortcut
 (global-set-key
  [f5]
