@@ -51,7 +51,7 @@
 			   window-margin
 			   ;; writeroom-mode
 			   yaml-mode
-			   ;; yasnippet
+			   yasnippet
 			   )
   "Default packages")
 
@@ -382,9 +382,9 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Yasnippets
 ;; ========================================================
-;; (require 'yasnippet)
-;; (yas-global-mode 1)
-;; (global-set-key (kbd "C-.") 'yas/expand)
+(require 'yasnippet)
+(yas-global-mode 1)
+(global-set-key (kbd "C-.") 'yas/expand)
 
 ;; I need smex
 ;; ========================================================
