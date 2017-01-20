@@ -384,7 +384,7 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; ========================================================
 (require 'yasnippet)
 (yas-global-mode 1)
-(global-set-key (kbd "C-.") 'yas/expand)
+(global-set-key (kbd "C-.") 'yas-expand)
 
 ;; I need smex
 ;; ========================================================
