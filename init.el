@@ -39,7 +39,7 @@
 			   markdown-mode
 			   org
 			   org-journal
-			   ;; pandoc-mode
+			   pandoc-mode
 			   paredit
 			   pkg-info
 			   popup
