@@ -52,7 +52,11 @@
 			   ;; writeroom-mode
 			   yaml-mode
 			   yasnippet
-			   )
+			   use-package
+			   avy
+			   counsel
+			   swiper
+			   ivy)
   "Default packages")
 
 (defun alancho/packages-installed-p ()
@@ -304,28 +308,22 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Recent mode
 ;; ========================================================
 (recentf-mode t)
-(setq recentf-max-saved-items 50)
+(setq recentf-max-saved-items 100)
 
-(defun ido-recentf ()
-  "Use ido to select a recently opened file from the `recentf-list'"
-  (interactive)
-  (let
-      ((home (expand-file-name (getenv "HOME"))))
-    (find-file
-     (ido-completing-read
-      "Recentf open: "
-      (mapcar (lambda (path)
-		(replace-regexp-in-string home "~" path))
-	      recentf-list)
-      nil t))))
+;; (defun ido-recentf ()
+;;   "Use ido to select a recently opened file from the `recentf-list'"
+;;   (interactive)
+;;   (let
+;;       ((home (expand-file-name (getenv "HOME"))))
+;;     (find-file
+;;      (ido-completing-read
+;;       "Recentf open: "
+;;       (mapcar (lambda (path)
+;; 		(replace-regexp-in-string home "~" path))
+;; 	      recentf-list)
+;;       nil t))))
 
-(global-set-key (kbd "C-x C-r") 'ido-recentf)
-;; (global-set-key (kbd "C-x C-r") 'recentf-open-files)
-
-;; Para que recentf ignore ido.last
-;; (setq recentf-exclude '("\\.ido.last$"
-;; 			"\\.recentf"
-;; 			"\\.emacs"))
+;; (global-set-key (kbd "C-x C-r") 'ido-recentf)
 
 ;; This is my color theme
 ;; ========================================================
@@ -796,3 +794,51 @@ convoluted. We use part of it --- skip comment par we are in."
  (lambda ()
    (interactive)
    (ispell-change-dictionary "british")))
+
+
+;; Lo siguiente lo saqué de http://www.jethrokuan.com/init.html#orgheadline40
+;; Flx is required for fuzzy-matching.
+;; (use-package flx)
+
+;; Otra oportunidad a counsel
+(use-package counsel
+  :demand t
+  :bind*
+  (("C-c C-r" . ivy-resume)
+   ("M-x" . counsel-M-x)
+   ("C-M-i" . counsel-imenu)
+   ("C-x C-f" . counsel-find-file)
+   ;; ("C-c d" . counsel-dired-jump)
+   ;; ("C-c j" . counsel-git-grep)
+   ("C-x C-d" . counsel-ag)
+   ("C-x C-r" . counsel-recentf)
+   ;; ("C-c l" . counsel-locate)
+   ("M-y" . counsel-yank-pop))
+  :bind (:map help-map
+              ("f" . counsel-describe-function)
+              ("v" . counsel-describe-variable)
+              ("l" . counsel-info-lookup-symbol))
+  :config
+  (ivy-mode 1)
+  (setq counsel-find-file-at-point t)
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-display-style 'fancy)
+  (setq ivy-initial-inputs-alist nil)
+  (define-key ivy-minibuffer-map (kbd "<return>") 'ivy-alt-done))
+
+;; Y otra oportunidad a swiper
+(use-package swiper
+  :bind*
+  (("C-s" . swiper)
+   ("C-r" . swiper)
+   ("C-M-s" . swiper-all))
+  :bind
+  (:map read-expression-map
+        ("C-r" . counsel-expression-history)))
+
+;; Y vamos a probar avy
+(use-package avy
+  :bind* (("C-'" . avy-goto-char)
+          ("C-," . avy-goto-char-2))
+  :config
+  (setq avy-keys '(?h ?t ?n ?s)))
