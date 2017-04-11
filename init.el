@@ -820,6 +820,7 @@ convoluted. We use part of it --- skip comment par we are in."
               ("l" . counsel-info-lookup-symbol))
   :config
   (ivy-mode 1)
+  (setq ivy-height 30)
   (setq counsel-find-file-at-point t)
   (setq ivy-use-virtual-buffers t)
   (setq ivy-display-style 'fancy)
