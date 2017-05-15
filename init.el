@@ -812,7 +812,7 @@ convoluted. We use part of it --- skip comment par we are in."
    ;; ("C-c j" . counsel-git-grep)
    ("C-x C-d" . counsel-ag)
    ("C-x C-r" . counsel-recentf)
-   ;; ("C-c l" . counsel-locate)
+   ("C-x C-l" . counsel-locate)
    ("M-y" . counsel-yank-pop))
   :bind (:map help-map
               ("f" . counsel-describe-function)
