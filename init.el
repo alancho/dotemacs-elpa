@@ -810,7 +810,8 @@ convoluted. We use part of it --- skip comment par we are in."
    ("C-x C-f" . counsel-find-file)
    ;; ("C-c d" . counsel-dired-jump)
    ;; ("C-c j" . counsel-git-grep)
-   ("C-x C-d" . counsel-ag)
+   ;; No me gusta counsel-ag por el momento
+   ;; ("C-x C-d" . counsel-ag)
    ("C-x C-r" . counsel-recentf)
    ("C-x C-l" . counsel-locate)
    ("M-y" . counsel-yank-pop))
@@ -820,7 +821,7 @@ convoluted. We use part of it --- skip comment par we are in."
               ("l" . counsel-info-lookup-symbol))
   :config
   (ivy-mode 1)
-  (setq ivy-height 30)
+  (setq ivy-height 10)
   (setq counsel-find-file-at-point t)
   (setq ivy-use-virtual-buffers t)
   (setq ivy-display-style 'fancy)
@@ -843,3 +844,16 @@ convoluted. We use part of it --- skip comment par we are in."
           ("C-," . avy-goto-char-2))
   :config
   (setq avy-keys '(?h ?t ?n ?s)))
+
+(defcustom ag-arguments
+  (list "--line-number" "--smart-case" "--nogroup" "--column" "--")
+  "Default arguments passed to ag.
+Ag.el requires --nogroup and --column, so we recommend you add any
+additional arguments to the start of this list.
+--line-number is required on Window, as otherwise ag will not
+print line numbers when the input is a stream."
+  :type '(repeat (string))
+  :group 'ag)
+
+;; Vamos a empezar a usar ag-files instead of counsel-ag
+(global-set-key (kbd "C-x C-d") 'ag-files)
