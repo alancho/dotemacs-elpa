@@ -845,15 +845,5 @@ convoluted. We use part of it --- skip comment par we are in."
   :config
   (setq avy-keys '(?h ?t ?n ?s)))
 
-(defcustom ag-arguments
-  (list "--line-number" "--smart-case" "--nogroup" "--column" "--")
-  "Default arguments passed to ag.
-Ag.el requires --nogroup and --column, so we recommend you add any
-additional arguments to the start of this list.
---line-number is required on Window, as otherwise ag will not
-print line numbers when the input is a stream."
-  :type '(repeat (string))
-  :group 'ag)
-
 ;; Vamos a empezar a usar ag-files instead of counsel-ag
 (global-set-key (kbd "C-x C-d") 'ag-files)
