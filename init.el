@@ -248,7 +248,7 @@
 
 ;; This are my faces, fonts, etcetera
 ;; ========================================================
-;; (set-face-attribute 'default nil :family "Ubuntu Mono" :height 120 :weight 'normal)
+(set-face-attribute 'default nil :family "Ubuntu Mono" :height 110 :weight 'normal)
 ;; (set-face-attribute 'default nil :height 120 :family "Inconsolata")
 
 
@@ -810,8 +810,7 @@ convoluted. We use part of it --- skip comment par we are in."
    ("C-x C-f" . counsel-find-file)
    ;; ("C-c d" . counsel-dired-jump)
    ;; ("C-c j" . counsel-git-grep)
-   ;; No me gusta counsel-ag por el momento
-   ;; ("C-x C-d" . counsel-ag)
+   ("C-x C-d" . counsel-ag)
    ("C-x C-r" . counsel-recentf)
    ("C-x C-l" . counsel-locate)
    ("M-y" . counsel-yank-pop))
@@ -844,6 +843,3 @@ convoluted. We use part of it --- skip comment par we are in."
           ("C-," . avy-goto-char-2))
   :config
   (setq avy-keys '(?h ?t ?n ?s)))
-
-;; Vamos a empezar a usar ag-files instead of counsel-ag
-(global-set-key (kbd "C-x C-d") 'ag-files)
