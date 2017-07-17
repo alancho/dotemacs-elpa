@@ -49,14 +49,15 @@
 			   synonyms
 			   websocket
 			   window-margin
-			   ;; writeroom-mode
+			   writeroom-mode
 			   yaml-mode
 			   yasnippet
 			   use-package
 			   avy
 			   counsel
 			   swiper
-			   ivy)
+			   ivy
+			   ivy-hydra)
   "Default packages")
 
 (defun alancho/packages-installed-p ()
@@ -362,7 +363,7 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; (global-visual-line-mode 1)
 
 ;; Display line numbers in margin
-(global-linum-mode 1)
+;; (global-linum-mode 1)
 
 (defun unfill-region (beg end)
   "Unfill the region, joining text paragraphs into a single
@@ -438,11 +439,11 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq ido-default-buffer-method 'selected-window)
 
 ;; full screen
-(defun fullscreen ()
-  (interactive)
-  (set-frame-parameter nil 'fullscreen
-		       (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
-(global-set-key [f10] 'fullscreen)
+;; (defun fullscreen ()
+;;   (interactive)
+;;   (set-frame-parameter nil 'fullscreen
+;; 		       (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
+;; (global-set-key [f10] 'fullscreen)
 
 ;; Use the clipboard, pretty please, so that copy/paste "works"
 (setq x-select-enable-clipboard t)
@@ -522,19 +523,19 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq synonyms-cache-file "/home/alancho/mthesaur.txt.cache")
 (require 'synonyms)
 
-(defun my-set-margins ()
-  "Set margins in current buffer."
-  (linum-mode -1)
-  (setq left-margin-width 40)
-  (setq right-margin-width 40))
+;; (defun my-set-margins ()
+;;   "Set margins in current buffer."
+;;   (linum-mode -1)
+;;   (setq left-margin-width 40)
+;;   (setq right-margin-width 40))
 
-(defun my-tone-down-fringes ()
-  (set-face-attribute 'fringe nil
-		      :foreground (face-foreground 'default)
-		      :background (face-background 'default)))
+;; (defun my-tone-down-fringes ()
+;;   (set-face-attribute 'fringe nil
+;; 		      :foreground (face-foreground 'default)
+;; 		      :background (face-background 'default)))
 
-(add-hook 'markdown-mode-hook 'my-set-margins)
-(add-hook 'markdown-mode-hook 'my-tone-down-fringes)
+;; (add-hook 'markdown-mode-hook 'my-set-margins)
+;; (add-hook 'markdown-mode-hook 'my-tone-down-fringes)
 
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 
