@@ -363,7 +363,7 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; (global-visual-line-mode 1)
 
 ;; Display line numbers in margin
-;; (global-linum-mode 1)
+(global-linum-mode 1)
 
 (defun unfill-region (beg end)
   "Unfill the region, joining text paragraphs into a single
@@ -511,6 +511,8 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-hook 'markdown-mode-hook 'my-markdown-mode-hook)
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 (add-hook 'markdown-mode-hook 'visual-line-mode)
+;; Esto es porque linum mode en markdown causa conflicto con writeroom
+(add-hook 'markdown-mode-hook (lambda () (linum-mode -1)))
 ;; (add-hook 'markdown-mode-hook 'turn-on-window-margin-mode)
 
 ;; Pandoc mode está bueno porque pese a que no uso sus keybindings me
