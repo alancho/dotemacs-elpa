@@ -11,6 +11,8 @@
 			 ("org" . "http://orgmode.org/elpa/")
 			 ("melpa-stable" . "http://stable.melpa.org/packages/")))
 
+(add-to-list 'package-archives
+             '("elpy" . "http://jorgenschaefer.github.io/packages/"))
 ;; (add-to-list 'package-pinned-packages '(magit . "melpa-stable"))
 
 ;; Y estos son mis paquetes
@@ -115,7 +117,7 @@
 
 ;; Default directory
 ;; ========================================================
-(setq default-directory "~/Dropbox/")
+;; (setq default-directory "~/Dropbox/")
 
 ;; Python
 ;; ========================================================
@@ -299,7 +301,10 @@ convoluted. We use part of it --- skip comment par we are in."
     (".docx" ".xlsx" ".wmf" ".doc" ".xls" ".csv" ".bib" ".o" "~" ".bin" ".bak" ".obj" ".map" ".ico" ".pif" ".lnk" ".a" ".ln" ".blg" ".bbl" ".dll" ".drv" ".vxd" ".386" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".fasl" ".ufsl" ".fsl" ".dxl" ".pfsl" ".dfsl" ".p64fsl" ".d64fsl" ".dx64fsl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".odt" ".pptx" ".ppt" ".txt" ".dat")))
  '(elpy-modules
    (quote
-    (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults))))
+    (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults)))
+ '(package-selected-packages
+   (quote
+    (yaml-mode writeroom-mode window-margin websocket use-package synonyms smex request popup paredit pandoc-mode org-journal markdown-mode magit ivy-hydra ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel-projectile company-math color-theme-tango cl-generic avy autopair auctex ag))))
 
 ;; My magit setup
 ;; ========================================================
@@ -602,3 +607,12 @@ convoluted. We use part of it --- skip comment par we are in."
           ("C-," . avy-goto-char-2))
   :config
   (setq avy-keys '(?h ?t ?n ?s)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+;; Para que counsel-ag sólo busque R, python, y markdown
+(setq counsel-ag-base-command "ag --nocolor --nogroup --r --markdown --python %s")
