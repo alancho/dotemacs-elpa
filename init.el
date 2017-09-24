@@ -616,3 +616,6 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Para que counsel-ag sólo busque R, python, y markdown
 (setq counsel-ag-base-command "ag --nocolor --nogroup --r --markdown --python %s")
+
+;; Para que no alerte cuando se llega al comienzo o final de un buffer
+(setq ring-bell-function #'ignore)
