@@ -59,7 +59,8 @@
 			   counsel
 			   swiper
 			   ivy
-			   ivy-hydra)
+			   ivy-hydra
+			   wgrep)
   "Default packages")
 
 (defun alancho/packages-installed-p ()
@@ -124,12 +125,12 @@
 ;; No estoy usando Python ni elpy, y de acuerdo a esup este ultimo
 ;; esta usando bastante tiempo del startup. Por ende, lo desactivo:
 (elpy-enable)
-(elpy-use-ipython)
-(setq python-shell-interpreter "ipython" python-shell-interpreter-args "--simple-prompt --pprint")
-;; (setq elpy-rpc-backend "jedi")
-;; (setq ac-modes (remove 'python-mode ac-modes))
-(define-key elpy-mode-map [(shift return)] 'elpy-shell-send-region-or-buffer)
-(define-key elpy-mode-map [(C-return)] 'elpy-company-backend)
+;; (elpy-use-ipython)
+;; (setq python-shell-interpreter "ipython" python-shell-interpreter-args "--simple-prompt --pprint")
+;; ;; (setq elpy-rpc-backend "jedi")
+;; ;; (setq ac-modes (remove 'python-mode ac-modes))
+;; (define-key elpy-mode-map [(shift return)] 'elpy-shell-send-region-or-buffer)
+;; (define-key elpy-mode-map [(C-return)] 'elpy-company-backend)
 
 ;; Encryption
 ;; ========================================================
@@ -251,8 +252,9 @@
 
 ;; This are my faces, fonts, etcetera
 ;; ========================================================
-(set-face-attribute 'default nil :family "Ubuntu Mono" :height 110 :weight 'normal)
-;; (set-face-attribute 'default nil :height 120 :family "Inconsolata")
+;; (set-face-attribute 'default nil :family "Ubuntu Mono" :height 110 :weight 'normal)
+;; (set-face-attribute 'default nil :height 125 :family "Inconsolata")
+(set-face-attribute 'default nil :height 110 :family "Monaco")
 
 
 ;; This is to unfill paragraphs
@@ -490,7 +492,7 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; 	(document . ess-ac-help)))
 
 ;; So that RefTeX finds my bibliography
-(setq reftex-default-bibliography '("/home/alancho/Dropbox/papers/all-my-zotero-library.bib"))
+(setq reftex-default-bibliography '("/home/alancho/Dropbox/Papers/all-my-zotero-library.bib"))
 
 (defvar reftex-cite-format-markdown
   '((?p . "[@%l]")
@@ -615,7 +617,7 @@ convoluted. We use part of it --- skip comment par we are in."
  )
 
 ;; Para que counsel-ag sólo busque R, python, y markdown
-(setq counsel-ag-base-command "ag --nocolor --nogroup --r --markdown --python %s")
+(setq counsel-ag-base-command "ag --nocolor --nogroup --r --python --markdown --tex %s /home/alancho/")
 
 ;; Para que no alerte cuando se llega al comienzo o final de un buffer
 (setq ring-bell-function #'ignore)
