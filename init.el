@@ -40,7 +40,6 @@
 			   magit
 			   markdown-mode
 			   org
-			   org-journal
 			   pandoc-mode
 			   paredit
 			   pkg-info
@@ -125,12 +124,12 @@
 ;; No estoy usando Python ni elpy, y de acuerdo a esup este ultimo
 ;; esta usando bastante tiempo del startup. Por ende, lo desactivo:
 (elpy-enable)
-;; (elpy-use-ipython)
-;; (setq python-shell-interpreter "ipython" python-shell-interpreter-args "--simple-prompt --pprint")
-;; ;; (setq elpy-rpc-backend "jedi")
-;; ;; (setq ac-modes (remove 'python-mode ac-modes))
-;; (define-key elpy-mode-map [(shift return)] 'elpy-shell-send-region-or-buffer)
-;; (define-key elpy-mode-map [(C-return)] 'elpy-company-backend)
+(elpy-use-ipython)
+(setq python-shell-interpreter "ipython" python-shell-interpreter-args "--simple-prompt --pprint")
+;; (setq elpy-rpc-backend "jedi")
+;; (setq ac-modes (remove 'python-mode ac-modes))
+(define-key elpy-mode-map [(shift return)] 'elpy-shell-send-region-or-buffer)
+(define-key elpy-mode-map [(C-return)] 'elpy-company-backend)
 
 ;; Encryption
 ;; ========================================================
@@ -619,5 +618,167 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Para que counsel-ag sólo busque R, python, y markdown
 (setq counsel-ag-base-command "ag --nocolor --nogroup --r --python --markdown --tex %s /home/alancho/")
 
+;; Para evitar ciertos directorios en counsel find file
+(setq ivy-sort-file-function 'string-lessp)
+(setq ivy-extra-directories nil)
+(setq counsel-find-file-ignore-regexp (regexp-opt '(".dropbox")))
+
 ;; Para que no alerte cuando se llega al comienzo o final de un buffer
 (setq ring-bell-function #'ignore)
+
+;; Una oportunidad a org gtd
+(require 'org)
+
+;; This is to have no blank lines inserted after headings
+(setq org-blank-before-new-entry nil)
+
+;; This is to view all at startup
+(setq org-startup-folded nil)
+
+;; Change todo state with C-c C-t KEY
+(setq org-use-fast-todo-selection t)
+
+;; (global-set-key (kbd "<f2>") 'calendar)
+;; (global-set-key (kbd "<f9>") 'org-journal-new-entry)
+(global-set-key (kbd "<f9>") 'org-capture)
+(global-set-key (kbd "<f12>") 'org-agenda)
+
+(setq org-agenda-files (list "~/Dropbox/archive/gtd/projects.org"
+			     "~/Dropbox/archive/gtd/inbox.org"))
+
+;; Targets include this file and any file contributing to the agenda - up to 5 levels deep
+(setq org-refile-targets '((nil :maxlevel . 3)
+			   (org-agenda-files :maxlevel . 3)))
+
+;; Capture templates for TODO tasks, Notes, and journal
+(setq org-capture-templates
+      (quote (;; ("i" "Tareas" entry (file+headline "~/Dropbox/archive/gtd/tareas.org" "Tareas")
+              ;;  "* TODO %?  %(org-set-tags)\n")
+              ("i" "Inbox" entry (file+datetree "~/Dropbox/archive/gtd/inbox.org")
+               "* TODO %?\n")
+              ;; ("n" "Notas" entry (file+headline "~/Dropbox/archive/gtd/tareas.org" "Notas")
+              ;;  "* %?  :NOTE:\n")
+	      )))
+
+;; Stop using paths for refile targets - we file directly with IDO
+(setq org-refile-use-outline-path nil)
+
+;; Targets complete directly with IDO
+(setq org-outline-path-complete-in-steps nil)
+
+;; Allow refile to create parent tasks with confirmation
+(setq org-refile-allow-creating-parent-nodes (quote confirm))
+
+;; Use IDO for both buffer and file completion and ido-everywhere to t
+(setq org-completion-use-ido t)
+(setq ido-everywhere t)
+(setq ido-max-directory-size 100000)
+(ido-mode (quote both))
+
+;; Remove completed deadline tasks from the agenda view
+(setq org-agenda-skip-deadline-if-done t)
+
+;; Remove completed scheduled tasks from the agenda view
+(setq org-agenda-skip-scheduled-if-done t)
+
+;; Remove completed items from search results
+(setq org-agenda-skip-timestamp-if-done t)
+
+;; ;; This is to have always the 10 coming days in the week
+(setq org-agenda-start-on-weekday nil)
+(setq org-agenda-ndays 31)
+
+(setq org-todo-keywords
+      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+              ;; (sequence "WAITING(w)" "|" "CANCELLED(c)")
+	      )))
+
+(setq org-todo-keyword-faces
+      (quote (("TODO" :foreground "cyan" :weight bold)
+              ("NEXT" :foreground "yellow" :weight bold)
+              ("DONE" :foreground "forest green" :weight bold)
+              ;; ("WAITING" :foreground "orange" :weight bold)
+              ;; ("CANCELLED" :foreground "gray" :weight bold)
+	      )))
+
+;; Tags with fast selection keys
+(setq org-tag-alist (quote (("ACTIVE" . ?a)
+                            ("DORMANT" . ?d)
+                            ("PROJECT" . ?p)
+                            ;; ("OFICINA" . ?o)
+                            ;; ("CASA" . ?c)
+                            ;; ("NOTE" . ?n)
+                            ("URGENT" . ?u)
+                            ("IMPORTANT" . ?i)
+			    )))
+
+(setq org-hide-leading-stars t)
+(setq org-startup-indented t)
+
+;; Para que org-agenda ocupe toda la pantalla
+(setq org-agenda-window-setup 'current-window)
+
+;; Con solo tres priorities no me alcanza -- necesito desde A a E, en
+;; concordancia con Eat That Frog
+(setq org-highest-priority ?A)
+(setq org-lowest-priority ?E)
+(setq org-default-priority ?B)
+
+(setq org-agenda-custom-commands
+      '(("p" "Listado de proyectos"
+	 ((tags "+PROJECT+ACTIVE" ((org-agenda-overriding-header "Proyectos activos")))
+	  (tags "+PROJECT+DORMANT" ((org-agenda-overriding-header "Proyectos inactivos")))))
+	("n" "NEXT tasks"
+	 ((tags-todo "+ACTIVE/NEXT"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		      (org-agenda-overriding-header "Next de proyectos activos")))
+	  ;; (tags-todo "+DORMANT/NEXT"
+	  ;; 	     ((org-agenda-sorting-strategy '(priority-down))
+	  ;; 	     (org-agenda-overriding-header "Next de proyectos inactivos")))
+	  ))
+	("o" "Stand-alone tasks"
+	 ((agenda "" ((org-agenda-ndays 14)))
+	  (tags-todo "+IMPORTANT+URGENT/TODO"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		     (org-agenda-overriding-header "Urgente, importante")))
+	  (tags-todo "-IMPORTANT+URGENT/TODO"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		      (org-agenda-overriding-header "Urgente, no importante")))
+	  (tags-todo "+IMPORTANT-URGENT/TODO"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		      (org-agenda-overriding-header "No urgente, importante")))
+	  	  (tags-todo "-IMPORTANT-URGENT-ACTIVE-DORMANT/TODO"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		      (org-agenda-overriding-header "No urgente, no importante")))))
+	;; ("r" "Cosas que organizar"
+	;;  ((todo "TODO" ((org-agenda-files '("~/Dropbox/scripts/gtd/inbox.org"))))))
+	))
+
+;; For tag searches ignore tasks with scheduled and deadline dates
+(setq org-agenda-tags-todo-honor-ignore-options t)
+(setq org-archive-mark-done nil)
+(setq org-alphabetical-lists t)
+
+;; Remove completed items from search results
+(setq org-agenda-skip-timestamp-if-done t)
+
+;; Show all future entries for repeating tasks
+(setq org-agenda-repeating-timestamp-show-all t)
+
+;; Show all agenda dates - even if they are empty
+(setq org-agenda-show-all-dates t)
+
+;; Sorting order for tasks on the agenda
+(setq org-agenda-sorting-strategy
+      (quote ((agenda time-up user-defined-up effort-up category-keep)
+              (todo category-up effort-up)
+              (tags category-up effort-up)
+              (search category-up))))
+
+;; Display tags farther right
+(setq org-agenda-tags-column -102)
+
+;; Para que el mouse no haga highlight sobre la agenda
+(add-hook 'org-finalize-agenda-hook
+	  (lambda () (remove-text-properties
+		      (point-min) (point-max) '(mouse-face t))))
