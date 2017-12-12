@@ -737,19 +737,20 @@ convoluted. We use part of it --- skip comment par we are in."
 	  ;; 	     (org-agenda-overriding-header "Next de proyectos inactivos")))
 	  ))
 	("o" "Stand-alone tasks"
-	 ((agenda "" ((org-agenda-ndays 14)))
-	  (tags-todo "+IMPORTANT+URGENT/TODO"
+	 ((tags-todo "+IMPORTANT+URGENT/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
-		     (org-agenda-overriding-header "Urgente, importante")))
+		      (org-agenda-overriding-header "Urgente, importante")))
 	  (tags-todo "-IMPORTANT+URGENT/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
 		      (org-agenda-overriding-header "Urgente, no importante")))
 	  (tags-todo "+IMPORTANT-URGENT/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
 		      (org-agenda-overriding-header "No urgente, importante")))
-	  	  (tags-todo "-IMPORTANT-URGENT-ACTIVE-DORMANT/TODO"
+	  (tags-todo "-IMPORTANT-URGENT-ACTIVE-DORMANT/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-overriding-header "No urgente, no importante")))))
+		      (org-agenda-overriding-header "No urgente, no importante")
+		      (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))
+		      ))))
 	;; ("r" "Cosas que organizar"
 	;;  ((todo "TODO" ((org-agenda-files '("~/Dropbox/scripts/gtd/inbox.org"))))))
 	))
