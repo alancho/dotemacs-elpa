@@ -146,6 +146,7 @@
 (setq comint-scroll-to-bottom-on-input t)
 (setq comint-scroll-to-bottom-on-output t)
 (setq comint-move-point-for-output t)
+;; (setq ess-use-ido t)
 
 ;; (defun my-ess-start-R ()
 ;;   (interactive)
@@ -232,17 +233,17 @@
   (ess-swv-run-in-R "rmarkdown::render"))
 
 ;; En lugar de auto-complete empezar a usar company-mode con estos keybindings
-(add-hook 'after-init-hook 'global-company-mode)
+;; (add-hook 'after-init-hook 'global-company-mode)
 
-(define-key company-active-map [tab] 'company-complete-selection)
-(define-key company-active-map (kbd "TAB") 'company-complete-selection)
-(define-key company-active-map [return] 'company-complete-selection)
-(define-key company-active-map (kbd "RET") 'company-complete-selection)
-(define-key company-active-map (kbd "M-n") nil)
-(define-key company-active-map (kbd "M-p") nil)
-(define-key company-active-map (kbd "M-h") 'company-show-doc-buffer)
-(define-key company-active-map (kbd "M-,") 'company-select-next)
-(define-key company-active-map (kbd "M-k") 'company-select-previous)
+;; (define-key company-active-map [tab] 'company-complete-selection)
+;; (define-key company-active-map (kbd "TAB") 'company-complete-selection)
+;; (define-key company-active-map [return] 'company-complete-selection)
+;; (define-key company-active-map (kbd "RET") 'company-complete-selection)
+;; (define-key company-active-map (kbd "M-n") nil)
+;; (define-key company-active-map (kbd "M-p") nil)
+;; (define-key company-active-map (kbd "M-h") 'company-show-doc-buffer)
+;; (define-key company-active-map (kbd "M-,") 'company-select-next)
+;; (define-key company-active-map (kbd "M-k") 'company-select-previous)
 
 ;; Expand region
 ;; ========================================================
@@ -430,7 +431,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Ignore case in eshell
 (setq eshell-cmpl-ignore-case t)
-
+;; (define-key eshell-mode-map (kbd "<tab>") 'completion-at-point)
 ;; Start emacs in eshell
 ;; (add-hook 'emacs-startup-hook
 ;;           (lambda ()
@@ -501,7 +502,7 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq markdown-enable-math t)
 
 (defun my-markdown-mode-hook()
-  (define-key markdown-mode-map [f12]
+  (define-key markdown-mode-map [f8]
     (lambda ()
       (interactive)
       (let ((reftex-cite-format reftex-cite-format-markdown))
@@ -570,8 +571,9 @@ convoluted. We use part of it --- skip comment par we are in."
   :demand t
   :bind*
   (("C-c C-r" . ivy-resume)
+   ("C-x b" . ivy-switch-buffer)
    ("M-x" . counsel-M-x)
-   ("C-M-i" . counsel-imenu)
+   ;; ("C-M-i" . counsel-imenu)
    ("C-x C-f" . counsel-find-file)
    ;; ("C-c d" . counsel-dired-jump)
    ;; ("C-c j" . counsel-git-grep)
@@ -686,7 +688,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; ;; This is to have always the 10 coming days in the week
 (setq org-agenda-start-on-weekday nil)
-(setq org-agenda-ndays 31)
+(setq org-agenda-ndays 21)
 
 (setq org-todo-keywords
       (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
@@ -726,12 +728,12 @@ convoluted. We use part of it --- skip comment par we are in."
 
 (setq org-agenda-custom-commands
       '(("p" "Listado de proyectos"
-	 ((tags "+PROJECT+ACTIVE" ((org-agenda-overriding-header "Proyectos activos")))
-	  (tags "+PROJECT+DORMANT" ((org-agenda-overriding-header "Proyectos inactivos")))))
+	 ((tags "+PROJECT" ((org-agenda-overriding-header "Proyectos activos")))
+	  ))
 	("n" "NEXT tasks"
-	 ((tags-todo "+ACTIVE/NEXT"
+	 ((tags-todo "+PROJECT/NEXT"
 		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-overriding-header "Next de proyectos activos")))
+		      (org-agenda-overriding-header "Next actions")))
 	  ;; (tags-todo "+DORMANT/NEXT"
 	  ;; 	     ((org-agenda-sorting-strategy '(priority-down))
 	  ;; 	     (org-agenda-overriding-header "Next de proyectos inactivos")))
@@ -748,7 +750,7 @@ convoluted. We use part of it --- skip comment par we are in."
 		      (org-agenda-overriding-header "No urgente, importante")))
 	  (tags-todo "-IMPORTANT-URGENT-ACTIVE-DORMANT/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-overriding-header "No urgente, no importante")
+		      (org-agenda-overriding-header "Someday")
 		      (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))
 		      ))))
 	;; ("r" "Cosas que organizar"
@@ -783,3 +785,8 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-hook 'org-finalize-agenda-hook
 	  (lambda () (remove-text-properties
 		      (point-min) (point-max) '(mouse-face t))))
+
+
+(setq ivy-do-completion-in-region nil)
+;; (define-key ess-mode-map (kbd "TAB") 'completion-at-point)
+;; (define-key ess-mode-map (kbd "<tab>") 'completion-at-point)
