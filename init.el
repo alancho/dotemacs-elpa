@@ -654,13 +654,9 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Capture templates for TODO tasks, Notes, and journal
 (setq org-capture-templates
-      (quote (;; ("i" "Tareas" entry (file+headline "~/Dropbox/archive/gtd/tareas.org" "Tareas")
-              ;;  "* TODO %?  %(org-set-tags)\n")
-              ("i" "Inbox" entry (file+datetree "~/Dropbox/archive/gtd/inbox.org")
+      (quote (("i" "Inbox" entry (file+datetree "~/Dropbox/archive/gtd/inbox.org")
                "* TODO %?\n")
-              ;; ("n" "Notas" entry (file+headline "~/Dropbox/archive/gtd/tareas.org" "Notas")
-              ;;  "* %?  :NOTE:\n")
-	      )))
+              )))
 
 ;; Stop using paths for refile targets - we file directly with IDO
 (setq org-refile-use-outline-path nil)
@@ -691,27 +687,21 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-agenda-ndays 21)
 
 (setq org-todo-keywords
-      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-              ;; (sequence "WAITING(w)" "|" "CANCELLED(c)")
+      (quote ((sequence "TODO(t)" "|" "DONE(d) CANCELLED(c)")
 	      )))
 
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "cyan" :weight bold)
-              ("NEXT" :foreground "yellow" :weight bold)
               ("DONE" :foreground "forest green" :weight bold)
-              ;; ("WAITING" :foreground "orange" :weight bold)
-              ;; ("CANCELLED" :foreground "gray" :weight bold)
+              ("CANCELLED" :foreground "gray" :weight bold)
 	      )))
 
 ;; Tags with fast selection keys
-(setq org-tag-alist (quote (("ACTIVE" . ?a)
-                            ("DORMANT" . ?d)
-                            ("PROJECT" . ?p)
-                            ;; ("OFICINA" . ?o)
-                            ;; ("CASA" . ?c)
-                            ;; ("NOTE" . ?n)
-                            ("URGENT" . ?u)
-                            ("IMPORTANT" . ?i)
+(setq org-tag-alist (quote (("@oficina" . ?o)
+                            ("@home" . ?h)
+                            ("@galpon" . ?g)
+                            ("@campo" . ?c)
+                            ("@sabado_temprano" . ?s)
 			    )))
 
 (setq org-hide-leading-stars t)
@@ -726,36 +716,40 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-lowest-priority ?E)
 (setq org-default-priority ?B)
 
-(setq org-agenda-custom-commands
-      '(("p" "Listado de proyectos"
-	 ((tags "+PROJECT" ((org-agenda-overriding-header "Proyectos activos")))
-	  ))
-	("n" "NEXT tasks"
-	 ((tags-todo "+PROJECT/NEXT"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-overriding-header "Next actions")))
-	  ;; (tags-todo "+DORMANT/NEXT"
-	  ;; 	     ((org-agenda-sorting-strategy '(priority-down))
-	  ;; 	     (org-agenda-overriding-header "Next de proyectos inactivos")))
-	  ))
-	("o" "Stand-alone tasks"
-	 ((tags-todo "+IMPORTANT+URGENT/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-overriding-header "Urgente, importante")))
-	  (tags-todo "-IMPORTANT+URGENT/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-overriding-header "Urgente, no importante")))
-	  (tags-todo "+IMPORTANT-URGENT/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-overriding-header "No urgente, importante")))
-	  (tags-todo "-IMPORTANT-URGENT-ACTIVE-DORMANT/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-overriding-header "Someday")
-		      (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))
-		      ))))
-	;; ("r" "Cosas que organizar"
-	;;  ((todo "TODO" ((org-agenda-files '("~/Dropbox/scripts/gtd/inbox.org"))))))
+(setq org-agenda-custom-commands 
+      '(("o" "En la oficina" tags-todo "@oficina"
+         ((org-agenda-overriding-header "Oficina")
+          (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
+	("h" "En casa" tags-todo "@home"
+         ((org-agenda-overriding-header "Home")
+          (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
+	("g" "En el galpón" tags-todo "@galpon"
+         ((org-agenda-overriding-header "Galpón")
+          (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
+	("c" "En el campo" tags-todo "@campo"
+         ((org-agenda-overriding-header "Campo")
+          (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
+	("s" "El sábado temprano" tags-todo "@sabado_temprano"
+         ((org-agenda-overriding-header "Sábado temprano")
+          (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
 	))
+
+(defun my-org-agenda-skip-all-siblings-but-first ()
+  "Skip all but the first non-done entry."
+  (let (should-skip-entry)
+    (unless (org-current-is-todo)
+      (setq should-skip-entry t))
+    (save-excursion
+      (while (and (not should-skip-entry) (org-goto-sibling t))
+        (when (org-current-is-todo)
+          (setq should-skip-entry t))))
+    (when should-skip-entry
+      (or (outline-next-heading)
+          (goto-char (point-max))))))
+		  
+(defun org-current-is-todo ()
+  (string= "TODO" (org-get-todo-state)))
+
 
 ;; For tag searches ignore tasks with scheduled and deadline dates
 (setq org-agenda-tags-todo-honor-ignore-options t)
@@ -786,7 +780,6 @@ convoluted. We use part of it --- skip comment par we are in."
 	  (lambda () (remove-text-properties
 		      (point-min) (point-max) '(mouse-face t))))
 
-
 (setq ivy-do-completion-in-region nil)
-;; (define-key ess-mode-map (kbd "TAB") 'completion-at-point)
-;; (define-key ess-mode-map (kbd "<tab>") 'completion-at-point)
+(define-key ess-mode-map (kbd "M-/") 'completion-at-point)
+(define-key ess-mode-map (kbd "M-/") 'completion-at-point)
