@@ -317,6 +317,9 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; ========================================================
 (recentf-mode t)
 (setq recentf-max-saved-items 100)
+(add-to-list 'recentf-exclude "\\.ido\\.last")
+(add-to-list 'recentf-exclude (format "%s/\\.emacs\\.d/elpa/.*" (getenv "HOME")))
+(add-to-list 'recentf-exclude (format "%s/\\.emacs\\.d/bookmarks" (getenv "HOME")))
 
 ;; (defun ido-recentf ()
 ;;   "Use ido to select a recently opened file from the `recentf-list'"
@@ -686,9 +689,8 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-ndays 21)
 
-(setq org-todo-keywords
-      (quote ((sequence "TODO(t)" "|" "DONE(d) CANCELLED(c)")
-	      )))
+(setq org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d)" "CANCELLED(c)")))
+
 
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "cyan" :weight bold)
@@ -716,21 +718,26 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-lowest-priority ?E)
 (setq org-default-priority ?B)
 
-(setq org-agenda-custom-commands 
+(setq org-agenda-custom-commands
       '(("o" "En la oficina" tags-todo "@oficina"
-         ((org-agenda-overriding-header "Oficina")
-          (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
+         ((org-agenda-overriding-header "En la oficina")
+	  (org-agenda-sorting-strategy '(priority-down))
+	  (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
 	("h" "En casa" tags-todo "@home"
-         ((org-agenda-overriding-header "Home")
+         ((org-agenda-overriding-header "En casa")
+	  (org-agenda-sorting-strategy '(priority-down))
           (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
 	("g" "En el galpón" tags-todo "@galpon"
-         ((org-agenda-overriding-header "Galpón")
+         ((org-agenda-overriding-header "En el galpón")
+	  (org-agenda-sorting-strategy '(priority-down))
           (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
 	("c" "En el campo" tags-todo "@campo"
-         ((org-agenda-overriding-header "Campo")
+         ((org-agenda-overriding-header "En el campo")
+	  (org-agenda-sorting-strategy '(priority-down))
           (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
 	("s" "El sábado temprano" tags-todo "@sabado_temprano"
          ((org-agenda-overriding-header "Sábado temprano")
+	  (org-agenda-sorting-strategy '(priority-down))
           (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
 	))
 
@@ -765,13 +772,6 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Show all agenda dates - even if they are empty
 (setq org-agenda-show-all-dates t)
 
-;; Sorting order for tasks on the agenda
-(setq org-agenda-sorting-strategy
-      (quote ((agenda time-up user-defined-up effort-up category-keep)
-              (todo category-up effort-up)
-              (tags category-up effort-up)
-              (search category-up))))
-
 ;; Display tags farther right
 (setq org-agenda-tags-column -102)
 
@@ -781,5 +781,5 @@ convoluted. We use part of it --- skip comment par we are in."
 		      (point-min) (point-max) '(mouse-face t))))
 
 (setq ivy-do-completion-in-region nil)
-(define-key ess-mode-map (kbd "M-/") 'completion-at-point)
-(define-key ess-mode-map (kbd "M-/") 'completion-at-point)
+(define-key ess-mode-map (kbd "C-/") 'completion-at-point)
+(define-key ess-mode-map (kbd "C-/") 'completion-at-
