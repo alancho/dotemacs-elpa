@@ -707,31 +707,11 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-default-priority ?B)
 
 (setq org-agenda-custom-commands
-      '(("O" "En la oficina, next actions" tags "@oficina"
-         ((org-agenda-overriding-header "En la oficina")
+      '(("n" "Next actions de mis proyectos" todo "TODO"
+         ((org-agenda-overriding-header "Next actions")
 	  (org-agenda-sorting-strategy '(priority-down))
 	  (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
 	  (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
-	("H" "En casa, next actions" tags "@home"
-         ((org-agenda-overriding-header "En casa")
-	  (org-agenda-sorting-strategy '(priority-down))
-	  (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
-          (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
-	("G" "En el galpón, next actions" tags-todo "@galpon"
-         ((org-agenda-overriding-header "En el galpón")
-	  (org-agenda-sorting-strategy '(priority-down))
-	  (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
-          (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
-	("C" "En el campo, next actions" tags-todo "@campo"
-         ((org-agenda-overriding-header "En el campo")
-	  (org-agenda-sorting-strategy '(priority-down))
-	  (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
-          (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
-	("S" "El sábado temprano, next actions" tags-todo "@sabado_temprano"
-         ((org-agenda-overriding-header "Sábado temprano")
-	  (org-agenda-sorting-strategy '(priority-down))
-	  (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
-          (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
 	("o" "En la oficina, standalone tasks" tags "@oficina"
          ((org-agenda-overriding-header "En la oficina")
 	  (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
