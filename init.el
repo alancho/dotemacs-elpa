@@ -129,7 +129,7 @@
 ;; (setq elpy-rpc-backend "jedi")
 ;; (setq ac-modes (remove 'python-mode ac-modes))
 (define-key elpy-mode-map [(shift return)] 'elpy-shell-send-region-or-buffer)
-(define-key elpy-mode-map [(C-return)] 'elpy-company-backend)
+;; (define-key elpy-mode-map [(C-return)] 'elpy-company-backend)
 
 ;; Encryption
 ;; ========================================================
@@ -161,6 +161,7 @@
 ;; 	(R)
 ;; 	(set-window-buffer w2 "*R*")
 ;; 	(set-window-buffer w1 w1name))))
+
 (defun my-ess-start-R ()
   (interactive)
   (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
@@ -173,6 +174,7 @@
         (R)
         (print "R started")
         (select-window cur-window))))
+
 (defun my-ess-eval ()
   (interactive)
   (my-ess-start-R)
@@ -261,7 +263,6 @@
 ;; ========================================================
 (defun my-fill-latex-paragraph ()
   "Fill the current paragraph, separating sentences w/ a newline.
-
 AUCTeX's latex.el reimplements the fill functions and is *very*
 convoluted. We use part of it --- skip comment par we are in."
   (interactive)
@@ -418,8 +419,8 @@ convoluted. We use part of it --- skip comment par we are in."
 
 (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory))
 (smex-initialize)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; (global-set-key (kbd "M-x") 'smex)
+;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 ;; To answer quicker
 ;; ========================================================
@@ -535,19 +536,6 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq synonyms-cache-file "/home/alancho/mthesaur.txt.cache")
 (require 'synonyms)
 
-;; (defun my-set-margins ()
-;;   "Set margins in current buffer."
-;;   (linum-mode -1)
-;;   (setq left-margin-width 40)
-;;   (setq right-margin-width 40))
-
-;; (defun my-tone-down-fringes ()
-;;   (set-face-attribute 'fringe nil
-;; 		      :foreground (face-foreground 'default)
-;; 		      :background (face-background 'default)))
-
-;; (add-hook 'markdown-mode-hook 'my-set-margins)
-;; (add-hook 'markdown-mode-hook 'my-tone-down-fringes)
 
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 
@@ -719,27 +707,55 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-default-priority ?B)
 
 (setq org-agenda-custom-commands
-      '(("o" "En la oficina" tags-todo "@oficina"
+      '(("O" "En la oficina, next actions" tags "@oficina"
          ((org-agenda-overriding-header "En la oficina")
 	  (org-agenda-sorting-strategy '(priority-down))
+	  (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
 	  (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
-	("h" "En casa" tags-todo "@home"
+	("H" "En casa, next actions" tags "@home"
          ((org-agenda-overriding-header "En casa")
 	  (org-agenda-sorting-strategy '(priority-down))
+	  (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
           (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
-	("g" "En el galpón" tags-todo "@galpon"
+	("G" "En el galpón, next actions" tags-todo "@galpon"
          ((org-agenda-overriding-header "En el galpón")
 	  (org-agenda-sorting-strategy '(priority-down))
+	  (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
           (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
-	("c" "En el campo" tags-todo "@campo"
+	("C" "En el campo, next actions" tags-todo "@campo"
          ((org-agenda-overriding-header "En el campo")
 	  (org-agenda-sorting-strategy '(priority-down))
+	  (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
           (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
-	("s" "El sábado temprano" tags-todo "@sabado_temprano"
+	("S" "El sábado temprano, next actions" tags-todo "@sabado_temprano"
          ((org-agenda-overriding-header "Sábado temprano")
 	  (org-agenda-sorting-strategy '(priority-down))
+	  (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
           (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
-	))
+	("o" "En la oficina, standalone tasks" tags "@oficina"
+         ((org-agenda-overriding-header "En la oficina")
+	  (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+	   (org-agenda-sorting-strategy '(priority-down))
+	  (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))))
+	("h" "En casa, standalone tasks" tags "@home"
+         ((org-agenda-overriding-header "En casa")
+	  (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+	  (org-agenda-sorting-strategy '(priority-down))
+	  (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))))
+	("g" "En el galpón, standalone tasks" tags-todo "@galpon"
+         ((org-agenda-overriding-header "En el galpón")
+	  (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+	  (org-agenda-sorting-strategy '(priority-down))
+	  (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))))
+	("c" "En el campo, standalone tasks" tags-todo "@campo"
+         ((org-agenda-overriding-header "En el campo")
+	  (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+	  (org-agenda-sorting-strategy '(priority-down))
+	  (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))))
+	("s" "El sábado temprano, standalone tasks" tags-todo "@sabado_temprano"
+         ((org-agenda-overriding-header "Sábado temprano")
+	  (org-agenda-sorting-strategy '(priority-down))
+	  (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))))))
 
 (defun my-org-agenda-skip-all-siblings-but-first ()
   "Skip all but the first non-done entry."
