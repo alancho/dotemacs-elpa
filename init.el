@@ -318,8 +318,8 @@ convoluted. We use part of it --- skip comment par we are in."
 (recentf-mode t)
 (setq recentf-max-saved-items 100)
 (add-to-list 'recentf-exclude "\\.ido\\.last")
+(add-to-list 'recentf-exclude "bookmark")
 (add-to-list 'recentf-exclude (format "%s/\\.emacs\\.d/elpa/.*" (getenv "HOME")))
-(add-to-list 'recentf-exclude (format "%s/\\.emacs\\.d/bookmarks" (getenv "HOME")))
 
 ;; (defun ido-recentf ()
 ;;   "Use ido to select a recently opened file from the `recentf-list'"
@@ -753,7 +753,7 @@ convoluted. We use part of it --- skip comment par we are in."
     (when should-skip-entry
       (or (outline-next-heading)
           (goto-char (point-max))))))
-		  
+
 (defun org-current-is-todo ()
   (string= "TODO" (org-get-todo-state)))
 
@@ -782,4 +782,4 @@ convoluted. We use part of it --- skip comment par we are in."
 
 (setq ivy-do-completion-in-region nil)
 (define-key ess-mode-map (kbd "C-/") 'completion-at-point)
-(define-key ess-mode-map (kbd "C-/") 'completion-at-
+(define-key ess-mode-map (kbd "C-/") 'completion-at-point)
