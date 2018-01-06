@@ -706,88 +706,57 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-lowest-priority ?E)
 (setq org-default-priority ?B)
 
-;; (setq org-agenda-custom-commands
-;;       '(("n" "Next actions de mis proyectos" tags-todo "@oficina/TODO"
-;;          ((org-agenda-overriding-header "Next actions")
-;; 	  (org-agenda-sorting-strategy '(priority-down))
-;; 	  (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
-;; 	  (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
-;; 	("o" "En la oficina, standalone tasks" tags "@oficina"
-;;          ((org-agenda-overriding-header "En la oficina")
-;; 	  (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-;; 	   (org-agenda-sorting-strategy '(priority-down))
-;; 	  (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))))
-;; 	("h" "En casa, standalone tasks" tags "@home"
-;;          ((org-agenda-overriding-header "En casa")
-;; 	  (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-;; 	  (org-agenda-sorting-strategy '(priority-down))
-;; 	  (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))))
-;; 	("g" "En el galpón, standalone tasks" tags-todo "@galpon"
-;;          ((org-agenda-overriding-header "En el galpón")
-;; 	  (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-;; 	  (org-agenda-sorting-strategy '(priority-down))
-;; 	  (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))))
-;; 	("c" "En el campo, standalone tasks" tags-todo "@campo"
-;;          ((org-agenda-overriding-header "En el campo")
-;; 	  (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-;; 	  (org-agenda-sorting-strategy '(priority-down))
-;; 	  (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))))
-;; 	("s" "El sábado temprano, standalone tasks" tags-todo "@sabado_temprano"
-;;          ((org-agenda-overriding-header "Sábado temprano")
-;; 	  (org-agenda-sorting-strategy '(priority-down))
-;; 	  (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))))))
-
 (setq org-agenda-custom-commands
-      '(("n" "Next actions de mis proyectos"
+      '(("o" "En la oficina"
 	 ((tags-todo "@oficina/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
+		      (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))
+		      (org-agenda-overriding-header "Tareas aisladas")))
+	  (tags-todo "@oficina/TODO"
+		     ((org-agenda-sorting-strategy '(priority-down))
 		      (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
-		      (org-agenda-overriding-header "En la oficina")
-		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
+		      (org-agenda-overriding-header "Next tasks de proyectos")
+		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
+	("c" "En el campo"
+	 ((tags-todo "@campo/TODO"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		      (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))
+		      (org-agenda-overriding-header "Tareas aisladas")))
 	  (tags-todo "@campo/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
 		      (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
-		      (org-agenda-overriding-header "En el campo")
-		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
+		      (org-agenda-overriding-header "Next tasks de proyectos")
+		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))	
+	("g" "En el galpón"
+	 ((tags-todo "@galpon/TODO"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		      (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))
+		      (org-agenda-overriding-header "Tareas aisladas")))
 	  (tags-todo "@galpon/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
 		      (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
-		      (org-agenda-overriding-header "En el galpón")
-		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
+		      (org-agenda-overriding-header "Next tasks de proyectos")
+		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
+	("h" "En casa"
+	 ((tags-todo "@home/TODO"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		      (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))
+		      (org-agenda-overriding-header "Tareas aisladas")))
 	  (tags-todo "@home/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
 		      (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
-		      (org-agenda-overriding-header "En casa")
-		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
-	  (tags-todo "@sabado_temprano/TODO"
+		      (org-agenda-overriding-header "Next tasks de proyectos")
+		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
+	("s" "El sábado temprano"
+	 ((tags-todo "@sabado_temprano/TODO"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		      (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))
+		      (org-agenda-overriding-header "Tareas aisladas")))
+	  (tags-todo "@sabado_temprano/TODO/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
 		      (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
-		      (org-agenda-overriding-header "El sábado por la mañana")
-		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
-	("o" "En la oficina, standalone tasks" tags "@oficina"
-         ((org-agenda-overriding-header "En la oficina")
-	  (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-	  (org-agenda-sorting-strategy '(priority-down))
-	  (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))))
-	("h" "En casa, standalone tasks" tags "@home"
-         ((org-agenda-overriding-header "En casa")
-	  (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-	  (org-agenda-sorting-strategy '(priority-down))
-	  (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))))
-	("g" "En el galpón, standalone tasks" tags-todo "@galpon"
-         ((org-agenda-overriding-header "En el galpón")
-	  (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-	  (org-agenda-sorting-strategy '(priority-down))
-	  (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))))
-	("c" "En el campo, standalone tasks" tags-todo "@campo"
-         ((org-agenda-overriding-header "En el campo")
-	  (org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-	  (org-agenda-sorting-strategy '(priority-down))
-	  (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))))
-	("s" "El sábado temprano, standalone tasks" tags-todo "@sabado_temprano"
-         ((org-agenda-overriding-header "Sábado temprano")
-	  (org-agenda-sorting-strategy '(priority-down))
-	  (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))))))
+		      (org-agenda-overriding-header "Next tasks de proyectos")
+		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))))
 
 (defun my-org-agenda-skip-all-siblings-but-first ()
   "Skip all but the first non-done entry."
