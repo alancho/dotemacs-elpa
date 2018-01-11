@@ -123,12 +123,12 @@
 ;; ========================================================
 ;; No estoy usando Python ni elpy, y de acuerdo a esup este ultimo
 ;; esta usando bastante tiempo del startup. Por ende, lo desactivo:
-(elpy-enable)
-(elpy-use-ipython)
-(setq python-shell-interpreter "ipython" python-shell-interpreter-args "--simple-prompt --pprint")
+;; (elpy-enable)
+;; (elpy-use-ipython)
+;; (setq python-shell-interpreter "ipython" python-shell-interpreter-args "--simple-prompt --pprint")
 ;; (setq elpy-rpc-backend "jedi")
 ;; (setq ac-modes (remove 'python-mode ac-modes))
-(define-key elpy-mode-map [(shift return)] 'elpy-shell-send-region-or-buffer)
+;; (define-key elpy-mode-map [(shift return)] 'elpy-shell-send-region-or-buffer)
 ;; (define-key elpy-mode-map [(C-return)] 'elpy-company-backend)
 
 ;; Encryption
@@ -631,9 +631,12 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Change todo state with C-c C-t KEY
 (setq org-use-fast-todo-selection t)
 
+;; Para ver bien
+(add-hook 'org-mode-hook #'visual-line-mode)
+
 ;; (global-set-key (kbd "<f2>") 'calendar)
 ;; (global-set-key (kbd "<f9>") 'org-journal-new-entry)
-(global-set-key (kbd "<f9>") 'org-capture)
+(global-set-key (kbd "C-c o") 'org-capture)
 (global-set-key (kbd "<f12>") 'org-agenda)
 
 (setq org-agenda-files (list "~/Dropbox/archive/gtd/projects.org"
@@ -645,7 +648,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Capture templates for TODO tasks, Notes, and journal
 (setq org-capture-templates
-      (quote (("i" "Inbox" entry (file+datetree "~/Dropbox/archive/gtd/inbox.org")
+      (quote (("o" "Inbox" entry (file+datetree "~/Dropbox/archive/gtd/inbox.org")
                "* TODO %?\n")
               )))
 
@@ -687,11 +690,9 @@ convoluted. We use part of it --- skip comment par we are in."
 	      )))
 
 ;; Tags with fast selection keys
-(setq org-tag-alist (quote (("@oficina" . ?o)
+(setq org-tag-alist (quote (("@laburo" . ?l)
                             ("@home" . ?h)
-                            ("@galpon" . ?g)
-                            ("@campo" . ?c)
-                            ("@sabado_temprano" . ?s)
+                            ("@compu" . ?c)
 			    )))
 
 (setq org-hide-leading-stars t)
@@ -707,32 +708,22 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-default-priority ?B)
 
 (setq org-agenda-custom-commands
-      '(("o" "En la oficina"
-	 ((tags-todo "@oficina/TODO"
+      '(("l" "En el laburo"
+	 ((tags-todo "@laburo/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
 		      (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))
 		      (org-agenda-overriding-header "Tareas aisladas")))
-	  (tags-todo "@oficina/TODO"
+	  (tags-todo "@laburo/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
 		      (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
 		      (org-agenda-overriding-header "Next tasks de proyectos")
 		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
-	("c" "En el campo"
-	 ((tags-todo "@campo/TODO"
+	("c" "Cuando estás con la computadora"
+	 ((tags-todo "@compu/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
 		      (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))
 		      (org-agenda-overriding-header "Tareas aisladas")))
-	  (tags-todo "@campo/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
-		      (org-agenda-overriding-header "Next tasks de proyectos")
-		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))	
-	("g" "En el galpón"
-	 ((tags-todo "@galpon/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))
-		      (org-agenda-overriding-header "Tareas aisladas")))
-	  (tags-todo "@galpon/TODO"
+	  (tags-todo "@compu/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
 		      (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
 		      (org-agenda-overriding-header "Next tasks de proyectos")
@@ -742,17 +733,7 @@ convoluted. We use part of it --- skip comment par we are in."
 		     ((org-agenda-sorting-strategy '(priority-down))
 		      (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))
 		      (org-agenda-overriding-header "Tareas aisladas")))
-	  (tags-todo "@home/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
-		      (org-agenda-overriding-header "Next tasks de proyectos")
-		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
-	("s" "El sábado temprano"
-	 ((tags-todo "@sabado_temprano/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))
-		      (org-agenda-overriding-header "Tareas aisladas")))
-	  (tags-todo "@sabado_temprano/TODO/TODO"
+	  (tags-todo "@home/TODO/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
 		      (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
 		      (org-agenda-overriding-header "Next tasks de proyectos")
