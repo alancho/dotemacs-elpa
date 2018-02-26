@@ -59,7 +59,8 @@
 			   swiper
 			   ivy
 			   ivy-hydra
-			   wgrep)
+			   wgrep
+			   zotxt)
   "Default packages")
 
 (defun alancho/packages-installed-p ()
@@ -123,7 +124,7 @@
 ;; ========================================================
 ;; No estoy usando Python ni elpy, y de acuerdo a esup este ultimo
 ;; esta usando bastante tiempo del startup. Por ende, lo desactivo:
-;; (elpy-enable)
+(elpy-enable)
 ;; (elpy-use-ipython)
 ;; (setq python-shell-interpreter "ipython" python-shell-interpreter-args "--simple-prompt --pprint")
 ;; (setq elpy-rpc-backend "jedi")
@@ -146,7 +147,7 @@
 (setq comint-scroll-to-bottom-on-input t)
 (setq comint-scroll-to-bottom-on-output t)
 (setq comint-move-point-for-output t)
-;; (setq ess-use-ido t)
+(setq ess-use-ido t)
 
 ;; (defun my-ess-start-R ()
 ;;   (interactive)
@@ -204,7 +205,6 @@
   (reindent-then-newline-and-indent))
 
 (define-key ess-mode-map (kbd "C-<return>") 'then_R_operator)
-
 (define-key inferior-ess-mode-map (kbd "C-<return>") 'then_R_operator)
 
 (defun then_ggplot_plus ()
@@ -215,7 +215,6 @@
   (reindent-then-newline-and-indent))
 
 (define-key ess-mode-map (kbd "C-+") 'then_ggplot_plus)
-
 (define-key inferior-ess-mode-map (kbd "C-+") 'then_ggplot_plus)
 
 ;; RStudio indentation!
@@ -236,16 +235,11 @@
 
 ;; En lugar de auto-complete empezar a usar company-mode con estos keybindings
 ;; (add-hook 'after-init-hook 'global-company-mode)
+;; (global-set-key "\t" 'company-complete-common)
 
-;; (define-key company-active-map [tab] 'company-complete-selection)
-;; (define-key company-active-map (kbd "TAB") 'company-complete-selection)
-;; (define-key company-active-map [return] 'company-complete-selection)
-;; (define-key company-active-map (kbd "RET") 'company-complete-selection)
-;; (define-key company-active-map (kbd "M-n") nil)
-;; (define-key company-active-map (kbd "M-p") nil)
-;; (define-key company-active-map (kbd "M-h") 'company-show-doc-buffer)
-;; (define-key company-active-map (kbd "M-,") 'company-select-next)
-;; (define-key company-active-map (kbd "M-k") 'company-select-previous)
+;; porque no quiero que se invoque automaticamente le pongo muchos segundos
+;; (setq company-idle-delay 0)
+;; (setq company-show-numbers t)
 
 ;; Expand region
 ;; ========================================================
@@ -307,7 +301,8 @@ convoluted. We use part of it --- skip comment par we are in."
     (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults)))
  '(package-selected-packages
    (quote
-    (yaml-mode writeroom-mode window-margin websocket use-package synonyms smex request popup paredit pandoc-mode org-journal markdown-mode magit ivy-hydra ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel-projectile company-math color-theme-tango cl-generic avy autopair auctex ag))))
+    (yaml-mode writeroom-mode window-margin websocket use-package synonyms smex request popup paredit pandoc-mode org-journal markdown-mode magit ivy-hydra ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel-projectile company-math color-theme-tango cl-generic avy autopair auctex ag)))
+ '(send-mail-function (quote smtpmail-send-it)))
 
 ;; My magit setup
 ;; ========================================================
@@ -586,14 +581,14 @@ convoluted. We use part of it --- skip comment par we are in."
   (define-key ivy-minibuffer-map (kbd "<return>") 'ivy-alt-done))
 
 ;; Y otra oportunidad a swiper
-(use-package swiper
-  :bind*
-  (("C-s" . swiper)
-   ("C-r" . swiper)
-   ("C-M-s" . swiper-all))
-  :bind
-  (:map read-expression-map
-        ("C-r" . counsel-expression-history)))
+;; (use-package swiper
+;;   :bind*
+;;   (("C-s" . swiper)
+;;    ("C-r" . swiper)
+;;    ("C-M-s" . swiper-all))
+;;   :bind
+;;   (:map read-expression-map
+;;         ("C-r" . counsel-expression-history)))
 
 ;; Y vamos a probar avy
 (use-package avy
@@ -609,7 +604,7 @@ convoluted. We use part of it --- skip comment par we are in."
  )
 
 ;; Para que counsel-ag sólo busque R, python, y markdown
-(setq counsel-ag-base-command "ag --nocolor --nogroup --r --python --markdown --tex %s /home/alancho/")
+(setq counsel-ag-base-command "ag --nocolor --nogroup --r %s /home/alancho/")
 
 ;; Para evitar ciertos directorios en counsel find file
 (setq ivy-sort-file-function 'string-lessp)
@@ -639,8 +634,8 @@ convoluted. We use part of it --- skip comment par we are in."
 (global-set-key (kbd "C-c o") 'org-capture)
 (global-set-key (kbd "<f12>") 'org-agenda)
 
-(setq org-agenda-files (list "~/Dropbox/archive/gtd/projects.org"
-			     "~/Dropbox/archive/gtd/inbox.org"))
+(setq org-agenda-files (list "~/Dropbox/gtd/projects.org"
+			     "~/Dropbox/gtd/inbox.org"))
 
 ;; Targets include this file and any file contributing to the agenda - up to 5 levels deep
 (setq org-refile-targets '((nil :maxlevel . 3)
@@ -648,7 +643,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Capture templates for TODO tasks, Notes, and journal
 (setq org-capture-templates
-      (quote (("o" "Inbox" entry (file+datetree "~/Dropbox/archive/gtd/inbox.org")
+      (quote (("o" "Inbox" entry (file+datetree "~/Dropbox/gtd/inbox.org")
                "* TODO %?\n")
               )))
 
@@ -708,36 +703,66 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-default-priority ?B)
 
 (setq org-agenda-custom-commands
-      '(("l" "En el laburo"
-	 ((tags-todo "@laburo/TODO"
+      '(("o" "Tareas"
+	 ((tags-todo "@inta/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))
-		      (org-agenda-overriding-header "Tareas aisladas")))
-	  (tags-todo "@laburo/TODO"
+		      (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
+		      (org-agenda-overriding-header "Tareas en INTA")))
+	  (tags-todo "@inta/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
-		      (org-agenda-overriding-header "Next tasks de proyectos")
-		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
-	("c" "Cuando estás con la computadora"
-	 ((tags-todo "@compu/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))
-		      (org-agenda-overriding-header "Tareas aisladas")))
+		      (org-agenda-files '("~/Dropbox/gtd/projects.org"))
+		      (org-agenda-overriding-header "Next tasks de proyectos en INTA")
+		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
 	  (tags-todo "@compu/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
-		      (org-agenda-overriding-header "Next tasks de proyectos")
-		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
-	("h" "En casa"
-	 ((tags-todo "@home/TODO"
+		      (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
+		      (org-agenda-overriding-header "Tareas en la compu")))
+	  (tags-todo "@compu/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-files '("~/Dropbox/archive/gtd/inbox.org"))
-		      (org-agenda-overriding-header "Tareas aisladas")))
-	  (tags-todo "@home/TODO/TODO"
+		      (org-agenda-files '("~/Dropbox/gtd/projects.org"))
+		      (org-agenda-overriding-header "Next tasks de proyectos en la compu")
+		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
+	  (tags-todo "@home/TODO"
 		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-files '("~/Dropbox/archive/gtd/projects.org"))
-		      (org-agenda-overriding-header "Next tasks de proyectos")
+		      (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
+		      (org-agenda-overriding-header "Tareas en casa")))
+	  (tags-todo "@home/TODO"
+		     ((org-agenda-sorting-strategy '(priority-down))
+		      (org-agenda-files '("~/Dropbox/gtd/projects.org"))
+		      (org-agenda-overriding-header "Next tasks de proyectos en casa")
 		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))))
+
+;; (setq org-agenda-custom-commands
+;;       '(("l" "En el laburo"
+;; 	 ((tags-todo "@laburo/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
+;; 		      (org-agenda-overriding-header "Tareas aisladas")))
+;; 	  (tags-todo "@laburo/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-files '("~/Dropbox/gtd/projects.org"))
+;; 		      (org-agenda-overriding-header "Next tasks de proyectos")
+;; 		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
+;; 	("c" "Cuando estás con la computadora"
+;; 	 ((tags-todo "@compu/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
+;; 		      (org-agenda-overriding-header "Tareas aisladas")))
+;; 	  (tags-todo "@compu/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-files '("~/Dropbox/gtd/projects.org"))
+;; 		      (org-agenda-overriding-header "Next tasks de proyectos")
+;; 		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
+;; 	("h" "En casa"
+;; 	 ((tags-todo "@home/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
+;; 		      (org-agenda-overriding-header "Tareas aisladas")))
+;; 	  (tags-todo "@home/TODO/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-files '("~/Dropbox/gtd/projects.org"))
+;; 		      (org-agenda-overriding-header "Next tasks de proyectos")
+;; 		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))))
 
 (defun my-org-agenda-skip-all-siblings-but-first ()
   "Skip all but the first non-done entry."
@@ -778,6 +803,15 @@ convoluted. We use part of it --- skip comment par we are in."
 	  (lambda () (remove-text-properties
 		      (point-min) (point-max) '(mouse-face t))))
 
-(setq ivy-do-completion-in-region nil)
-(define-key ess-mode-map (kbd "C-/") 'completion-at-point)
-(define-key ess-mode-map (kbd "C-/") 'completion-at-point)
+;; (setq ivy-do-completion-in-region nil)
+;; (define-key ess-mode-map (kbd "C-/") 'completion-at-point)
+;; (define-key ess-mode-map (kbd "C-/") 'completion-at-point)
+
+;; Vamos a ver si vale la pena usar notmuch
+(autoload 'notmuch "notmuch" "notmuch mail" t)
+
+;; A ver message mode
+(setq mail-user-agent 'message-user-agent)
+(setq message-auto-save-directory "~/emails/")
+(setq user-mail-address "severini.alan@inta.gob.ar"
+      user-full-name "Alan Severini")
