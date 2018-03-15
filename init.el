@@ -827,12 +827,3 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; (setq ivy-do-completion-in-region nil)
 ;; (define-key ess-mode-map (kbd "C-/") 'completion-at-point)
 ;; (define-key ess-mode-map (kbd "C-/") 'completion-at-point)
-
-;; Vamos a ver si vale la pena usar notmuch
-(autoload 'notmuch "notmuch" "notmuch mail" t)
-
-;; A ver message mode
-(setq mail-user-agent 'message-user-agent)
-(setq message-auto-save-directory "~/emails/")
-(setq user-mail-address "severini.alan@inta.gob.ar"
-      user-full-name "Alan Severini")
