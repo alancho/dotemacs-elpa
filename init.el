@@ -233,13 +233,21 @@
   (interactive)
   (ess-swv-run-in-R "rmarkdown::render"))
 
-;; En lugar de auto-complete empezar a usar company-mode con estos keybindings
-;; (add-hook 'after-init-hook 'global-company-mode)
-;; (global-set-key "\t" 'company-complete-common)
-
-;; porque no quiero que se invoque automaticamente le pongo muchos segundos
-;; (setq company-idle-delay 0)
-;; (setq company-show-numbers t)
+;; A ver si anda company
+(add-hook 'after-init-hook 'global-company-mode)
+(define-key company-active-map (kbd "M-h") 'company-show-doc-buffer)
+(define-key company-active-map (kbd "M-n") nil)
+(define-key company-active-map (kbd "M-p") nil)
+(define-key company-active-map (kbd "M-,") 'company-select-next)
+(define-key company-active-map (kbd "M-k") 'company-select-previous)
+(define-key company-active-map [return] nil)
+(define-key company-active-map [tab] 'company-complete-common)
+(define-key company-active-map (kbd "TAB") 'company-complete-common)
+(define-key company-active-map (kbd "M-TAB") 'company-complete-selection)(setq company-selection-wrap-around t
+      company-tooltip-align-annotations t
+      company-idle-delay 0.36
+      company-minimum-prefix-length 2
+      company-tooltip-limit 10)
 
 ;; Expand region
 ;; ========================================================
@@ -685,7 +693,7 @@ convoluted. We use part of it --- skip comment par we are in."
 	      )))
 
 ;; Tags with fast selection keys
-(setq org-tag-alist (quote (("@laburo" . ?l)
+(setq org-tag-alist (quote (("@inta" . ?i)
                             ("@home" . ?h)
                             ("@compu" . ?c)
 			    )))
@@ -704,33 +712,46 @@ convoluted. We use part of it --- skip comment par we are in."
 
 (setq org-agenda-custom-commands
       '(("o" "Tareas"
-	 ((tags-todo "@inta/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
-		      (org-agenda-overriding-header "Tareas en INTA")))
-	  (tags-todo "@inta/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-files '("~/Dropbox/gtd/projects.org"))
-		      (org-agenda-overriding-header "Next tasks de proyectos en INTA")
-		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
-	  (tags-todo "@compu/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
-		      (org-agenda-overriding-header "Tareas en la compu")))
-	  (tags-todo "@compu/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-files '("~/Dropbox/gtd/projects.org"))
-		      (org-agenda-overriding-header "Next tasks de proyectos en la compu")
-		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
-	  (tags-todo "@home/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
-		      (org-agenda-overriding-header "Tareas en casa")))
-	  (tags-todo "@home/TODO"
-		     ((org-agenda-sorting-strategy '(priority-down))
-		      (org-agenda-files '("~/Dropbox/gtd/projects.org"))
-		      (org-agenda-overriding-header "Next tasks de proyectos en casa")
-		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))))
+	 ((todo "TODO"
+		((org-agenda-sorting-strategy '(tag-up priority-down))
+		 (org-agenda-files '("~/Dropbox/gtd/projects.org"))
+		 (org-agenda-overriding-header "Projects")
+		 (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
+	  (todo "TODO"
+		((org-agenda-sorting-strategy '(tag-up priority-down))
+		 (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
+		 (org-agenda-overriding-header "Tasks")))
+	  ))))
+
+;; (setq org-agenda-custom-commands
+;;       '(("o" "Tareas"
+;; 	 ((tags-todo "@inta/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
+;; 		      (org-agenda-overriding-header "Tareas en INTA")))
+;; 	  (tags-todo "@inta/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-files '("~/Dropbox/gtd/projects.org"))
+;; 		      (org-agenda-overriding-header "Next tasks de proyectos en INTA")
+;; 		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
+;; 	  (tags-todo "@compu/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
+;; 		      (org-agenda-overriding-header "Tareas en la compu")))
+;; 	  (tags-todo "@compu/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-files '("~/Dropbox/gtd/projects.org"))
+;; 		      (org-agenda-overriding-header "Next tasks de proyectos en la compu")
+;; 		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
+;; 	  (tags-todo "@home/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
+;; 		      (org-agenda-overriding-header "Tareas en casa")))
+;; 	  (tags-todo "@home/TODO"
+;; 		     ((org-agenda-sorting-strategy '(priority-down))
+;; 		      (org-agenda-files '("~/Dropbox/gtd/projects.org"))
+;; 		      (org-agenda-overriding-header "Next tasks de proyectos en casa")
+;; 		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))))
 
 ;; (setq org-agenda-custom-commands
 ;;       '(("l" "En el laburo"
