@@ -683,11 +683,12 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-ndays 21)
 
-(setq org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d)" "CANCELLED(c)")))
+(setq org-todo-keywords '((sequence "TODO(t)" "SOMEDAY(s)" "|" "DONE(d)" "CANCELLED(c)")))
 
 
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "cyan" :weight bold)
+              ("SOMEDAY" :foreground "magenta" :weight bold)
               ("DONE" :foreground "forest green" :weight bold)
               ("CANCELLED" :foreground "gray" :weight bold)
 	      )))
@@ -720,6 +721,9 @@ convoluted. We use part of it --- skip comment par we are in."
 	  (todo "TODO"
 		((org-agenda-sorting-strategy '(tag-up priority-down))
 		 (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
+		 (org-agenda-skip-function
+		  (lambda nil
+		    (org-agenda-skip-entry-if (quote scheduled) (quote deadline))))
 		 (org-agenda-overriding-header "Tasks")))
 	  ))))
 
