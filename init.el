@@ -653,6 +653,8 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-capture-templates
       (quote (("o" "Inbox" entry (file+datetree "~/Dropbox/gtd/inbox.org")
                "* TODO %?\n")
+	      ("p" "Inbox" entry (file+datetree "~/Dropbox/gtd/inbox.org")
+               "* TODO %? %a")
               )))
 
 ;; Stop using paths for refile targets - we file directly with IDO
@@ -688,7 +690,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "cyan" :weight bold)
-              ("SOMEDAY" :foreground "magenta" :weight bold)
+              ("SOMEDAY" :foreground "yellow" :weight bold)
               ("DONE" :foreground "forest green" :weight bold)
               ("CANCELLED" :foreground "gray" :weight bold)
 	      )))
@@ -705,21 +707,24 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Para que org-agenda ocupe toda la pantalla
 (setq org-agenda-window-setup 'current-window)
 
-;; Con solo tres priorities no me alcanza -- necesito desde A a E, en
-;; concordancia con Eat That Frog
-(setq org-highest-priority ?A)
-(setq org-lowest-priority ?E)
-(setq org-default-priority ?B)
-
 (setq org-agenda-custom-commands
       '(("o" "Tareas"
 	 ((todo "TODO"
-		((org-agenda-sorting-strategy '(tag-up priority-down))
+		((org-agenda-sorting-strategy '(priority-down))
 		 (org-agenda-files '("~/Dropbox/gtd/projects.org"))
 		 (org-agenda-overriding-header "Projects")
 		 (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
 	  (todo "TODO"
-		((org-agenda-sorting-strategy '(tag-up priority-down))
+		((org-agenda-sorting-strategy '(priority-down))
+		 (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
+		 (org-agenda-skip-function
+		  (lambda nil
+		    (org-agenda-skip-entry-if (quote scheduled) (quote deadline))))
+		 (org-agenda-overriding-header "Tasks")))
+	  ))
+	("s" "Someday"
+	 ((todo "SOMEDAY"
+		((org-agenda-sorting-strategy '(priority-down))
 		 (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
 		 (org-agenda-skip-function
 		  (lambda nil
