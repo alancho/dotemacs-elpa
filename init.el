@@ -20,7 +20,7 @@
 			   color-theme
 			   color-theme-tango
 			   auctex
-			   ;; auto-complete
+			   auto-complete
 			   company-math
 			   ctable
 			   dash
@@ -147,7 +147,7 @@
 (setq comint-scroll-to-bottom-on-input t)
 (setq comint-scroll-to-bottom-on-output t)
 (setq comint-move-point-for-output t)
-(setq ess-use-ido t)
+;; (setq ess-use-ido t)
 
 ;; (defun my-ess-start-R ()
 ;;   (interactive)
@@ -181,7 +181,8 @@
   (my-ess-start-R)
   (if (and transient-mark-mode mark-active)
       (call-interactively 'ess-eval-region)
-    (call-interactively 'ess-eval-line-and-step)))
+    ;; (call-interactively 'ess-eval-line-and-step)))
+    (call-interactively 'ess-eval-region-or-function-or-paragraph-and-step)))
 
 (add-hook 'ess-mode-hook
 	  '(lambda()
@@ -233,23 +234,25 @@
   (interactive)
   (ess-swv-run-in-R "rmarkdown::render"))
 
-;; A ver si anda company
-(add-hook 'after-init-hook 'global-company-mode)
-(define-key company-active-map (kbd "M-h") 'company-show-doc-buffer)
-(define-key company-active-map (kbd "M-n") nil)
-(define-key company-active-map (kbd "M-p") nil)
-(define-key company-active-map (kbd "M-,") 'company-select-next)
-(define-key company-active-map (kbd "M-k") 'company-select-previous)
-(define-key company-active-map [return] nil)
-(define-key company-active-map [tab] 'company-complete-common)
-(define-key company-active-map (kbd "TAB") 'company-complete-common)
-(define-key company-active-map (kbd "M-TAB") 'company-complete-selection)(setq company-selection-wrap-around t
+(global-company-mode 1)
+
+(add-hook 'ess-mode-hook
+          (defun my-R-mode-hook ()
+            (company-mode)
+            (local-set-key (kbd "TAB") 'company-indent-or-complete-common)))
+
+(setq company-selection-wrap-around t
+      company-show-numbers 1
       company-tooltip-align-annotations t
-      company-idle-delay 0.36
+      company-idle-delay 4
       company-minimum-prefix-length 2
       company-tooltip-limit 10)
 
-;; Expand region
+(define-key company-active-map [return] nil)
+(define-key company-active-map [tab] 'company-complete-selection)
+(define-key company-active-map (kbd "TAB") 'company-complete-selection)
+
+;; expand region
 ;; ========================================================
 ;; (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
@@ -542,7 +545,6 @@ convoluted. We use part of it --- skip comment par we are in."
 
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 
-
 ;; Para cambiar el idioma de ispell con un shortcut
 (global-set-key
  [f5]
@@ -834,5 +836,8 @@ convoluted. We use part of it --- skip comment par we are in."
 		      (point-min) (point-max) '(mouse-face t))))
 
 ;; (setq ivy-do-completion-in-region nil)
+;; (define-key ess-mode-map (kbd "TAB") 'completion-at-point)
 ;; (define-key ess-mode-map (kbd "C-/") 'completion-at-point)
-;; (define-key ess-mode-map (kbd "C-/") 'completion-at-point)
+
+;; Disable overwrite-mode for ever!
+(define-key global-map [(insert)] nil)
