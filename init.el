@@ -47,9 +47,12 @@
 			   request
 			   s
 			   smex
+			   stan-mode
 			   synonyms
+			   wc-mode
 			   websocket
 			   window-margin
+			   writegood-mode
 			   writeroom-mode
 			   yaml-mode
 			   yasnippet
@@ -234,23 +237,23 @@
   (interactive)
   (ess-swv-run-in-R "rmarkdown::render"))
 
-(global-company-mode 1)
+;; (global-company-mode 1)
 
-(add-hook 'ess-mode-hook
-          (defun my-R-mode-hook ()
-            (company-mode)
-            (local-set-key (kbd "TAB") 'company-indent-or-complete-common)))
+;; (add-hook 'ess-mode-hook
+;;           (defun my-R-mode-hook ()
+;;             (company-mode)
+;;             (local-set-key (kbd "TAB") 'company-indent-or-complete-common)))
 
-(setq company-selection-wrap-around t
-      company-show-numbers 1
-      company-tooltip-align-annotations t
-      company-idle-delay 4
-      company-minimum-prefix-length 2
-      company-tooltip-limit 10)
+;; (setq company-selection-wrap-around t
+;;       company-show-numbers 1
+;;       company-tooltip-align-annotations t
+;;       company-idle-delay 10
+;;       company-minimum-prefix-length 2
+;;       company-tooltip-limit 10)
 
-(define-key company-active-map [return] nil)
-(define-key company-active-map [tab] 'company-complete-selection)
-(define-key company-active-map (kbd "TAB") 'company-complete-selection)
+;; (define-key company-active-map [return] nil)
+;; (define-key company-active-map [tab] 'company-complete-selection)
+;; (define-key company-active-map (kbd "TAB") 'company-complete-selection)
 
 ;; expand region
 ;; ========================================================
@@ -312,7 +315,7 @@ convoluted. We use part of it --- skip comment par we are in."
     (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults)))
  '(package-selected-packages
    (quote
-    (yaml-mode writeroom-mode window-margin websocket use-package synonyms smex request popup paredit pandoc-mode org-journal markdown-mode magit ivy-hydra ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel-projectile company-math color-theme-tango cl-generic avy autopair auctex ag)))
+    (stan-mode yaml-mode writeroom-mode window-margin websocket use-package synonyms smex request popup paredit pandoc-mode org-journal markdown-mode magit ivy-hydra ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel-projectile company-math color-theme-tango cl-generic avy autopair auctex ag)))
  '(send-mail-function (quote smtpmail-send-it)))
 
 ;; My magit setup
@@ -528,6 +531,9 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-hook 'markdown-mode-hook 'my-markdown-mode-hook)
 (add-hook 'markdown-mode-hook 'flyspell-mode)
 (add-hook 'markdown-mode-hook 'visual-line-mode)
+(add-hook 'markdown-mode-hook 'wc-mode)
+(add-hook 'markdown-mode-hook 'writegood-mode)
+	
 ;; Esto es porque linum mode en markdown causa conflicto con writeroom
 (add-hook 'markdown-mode-hook (lambda () (linum-mode -1)))
 ;; (add-hook 'markdown-mode-hook 'turn-on-window-margin-mode)
@@ -591,14 +597,14 @@ convoluted. We use part of it --- skip comment par we are in."
   (define-key ivy-minibuffer-map (kbd "<return>") 'ivy-alt-done))
 
 ;; Y otra oportunidad a swiper
-;; (use-package swiper
-;;   :bind*
-;;   (("C-s" . swiper)
-;;    ("C-r" . swiper)
-;;    ("C-M-s" . swiper-all))
-;;   :bind
-;;   (:map read-expression-map
-;;         ("C-r" . counsel-expression-history)))
+(use-package swiper
+  :bind*
+  (("C-s" . swiper)
+   ("C-r" . swiper)
+   ("C-M-s" . swiper-all))
+  :bind
+  (:map read-expression-map
+        ("C-r" . counsel-expression-history)))
 
 ;; Y vamos a probar avy
 (use-package avy
