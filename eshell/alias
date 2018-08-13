@@ -3,4 +3,5 @@ alias ula tlmgr update --all
 alias us sudo apt-get update && sudo apt-get upgrade && sudo apt-get clean
 alias up conda update conda && conda update --all
 alias ur r update-r-packages.R
+alias ud sudo updatedb
 alias ll ls -lha
