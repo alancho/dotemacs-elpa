@@ -50,6 +50,7 @@
 			   stan-mode
 			   synonyms
 			   wc-mode
+			   wc-goal-mode
 			   websocket
 			   window-margin
 			   writegood-mode
@@ -563,15 +564,10 @@ convoluted. We use part of it --- skip comment par we are in."
    (interactive)
    (ispell-change-dictionary "british")))
 
-
-;; Lo siguiente lo saqué de http://www.jethrokuan.com/init.html#orgheadline40
-;; Flx is required for fuzzy-matching.
-;; (use-package flx)
-
 ;; Otra oportunidad a counsel
 (use-package counsel
   :demand t
-  :bind*
+  :bind
   (("C-c C-r" . ivy-resume)
    ("C-x b" . ivy-switch-buffer)
    ("M-x" . counsel-M-x)
@@ -583,13 +579,9 @@ convoluted. We use part of it --- skip comment par we are in."
    ("C-x C-r" . counsel-recentf)
    ("C-x C-l" . counsel-locate)
    ("M-y" . counsel-yank-pop))
-  :bind (:map help-map
-              ("f" . counsel-describe-function)
-              ("v" . counsel-describe-variable)
-              ("l" . counsel-info-lookup-symbol))
   :config
   (ivy-mode 1)
-  (setq ivy-height 10)
+  (setq ivy-height 10) 
   (setq counsel-find-file-at-point t)
   (setq ivy-use-virtual-buffers t)
   (setq ivy-display-style 'fancy)
@@ -619,13 +611,16 @@ convoluted. We use part of it --- skip comment par we are in."
  ;; If there is more than one, they won't work right.
  )
 
+(setq ivy-re-builders-alist
+      '((t . ivy--regex-plus)))
+
 ;; Para que counsel-ag sólo busque R, python, y markdown
 (setq counsel-ag-base-command "ag --nocolor --nogroup --r %s /home/alancho/")
 
 ;; Para evitar ciertos directorios en counsel find file
-(setq ivy-sort-file-function 'string-lessp)
-(setq ivy-extra-directories nil)
-(setq counsel-find-file-ignore-regexp (regexp-opt '(".dropbox")))
+;; (setq ivy-sort-file-function 'string-lessp)
+;; (setq ivy-extra-directories nil)
+;; (setq counsel-find-file-ignore-regexp (regexp-opt '(".dropbox")))
 
 ;; Para que no alerte cuando se llega al comienzo o final de un buffer
 (setq ring-bell-function #'ignore)
@@ -842,8 +837,7 @@ convoluted. We use part of it --- skip comment par we are in."
 		      (point-min) (point-max) '(mouse-face t))))
 
 ;; (setq ivy-do-completion-in-region nil)
-;; (define-key ess-mode-map (kbd "TAB") 'completion-at-point)
-;; (define-key ess-mode-map (kbd "C-/") 'completion-at-point)
+(define-key ess-mode-map (kbd "C-/") 'complete-symbol)
 
 ;; Disable overwrite-mode for ever!
 (define-key global-map [(insert)] nil)
