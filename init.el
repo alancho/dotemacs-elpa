@@ -17,6 +17,7 @@
 
 ;; Y estos son mis paquetes
 (defvar alancho/packages '(autopair
+			   arduino-mode
 			   color-theme
 			   color-theme-tango
 			   auctex
@@ -438,8 +439,8 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; This is for dired mode to omit extensions I don't want to see
 (require 'dired-x)
-(setq-default dired-omit-files-p t) ; Buffer-local variable
-(setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
+;; (setq-default dired-omit-files-p t) ; Buffer-local variable
+;; (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
 ;; In dired, sort directories first
 (setq dired-listing-switches "-aBhl  --group-directories-first")
 
@@ -530,10 +531,10 @@ convoluted. We use part of it --- skip comment par we are in."
   (setq-local company-math-disallow-unicode-symbols-in-faces nil))
 
 (add-hook 'markdown-mode-hook 'my-markdown-mode-hook)
-(add-hook 'markdown-mode-hook 'flyspell-mode)
+;; (add-hook 'markdown-mode-hook 'flyspell-mode)
 (add-hook 'markdown-mode-hook 'visual-line-mode)
 (add-hook 'markdown-mode-hook 'wc-mode)
-(add-hook 'markdown-mode-hook 'writegood-mode)
+;; (add-hook 'markdown-mode-hook 'writegood-mode)
 	
 ;; Esto es porque linum mode en markdown causa conflicto con writeroom
 (add-hook 'markdown-mode-hook (lambda () (linum-mode -1)))
@@ -567,7 +568,7 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Otra oportunidad a counsel
 (use-package counsel
   :demand t
-  :bind
+  :bind*
   (("C-c C-r" . ivy-resume)
    ("C-x b" . ivy-switch-buffer)
    ("M-x" . counsel-M-x)
@@ -618,9 +619,9 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq counsel-ag-base-command "ag --nocolor --nogroup --r %s /home/alancho/")
 
 ;; Para evitar ciertos directorios en counsel find file
-;; (setq ivy-sort-file-function 'string-lessp)
-;; (setq ivy-extra-directories nil)
-;; (setq counsel-find-file-ignore-regexp (regexp-opt '(".dropbox")))
+(setq ivy-sort-file-function 'string-lessp)
+(setq ivy-extra-directories nil)
+(setq counsel-find-file-ignore-regexp (regexp-opt '(".dropbox")))
 
 ;; Para que no alerte cuando se llega al comienzo o final de un buffer
 (setq ring-bell-function #'ignore)
@@ -841,3 +842,17 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Disable overwrite-mode for ever!
 (define-key global-map [(insert)] nil)
+
+;; Para que los archivos .apsim se abran en xml-mode
+(add-to-list 'auto-mode-alist '("\\.apsim$" . nxml-mode))
+
+;; Para cambiar line endings
+(defun unix-file ()
+  "Change the current buffer to Unix line-ends."
+  (interactive)
+  (set-buffer-file-coding-system 'unix t))
+
+(defun dos-file ()
+  "Change the current buffer to DOS line-ends."
+  (interactive)
+  (set-buffer-file-coding-system 'dos t))
