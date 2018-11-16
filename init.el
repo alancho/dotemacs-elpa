@@ -41,6 +41,7 @@
 			   magit
 			   markdown-mode
 			   org
+			   org-gcal
 			   pandoc-mode
 			   paredit
 			   pkg-info
@@ -535,7 +536,7 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-hook 'markdown-mode-hook 'visual-line-mode)
 (add-hook 'markdown-mode-hook 'wc-mode)
 ;; (add-hook 'markdown-mode-hook 'writegood-mode)
-	
+
 ;; Esto es porque linum mode en markdown causa conflicto con writeroom
 (add-hook 'markdown-mode-hook (lambda () (linum-mode -1)))
 ;; (add-hook 'markdown-mode-hook 'turn-on-window-margin-mode)
@@ -582,7 +583,7 @@ convoluted. We use part of it --- skip comment par we are in."
    ("M-y" . counsel-yank-pop))
   :config
   (ivy-mode 1)
-  (setq ivy-height 10) 
+  (setq ivy-height 10)
   (setq counsel-find-file-at-point t)
   (setq ivy-use-virtual-buffers t)
   (setq ivy-display-style 'fancy)
@@ -616,7 +617,7 @@ convoluted. We use part of it --- skip comment par we are in."
       '((t . ivy--regex-plus)))
 
 ;; Para que counsel-ag sólo busque R, python, y markdown
-(setq counsel-ag-base-command "ag --nocolor --nogroup --r %s /home/alancho/")
+;; (setq counsel-ag-base-command "ag --nocolor --nogroup --r %s /home/alancho/")
 
 ;; Para evitar ciertos directorios en counsel find file
 (setq ivy-sort-file-function 'string-lessp)
@@ -641,30 +642,29 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Para ver bien
 (add-hook 'org-mode-hook #'visual-line-mode)
 
-;; (global-set-key (kbd "<f2>") 'calendar)
-;; (global-set-key (kbd "<f9>") 'org-journal-new-entry)
-(global-set-key (kbd "C-c o") 'org-capture)
+;; (global-set-key (kbd "<f9>") 'org-capture)
+(global-set-key (kbd "C-c i") 'org-capture)
 (global-set-key (kbd "<f12>") 'org-agenda)
 
 (setq org-agenda-files (list "~/Dropbox/gtd/projects.org"
-			     "~/Dropbox/gtd/inbox.org"))
+			     "~/Dropbox/gtd/inbox.org"
+			     "~/Dropbox/gtd/tickler.org"
+			     "~/Dropbox/gtd/tareas.org"
+			     ))
 
-;; Targets include this file and any file contributing to the agenda - up to 5 levels deep
-(setq org-refile-targets '((nil :maxlevel . 3)
-			   (org-agenda-files :maxlevel . 3)))
+(setq org-refile-targets '(("~/Dropbox/gtd/projects.org" :maxlevel . 1)
+                           ("~/Dropbox/gtd/someday.org" :maxlevel . 1)
+                           ("~/Dropbox/gtd/tareas.org" :maxlevel . 1)
+                           ("~/Dropbox/gtd/tickler.org" :maxlevel . 1)))
 
-;; Capture templates for TODO tasks, Notes, and journal
 (setq org-capture-templates
-      (quote (("o" "Inbox" entry (file+datetree "~/Dropbox/gtd/inbox.org")
-               "* TODO %?\n")
-	      ("p" "Inbox" entry (file+datetree "~/Dropbox/gtd/inbox.org")
-               "* TODO %? %a")
+      (quote (("i" "Inbox" entry (file "~/Dropbox/gtd/inbox.org")
+               "* %?\n%u")
               )))
 
-;; Stop using paths for refile targets - we file directly with IDO
-(setq org-refile-use-outline-path nil)
 
-;; Targets complete directly with IDO
+(setq org-refile-use-outline-path 'file)
+
 (setq org-outline-path-complete-in-steps nil)
 
 ;; Allow refile to create parent tasks with confirmation
@@ -689,14 +689,11 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-ndays 21)
 
-(setq org-todo-keywords '((sequence "TODO(t)" "SOMEDAY(s)" "|" "DONE(d)" "CANCELLED(c)")))
-
+(setq org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d)")))
 
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "cyan" :weight bold)
-              ("SOMEDAY" :foreground "yellow" :weight bold)
-              ("DONE" :foreground "forest green" :weight bold)
-              ("CANCELLED" :foreground "gray" :weight bold)
+              ("DONE" :foreground "gray" :weight bold)
 	      )))
 
 ;; Tags with fast selection keys
@@ -712,108 +709,32 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-agenda-window-setup 'current-window)
 
 (setq org-agenda-custom-commands
-      '(("o" "Tareas"
+      '(
+	("n" "Next actions"
 	 ((todo "TODO"
 		((org-agenda-sorting-strategy '(priority-down))
-		 (org-agenda-files '("~/Dropbox/gtd/projects.org"))
-		 (org-agenda-overriding-header "Projects")
-		 (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
-	  (todo "TODO"
-		((org-agenda-sorting-strategy '(priority-down))
-		 (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
-		 (org-agenda-skip-function
-		  (lambda nil
-		    (org-agenda-skip-entry-if (quote scheduled) (quote deadline))))
-		 (org-agenda-overriding-header "Tasks")))
-	  ))
-	("s" "Someday"
-	 ((todo "SOMEDAY"
-		((org-agenda-sorting-strategy '(priority-down))
-		 (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
-		 (org-agenda-skip-function
-		  (lambda nil
-		    (org-agenda-skip-entry-if (quote scheduled) (quote deadline))))
-		 (org-agenda-overriding-header "Tasks")))
+		 (org-agenda-files '("~/Dropbox/gtd/projects.org"
+				     "~/Dropbox/gtd/tareas.org"))
+		 (org-agenda-overriding-header "Next")
+		 ;; (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)
+		 ))
 	  ))))
 
-;; (setq org-agenda-custom-commands
-;;       '(("o" "Tareas"
-;; 	 ((tags-todo "@inta/TODO"
-;; 		     ((org-agenda-sorting-strategy '(priority-down))
-;; 		      (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
-;; 		      (org-agenda-overriding-header "Tareas en INTA")))
-;; 	  (tags-todo "@inta/TODO"
-;; 		     ((org-agenda-sorting-strategy '(priority-down))
-;; 		      (org-agenda-files '("~/Dropbox/gtd/projects.org"))
-;; 		      (org-agenda-overriding-header "Next tasks de proyectos en INTA")
-;; 		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
-;; 	  (tags-todo "@compu/TODO"
-;; 		     ((org-agenda-sorting-strategy '(priority-down))
-;; 		      (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
-;; 		      (org-agenda-overriding-header "Tareas en la compu")))
-;; 	  (tags-todo "@compu/TODO"
-;; 		     ((org-agenda-sorting-strategy '(priority-down))
-;; 		      (org-agenda-files '("~/Dropbox/gtd/projects.org"))
-;; 		      (org-agenda-overriding-header "Next tasks de proyectos en la compu")
-;; 		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))
-;; 	  (tags-todo "@home/TODO"
-;; 		     ((org-agenda-sorting-strategy '(priority-down))
-;; 		      (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
-;; 		      (org-agenda-overriding-header "Tareas en casa")))
-;; 	  (tags-todo "@home/TODO"
-;; 		     ((org-agenda-sorting-strategy '(priority-down))
-;; 		      (org-agenda-files '("~/Dropbox/gtd/projects.org"))
-;; 		      (org-agenda-overriding-header "Next tasks de proyectos en casa")
-;; 		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))))
-
-;; (setq org-agenda-custom-commands
-;;       '(("l" "En el laburo"
-;; 	 ((tags-todo "@laburo/TODO"
-;; 		     ((org-agenda-sorting-strategy '(priority-down))
-;; 		      (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
-;; 		      (org-agenda-overriding-header "Tareas aisladas")))
-;; 	  (tags-todo "@laburo/TODO"
-;; 		     ((org-agenda-sorting-strategy '(priority-down))
-;; 		      (org-agenda-files '("~/Dropbox/gtd/projects.org"))
-;; 		      (org-agenda-overriding-header "Next tasks de proyectos")
-;; 		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
-;; 	("c" "Cuando estás con la computadora"
-;; 	 ((tags-todo "@compu/TODO"
-;; 		     ((org-agenda-sorting-strategy '(priority-down))
-;; 		      (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
-;; 		      (org-agenda-overriding-header "Tareas aisladas")))
-;; 	  (tags-todo "@compu/TODO"
-;; 		     ((org-agenda-sorting-strategy '(priority-down))
-;; 		      (org-agenda-files '("~/Dropbox/gtd/projects.org"))
-;; 		      (org-agenda-overriding-header "Next tasks de proyectos")
-;; 		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))
-;; 	("h" "En casa"
-;; 	 ((tags-todo "@home/TODO"
-;; 		     ((org-agenda-sorting-strategy '(priority-down))
-;; 		      (org-agenda-files '("~/Dropbox/gtd/inbox.org"))
-;; 		      (org-agenda-overriding-header "Tareas aisladas")))
-;; 	  (tags-todo "@home/TODO/TODO"
-;; 		     ((org-agenda-sorting-strategy '(priority-down))
-;; 		      (org-agenda-files '("~/Dropbox/gtd/projects.org"))
-;; 		      (org-agenda-overriding-header "Next tasks de proyectos")
-;; 		      (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)))))))
-
-(defun my-org-agenda-skip-all-siblings-but-first ()
-  "Skip all but the first non-done entry."
-  (let (should-skip-entry)
-    (unless (org-current-is-todo)
-      (setq should-skip-entry t))
-    (save-excursion
-      (while (and (not should-skip-entry) (org-goto-sibling t))
-        (when (org-current-is-todo)
-          (setq should-skip-entry t))))
-    (when should-skip-entry
-      (or (outline-next-heading)
-          (goto-char (point-max))))))
+;; (defun my-org-agenda-skip-all-siblings-but-first ()
+;;   "Skip all but the first non-done entry."
+;;   (let (should-skip-entry)
+;;     (unless (org-current-is-todo)
+;;       (setq should-skip-entry t))
+;;     (save-excursion
+;;       (while (and (not should-skip-entry) (org-goto-sibling t))
+;;         (when (org-current-is-todo)
+;;           (setq should-skip-entry t))))
+;;     (when should-skip-entry
+;;       (or (outline-next-heading)
+;;           (goto-char (point-max))))))
 
 (defun org-current-is-todo ()
   (string= "TODO" (org-get-todo-state)))
-
 
 ;; For tag searches ignore tasks with scheduled and deadline dates
 (setq org-agenda-tags-todo-honor-ignore-options t)
@@ -856,3 +777,9 @@ convoluted. We use part of it --- skip comment par we are in."
   "Change the current buffer to DOS line-ends."
   (interactive)
   (set-buffer-file-coding-system 'dos t))
+
+(require 'org-gcal)
+(setq org-gcal-client-id "50938941527-beo4f7bjgrulok8664fpjrjr1r6bu62s.apps.googleusercontent.com"
+      org-gcal-client-secret "1Q03kqwuUuGq3MzpgILFJRnr"
+      org-gcal-file-alist '(("severini.alan@gmail.com" . "~/Dropbox/gtd/tickler.org")
+                            ))
