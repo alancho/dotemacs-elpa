@@ -145,7 +145,15 @@
 
 ;; ESS
 ;; ========================================================
+(defun forbid-vertical-split ()
+  "Only permit horizontal window splits."
+  (setq-local split-height-threshold nil)
+  (setq-local split-width-threshold 0))
+
 (require 'ess-site)
+
+(add-hook 'ess-mode-hook
+          'forbid-vertical-split)
 
 (setq ess-ask-for-ess-directory nil)
 (setq ess-local-process-name "R")
@@ -153,60 +161,23 @@
 (setq comint-scroll-to-bottom-on-input t)
 (setq comint-scroll-to-bottom-on-output t)
 (setq comint-move-point-for-output t)
-;; (setq ess-use-ido t)
-
-(defun my-ess-start-R ()
-  (interactive)
-  (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
-      (progn
-	(delete-other-windows)
-	(setq w1 (selected-window))
-	(setq w1name (buffer-name))
-	(setq w2 (split-window w1 nil t))
-	;; (setq w2 (split-window-below w1 nil t))
-	;; (setq w2 (split-window-horizontally w1 nil t))
-	(R)
-	(set-window-buffer w2 "*R*")
-	(set-window-buffer w1 w1name))))
 
 (define-key
   ess-r-mode-map "_" #'ess-insert-assign)
+
 (define-key
   inferior-ess-r-mode-map "_" #'ess-insert-assign)
 
-;; (defun my-ess-start-R ()
-;;   (interactive)
-;;   (if (not (member "*R*" (mapcar (function buffer-name) (buffer-list))))
-;;       (progn
-;;         (setq cur-window (selected-window))
-;;         (print cur-window)
-;;         (case (length (window-list))
-;;           (1 (select-window (split-window-right)))
-;;           (t (other-window 1)))
-;;         (R)
-;;         (print "R started")
-;;         (select-window cur-window))))
-
-(defun my-ess-eval ()
-  (interactive)
-  (my-ess-start-R)
-  (if (and transient-mark-mode mark-active)
-      (call-interactively 'ess-eval-region)
-    ;; (call-interactively 'ess-eval-line-and-step)))
-    (call-interactively 'ess-eval-region-or-function-or-paragraph-and-step)))
-
 (add-hook 'ess-mode-hook
 	  '(lambda()
-	     (local-set-key [(shift return)] 'my-ess-eval)))
-
+	     (local-set-key [(shift return)] 'ess-eval-region-or-function-or-paragraph-and-step)))
+(add-hook 'Rnw-mode-hook
+	  '(lambda()
+	     (local-set-key [(shift return)] 'ess-eval-region-or-function-or-paragraph-and-step)))
 (add-hook 'inferior-ess-mode-hook
 	  '(lambda()
 	     (local-set-key [C-up] 'comint-previous-input)
 	     (local-set-key [C-down] 'comint-next-input)))
-
-(add-hook 'Rnw-mode-hook
-	  '(lambda()
-	     (local-set-key [(shift return)] 'my-ess-eval)))
 
 ;; This is to be quicker when writing the %>% operator from dplyr
 (defun then_R_operator ()
@@ -226,8 +197,8 @@
   (insert "+")
   (reindent-then-newline-and-indent))
 
-(define-key ess-mode-map (kbd "C-+") 'then_ggplot_plus)
-(define-key inferior-ess-mode-map (kbd "C-+") 'then_ggplot_plus)
+(define-key ess-mode-map (kbd "M-<return>") 'then_ggplot_plus)
+(define-key inferior-ess-mode-map (kbd "M-<return>") 'then_ggplot_plus)
 
 ;; RStudio indentation!
 (setq ess-default-style 'RStudio)
@@ -782,9 +753,3 @@ convoluted. We use part of it --- skip comment par we are in."
   "Change the current buffer to DOS line-ends."
   (interactive)
   (set-buffer-file-coding-system 'dos t))
-
-(require 'org-gcal)
-(setq org-gcal-client-id "50938941527-beo4f7bjgrulok8664fpjrjr1r6bu62s.apps.googleusercontent.com"
-      org-gcal-client-secret "1Q03kqwuUuGq3MzpgILFJRnr"
-      org-gcal-file-alist '(("severini.alan@gmail.com" . "~/Dropbox/gtd/tickler.org")
-                            ))
