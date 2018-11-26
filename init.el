@@ -168,6 +168,12 @@
 (define-key
   inferior-ess-r-mode-map "_" #'ess-insert-assign)
 
+;; (eval-after-load "ess-mode"
+;;   '(progn
+;;      (define-key ess-mode-map [(control return)] nil)
+;;      (define-key ess-mode-map [(shift return)] 'ess-eval-region-or-line-and-step))
+;;   )
+
 (add-hook 'ess-mode-hook
 	  '(lambda()
 	     (local-set-key [(shift return)] 'ess-eval-region-or-function-or-paragraph-and-step)))
