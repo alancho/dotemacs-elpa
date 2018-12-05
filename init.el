@@ -38,6 +38,7 @@
 			   idle-highlight-mode
 			   ido-ubiquitous
 			   julia-mode
+			   latex-extra
 			   magit
 			   markdown-mode
 			   org
@@ -101,6 +102,8 @@
 (remove-hook 'text-mode-hook #'turn-on-auto-fill)
 
 (add-hook 'LaTeX-mode-hook 'turn-on-flyspell)
+
+(add-hook 'LaTeX-mode-hook #'latex-extra-mode)
 
 ;; Para que use biber en lugar de bibtex
 ;; (http://tex.stackexchange.com/questions/154751/biblatex-with-biber-configuring-my-editor-to-avoid-undefined-citations)
@@ -490,7 +493,7 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; 	(document . ess-ac-help)))
 
 ;; So that RefTeX finds my bibliography
-(setq reftex-default-bibliography '("/home/alancho/Dropbox/Papers/all-my-zotero-library.bib"))
+(setq reftex-default-bibliography '("/home/alancho/Dropbox/Papers/All_zotero_library/all-my-zotero-library.bib"))
 
 (defvar reftex-cite-format-markdown
   '((?p . "[@%l]")
@@ -517,6 +520,7 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; (add-hook 'markdown-mode-hook 'flyspell-mode)
 (add-hook 'markdown-mode-hook 'visual-line-mode)
 (add-hook 'markdown-mode-hook 'wc-mode)
+(add-hook 'markdown-mode-hook 'writeroom-mode)
 ;; (add-hook 'markdown-mode-hook 'writegood-mode)
 
 ;; Esto es porque linum mode en markdown causa conflicto con writeroom
@@ -527,6 +531,16 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; permite tener syntax highlighting específico para pandoc
 ;; (e.g. citations)
 (add-hook 'markdown-mode-hook 'pandoc-mode)
+
+(setq compilation-finish-function
+      (lambda (buf str)
+	(if (null (string-match ".*exited abnormally.*" str))
+	    ;;no errors, make the compilation window go away in a few seconds
+	    (progn
+	      (run-at-time
+	       "2 sec" nil 'delete-windows-on
+	       (get-buffer-create "*compilation*"))
+	      (message "No Compilation Errors!")))))
 
 ;; Use synonyms package
 (setq synonyms-file "/home/alancho/mthesaur.txt")
