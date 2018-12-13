@@ -21,6 +21,7 @@
 			   color-theme
 			   color-theme-tango
 			   auctex
+			   auctex-latexmk
 			   auto-complete
 			   company-math
 			   ctable
@@ -93,37 +94,68 @@
 
 ;; AucTeX
 ;; ========================================================
-(add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
+;; (add-hook 'LaTeX-mode-hook '(lambda ()
+;; 			      (if (string-match "\\.Rnw\\'" buffer-file-name)
+;; 				  (setq fill-column 80))))
 
-(add-hook 'LaTeX-mode-hook '(lambda ()
-			      (if (string-match "\\.Rnw\\'" buffer-file-name)
-				  (setq fill-column 80))))
+;; (remove-hook 'text-mode-hook #'turn-on-auto-fill)
 
-(remove-hook 'text-mode-hook #'turn-on-auto-fill)
+(setq TeX-parse-self t); Enable parse on load.
+(setq TeX-auto-save t); Enable parse on save.
+(setq-default TeX-master nil)
+(setq TeX-PDF-mode t); PDF mode (rather than DVI-mode)
+(setq TeX-electric-sub-and-superscript t)
+(add-hook 'LaTeX-mode-hook
+	  (lambda () (set (make-variable-buffer-local 'TeX-electric-math)
+			  (cons "$" "$"))))
+;; (setq TeX-electric-math t)
 
-(add-hook 'LaTeX-mode-hook 'turn-on-flyspell)
+;; (defun run-latexmk ()
+;;   (interactive)
+;;   (let ((TeX-save-query nil)
+;;         (TeX-process-asynchronous nil)
+;;         (master-file (TeX-master-file)))
+;;     (TeX-save-document "")
+;;     (TeX-run-TeX "latexmk"
+;;                  (TeX-command-expand "latexmk -pdf %t" 'TeX-master-file)
+;;                  master-file)
+;;     (if (plist-get TeX-error-report-switches (intern master-file))
+;;         (TeX-next-error t)
+;;       (minibuffer-message "latexmk done"))))
 
-(add-hook 'LaTeX-mode-hook #'latex-extra-mode)
+;; (eval-after-load "latex"
+;;   '(define-key LaTeX-mode-map (kbd "C-c C-c") 'run-latexmk))
 
-;; Para que use biber en lugar de bibtex
-;; (http://tex.stackexchange.com/questions/154751/biblatex-with-biber-configuring-my-editor-to-avoid-undefined-citations)
-;; (setq TeX-parse-self t)
-;; (setq LaTeX-biblatex-use-Biber t)
-;; (setq LaTeX-always-use-Biber t)
+;; (add-hook 'LaTeX-mode-hook (lambda ()
+;;   (push
+;;     '("latexmk" "latexmk -pdf %s" TeX-run-TeX nil t
+;;       :help "Run latexmk on file")
+;;     TeX-command-list)))
+;; (add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
 
-;; To save and then run LaTeX in one command
-(defun my-run-latex ()
-  (interactive)
-  (TeX-save-document (TeX-master-file))
-  (TeX-command "LaTeX" 'TeX-master-file -1)
-  ;; (TeX-command "Biber" 'TeX-master-file -1)
-  ;; (TeX-command "LaTeX" 'TeX-master-file -1)
-  )
+(setq LaTeX-babel-hyphen nil); Disable language-specific hyphen insertion.
 
-(defun my-LaTeX-hook ()
-  (local-set-key (kbd "C-c C-c") 'my-run-latex))
+(add-hook 'TeX-mode-hook 'LaTeX-math-mode)
+(add-hook 'LaTeX-mode-hook 'visual-line-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'TeX-mode-hook 'turn-on-reftex)
 
-(add-hook 'LaTeX-mode-hook 'my-LaTeX-hook)
+(setq reftex-cite-prompt-optional-args t)
+(setq reftex-plug-into-AUCTeX t)
+;; (setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
+(setq reftex-default-bibliography '("/home/alancho/Dropbox/Papers/All_zotero_library/all-my-zotero-library.bib"))
+;; (setq reftex-cite-format; Get ReTeX with biblatex, see https://tex.stackexchange.com/questions/31966/setting-up-reftex-with-biblatex-citation-commands/31992#31992
+;;            '((?t . "\\textcite[]{%l}")
+;;              (?a . "\\autocite[]{%l}")
+;;              (?c . "\\cite[]{%l}")
+;;              (?s . "\\smartcite[]{%l}")
+;;              (?f . "\\footcite[]{%l}")
+;;              (?n . "\\nocite{%l}")
+;;              (?b . "\\blockcquote[]{%l}{}")))
+
+(require 'auctex-latexmk)
+(auctex-latexmk-setup)
+(setq auctex-latexmk-inherit-TeX-PDF-mode t)
 
 ;; Default directory
 ;; ========================================================
@@ -179,10 +211,16 @@
 
 (add-hook 'ess-mode-hook
 	  '(lambda()
-	     (local-set-key [(shift return)] 'ess-eval-region-or-function-or-paragraph-and-step)))
+	     (local-set-key [(shift return)] 'ess-eval-region-or-line-and-step)))
 (add-hook 'Rnw-mode-hook
 	  '(lambda()
-	     (local-set-key [(shift return)] 'ess-eval-region-or-function-or-paragraph-and-step)))
+	     (local-set-key [(shift return)] 'ess-eval-region-or-line-and-step)))
+;; (add-hook 'ess-mode-hook
+;; 	  '(lambda()
+;; 	     (local-set-key [(shift return)] 'ess-eval-region-or-function-or-paragraph-and-step)))
+;; (add-hook 'Rnw-mode-hook
+;; 	  '(lambda()
+;; 	     (local-set-key [(shift return)] 'ess-eval-region-or-function-or-paragraph-and-step)))
 (add-hook 'inferior-ess-mode-hook
 	  '(lambda()
 	     (local-set-key [C-up] 'comint-previous-input)
