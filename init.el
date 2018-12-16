@@ -33,7 +33,6 @@
 			   epl
 			   ess
 			   ess-smart-underscore
-			   ess-view
 			   ;; esup
 			   exec-path-from-shell
 			   expand-region
@@ -289,7 +288,6 @@
 ;; (define-key company-active-map (kbd "TAB") 'company-complete-selection)
 
 (require 'ess-smart-underscore)
-(require 'ess-view)
 
 ;; expand region
 ;; ========================================================
