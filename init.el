@@ -32,12 +32,15 @@
 			   epc
 			   epl
 			   ess
+			   ess-smart-underscore
+			   ess-view
 			   ;; esup
 			   exec-path-from-shell
 			   expand-region
 			   ;; helm
 			   idle-highlight-mode
 			   ido-ubiquitous
+			   ivy-bibtex
 			   julia-mode
 			   latex-extra
 			   magit
@@ -98,7 +101,7 @@
 ;; 			      (if (string-match "\\.Rnw\\'" buffer-file-name)
 ;; 				  (setq fill-column 80))))
 
-;; (remove-hook 'text-mode-hook #'turn-on-auto-fill)
+(remove-hook 'text-mode-hook #'turn-on-auto-fill)
 
 (setq TeX-parse-self t); Enable parse on load.
 (setq TeX-auto-save t); Enable parse on save.
@@ -108,54 +111,58 @@
 (add-hook 'LaTeX-mode-hook
 	  (lambda () (set (make-variable-buffer-local 'TeX-electric-math)
 			  (cons "$" "$"))))
-;; (setq TeX-electric-math t)
-
-;; (defun run-latexmk ()
-;;   (interactive)
-;;   (let ((TeX-save-query nil)
-;;         (TeX-process-asynchronous nil)
-;;         (master-file (TeX-master-file)))
-;;     (TeX-save-document "")
-;;     (TeX-run-TeX "latexmk"
-;;                  (TeX-command-expand "latexmk -pdf %t" 'TeX-master-file)
-;;                  master-file)
-;;     (if (plist-get TeX-error-report-switches (intern master-file))
-;;         (TeX-next-error t)
-;;       (minibuffer-message "latexmk done"))))
-
-;; (eval-after-load "latex"
-;;   '(define-key LaTeX-mode-map (kbd "C-c C-c") 'run-latexmk))
-
-;; (add-hook 'LaTeX-mode-hook (lambda ()
-;;   (push
-;;     '("latexmk" "latexmk -pdf %s" TeX-run-TeX nil t
-;;       :help "Run latexmk on file")
-;;     TeX-command-list)))
-;; (add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
 
 (setq LaTeX-babel-hyphen nil); Disable language-specific hyphen insertion.
 
 (add-hook 'TeX-mode-hook 'LaTeX-math-mode)
-(add-hook 'LaTeX-mode-hook 'visual-line-mode)
-(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'TeX-mode-hook 'visual-line-mode)
+(add-hook 'TeX-mode-hook 'flyspell-mode)
 (add-hook 'TeX-mode-hook 'turn-on-reftex)
+(add-hook 'LaTeX-mode-hook 'writeroom-mode)
+(setq font-latex-fontify-script nil)
 
 (setq reftex-cite-prompt-optional-args t)
 (setq reftex-plug-into-AUCTeX t)
 ;; (setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
-(setq reftex-default-bibliography '("/home/alancho/Dropbox/Papers/All_zotero_library/all-my-zotero-library.bib"))
-;; (setq reftex-cite-format; Get ReTeX with biblatex, see https://tex.stackexchange.com/questions/31966/setting-up-reftex-with-biblatex-citation-commands/31992#31992
-;;            '((?t . "\\textcite[]{%l}")
-;;              (?a . "\\autocite[]{%l}")
-;;              (?c . "\\cite[]{%l}")
-;;              (?s . "\\smartcite[]{%l}")
-;;              (?f . "\\footcite[]{%l}")
-;;              (?n . "\\nocite{%l}")
-;;              (?b . "\\blockcquote[]{%l}{}")))
+(setq reftex-default-bibliography '("/home/alancho/Dropbox/Papers/bib/library.bib"))
+(setq reftex-cite-format; Get ReTeX with biblatex, see https://tex.stackexchange.com/questions/31966/setting-up-reftex-with-biblatex-citation-commands/31992#31992
+           '((?t . "\\textcite[]{%l}")
+             (?a . "\\autocite[]{%l}")
+             (?c . "\\cite[]{%l}")
+             (?s . "\\smartcite[]{%l}")
+             (?f . "\\footcite[]{%l}")
+             (?n . "\\nocite{%l}")
+             (?b . "\\blockcquote[]{%l}{}")))
 
 (require 'auctex-latexmk)
 (auctex-latexmk-setup)
 (setq auctex-latexmk-inherit-TeX-PDF-mode t)
+
+(autoload 'ivy-bibtex "ivy-bibtex" "" t)
+;; ivy-bibtex requires ivy's `ivy--regex-ignore-order` regex builder, which
+;; ignores the order of regexp tokens when searching for matching candidates.
+;; Add something like this to your init file:
+(setq ivy-re-builders-alist
+      '((ivy-bibtex . ivy--regex-ignore-order)
+        (t . ivy--regex-plus)))
+
+(setq bibtex-completion-bibliography
+      ;; '("/home/alancho/Dropbox/Papers/bib/library.bib"))
+      '("/home/alancho/Dropbox/Papers/bib/all-my-zotero-library.bib"))
+
+(setq ivy-bibtex-default-action 'ivy-bibtex-insert-key)
+
+;; (setq bibtex-completion-pdf-open-function
+;;   (lambda (fpath)
+;;     (call-process "evince" nil 0 nil fpath)))
+
+(setq bibtex-completion-cite-prompt-for-optional-arguments nil)
+(setq bibtex-completion-cite-commands '("citep" "citet" "citeauthor" "citeyear"))
+
+;; (ivy-set-actions
+;;  'ivy-bibtex
+;;  '(("p" ivy-bibtex-open-any "Open PDF, URL, or DOI")
+;;    ("i" ivy-bibtex-insert-citation "Edit notes")))
 
 ;; Default directory
 ;; ========================================================
@@ -281,6 +288,9 @@
 ;; (define-key company-active-map [tab] 'company-complete-selection)
 ;; (define-key company-active-map (kbd "TAB") 'company-complete-selection)
 
+(require 'ess-smart-underscore)
+(require 'ess-view)
+
 ;; expand region
 ;; ========================================================
 ;; (require 'expand-region)
@@ -291,6 +301,7 @@
 ;; (set-face-attribute 'default nil :family "Ubuntu Mono" :height 110 :weight 'normal)
 ;; (set-face-attribute 'default nil :height 125 :family "Inconsolata")
 (set-face-attribute 'default nil :height 110 :family "Monaco")
+;; (set-face-attribute 'default nil :height 110 :family "Dejavu Sans Mono")
 
 
 ;; This is to unfill paragraphs
@@ -409,7 +420,7 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; (global-visual-line-mode 1)
 
 ;; Display line numbers in margin
-(global-linum-mode 1)
+;; (global-linum-mode 1)
 
 (defun unfill-region (beg end)
   "Unfill the region, joining text paragraphs into a single
@@ -531,39 +542,39 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; 	(document . ess-ac-help)))
 
 ;; So that RefTeX finds my bibliography
-(setq reftex-default-bibliography '("/home/alancho/Dropbox/Papers/All_zotero_library/all-my-zotero-library.bib"))
+;; (setq reftex-default-bibliography '("/home/alancho/Dropbox/Papers/All_zotero_library/all-my-zotero-library.bib"))
 
-(defvar reftex-cite-format-markdown
-  '((?p . "[@%l]")
-    (?k . "@%l")))
+;; (defvar reftex-cite-format-markdown
+;;   '((?p . "[@%l]")
+;;     (?k . "@%l")))
 
-;; Enable math
-(setq markdown-enable-math t)
+;; ;; Enable math
+;; (setq markdown-enable-math t)
 
-(defun my-markdown-mode-hook()
-  (define-key markdown-mode-map [f8]
-    (lambda ()
-      (interactive)
-      (let ((reftex-cite-format reftex-cite-format-markdown))
-	(reftex-citation))))
-  (setq-local
-   company-backends
-   (append '(company-math-symbols-latex) company-backends))
-  (setq-local company-math-allow-latex-symbols-in-faces t)
-  (setq-local company-math-disallow-latex-symbols-in-faces nil)
-  (setq-local company-math-allow-unicode-symbols-in-faces t)
-  (setq-local company-math-disallow-unicode-symbols-in-faces nil))
+;; (defun my-markdown-mode-hook()
+;;   (define-key markdown-mode-map [f8]
+;;     (lambda ()
+;;       (interactive)
+;;       (let ((reftex-cite-format reftex-cite-format-markdown))
+;; 	(reftex-citation))))
+;;   (setq-local
+;;    company-backends
+;;    (append '(company-math-symbols-latex) company-backends))
+;;   (setq-local company-math-allow-latex-symbols-in-faces t)
+;;   (setq-local company-math-disallow-latex-symbols-in-faces nil)
+;;   (setq-local company-math-allow-unicode-symbols-in-faces t)
+;;   (setq-local company-math-disallow-unicode-symbols-in-faces nil))
 
-(add-hook 'markdown-mode-hook 'my-markdown-mode-hook)
-;; (add-hook 'markdown-mode-hook 'flyspell-mode)
-(add-hook 'markdown-mode-hook 'visual-line-mode)
-(add-hook 'markdown-mode-hook 'wc-mode)
-(add-hook 'markdown-mode-hook 'writeroom-mode)
-;; (add-hook 'markdown-mode-hook 'writegood-mode)
+;; (add-hook 'markdown-mode-hook 'my-markdown-mode-hook)
+;; ;; (add-hook 'markdown-mode-hook 'flyspell-mode)
+;; (add-hook 'markdown-mode-hook 'visual-line-mode)
+;; (add-hook 'markdown-mode-hook 'wc-mode)
+;; (add-hook 'markdown-mode-hook 'writeroom-mode)
+;; ;; (add-hook 'markdown-mode-hook 'writegood-mode)
 
-;; Esto es porque linum mode en markdown causa conflicto con writeroom
-(add-hook 'markdown-mode-hook (lambda () (linum-mode -1)))
-;; (add-hook 'markdown-mode-hook 'turn-on-window-margin-mode)
+;; ;; Esto es porque linum mode en markdown causa conflicto con writeroom
+;; (add-hook 'markdown-mode-hook (lambda () (linum-mode -1)))
+;; ;; (add-hook 'markdown-mode-hook 'turn-on-window-margin-mode)
 
 ;; Pandoc mode está bueno porque pese a que no uso sus keybindings me
 ;; permite tener syntax highlighting específico para pandoc
