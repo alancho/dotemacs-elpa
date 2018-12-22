@@ -32,7 +32,6 @@
 			   epc
 			   epl
 			   ess
-			   ess-smart-underscore
 			   ;; esup
 			   exec-path-from-shell
 			   expand-region
@@ -40,7 +39,6 @@
 			   idle-highlight-mode
 			   ido-ubiquitous
 			   ivy-bibtex
-			   julia-mode
 			   latex-extra
 			   magit
 			   markdown-mode
@@ -125,13 +123,13 @@
 ;; (setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
 (setq reftex-default-bibliography '("/home/alancho/Dropbox/Papers/bib/library.bib"))
 (setq reftex-cite-format; Get ReTeX with biblatex, see https://tex.stackexchange.com/questions/31966/setting-up-reftex-with-biblatex-citation-commands/31992#31992
-           '((?t . "\\textcite[]{%l}")
-             (?a . "\\autocite[]{%l}")
-             (?c . "\\cite[]{%l}")
-             (?s . "\\smartcite[]{%l}")
-             (?f . "\\footcite[]{%l}")
-             (?n . "\\nocite{%l}")
-             (?b . "\\blockcquote[]{%l}{}")))
+      '((?t . "\\textcite[]{%l}")
+	(?a . "\\autocite[]{%l}")
+	(?c . "\\cite[]{%l}")
+	(?s . "\\smartcite[]{%l}")
+	(?f . "\\footcite[]{%l}")
+	(?n . "\\nocite{%l}")
+	(?b . "\\blockcquote[]{%l}{}")))
 
 (require 'auctex-latexmk)
 (auctex-latexmk-setup)
@@ -141,15 +139,17 @@
 ;; ivy-bibtex requires ivy's `ivy--regex-ignore-order` regex builder, which
 ;; ignores the order of regexp tokens when searching for matching candidates.
 ;; Add something like this to your init file:
-(setq ivy-re-builders-alist
-      '((ivy-bibtex . ivy--regex-ignore-order)
-        (t . ivy--regex-plus)))
+
+;; (setq ivy-re-builders-alist
+;;       '((ivy-bibtex . ivy--regex-ignore-order)
+;;         (t . ivy--regex-plus)))
 
 (setq bibtex-completion-bibliography
-      ;; '("/home/alancho/Dropbox/Papers/bib/library.bib"))
-      '("/home/alancho/Dropbox/Papers/bib/all-my-zotero-library.bib"))
+      '("/home/alancho/Dropbox/Papers/bib/library.bib"))
+      ;; '("/home/alancho/Dropbox/Papers/bib/all-my-zotero-library.bib"))
 
-(setq ivy-bibtex-default-action 'ivy-bibtex-insert-key)
+;; (setq ivy-bibtex-default-action 'ivy-bibtex-insert-key)
+(setq ivy-bibtex-default-action 'ivy-bibtex-insert-citation)
 
 ;; (setq bibtex-completion-pdf-open-function
 ;;   (lambda (fpath)
@@ -215,18 +215,18 @@
 ;;      (define-key ess-mode-map [(shift return)] 'ess-eval-region-or-line-and-step))
 ;;   )
 
-(add-hook 'ess-mode-hook
-	  '(lambda()
-	     (local-set-key [(shift return)] 'ess-eval-region-or-line-and-step)))
-(add-hook 'Rnw-mode-hook
-	  '(lambda()
-	     (local-set-key [(shift return)] 'ess-eval-region-or-line-and-step)))
 ;; (add-hook 'ess-mode-hook
 ;; 	  '(lambda()
-;; 	     (local-set-key [(shift return)] 'ess-eval-region-or-function-or-paragraph-and-step)))
+;; 	     (local-set-key [(shift return)] 'ess-eval-region-or-line-and-step)))
 ;; (add-hook 'Rnw-mode-hook
 ;; 	  '(lambda()
-;; 	     (local-set-key [(shift return)] 'ess-eval-region-or-function-or-paragraph-and-step)))
+;; 	     (local-set-key [(shift return)] 'ess-eval-region-or-line-and-step)))
+(add-hook 'ess-mode-hook
+	  '(lambda()
+	     (local-set-key [(shift return)] 'ess-eval-region-or-function-or-paragraph-and-step)))
+(add-hook 'Rnw-mode-hook
+	  '(lambda()
+	     (local-set-key [(shift return)] 'ess-eval-region-or-function-or-paragraph-and-step)))
 (add-hook 'inferior-ess-mode-hook
 	  '(lambda()
 	     (local-set-key [C-up] 'comint-previous-input)
@@ -287,7 +287,16 @@
 ;; (define-key company-active-map [tab] 'company-complete-selection)
 ;; (define-key company-active-map (kbd "TAB") 'company-complete-selection)
 
-(require 'ess-smart-underscore)
+(use-package company-math)
+(use-package company
+  :config
+  (progn
+    (setq company-tooltip-limit 20
+          company-idle-delay 0.5
+          company-show-numbers t
+          company-tooltip-align-annotations t)
+    (global-company-mode))
+  :bind (("<tab>" . company-complete)))
 
 ;; expand region
 ;; ========================================================
@@ -337,21 +346,21 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; When C-x C-f I don't want to see this extensions
 ;; ========================================================
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(completion-ignored-extensions
-   (quote
-    (".docx" ".xlsx" ".wmf" ".doc" ".xls" ".csv" ".bib" ".o" "~" ".bin" ".bak" ".obj" ".map" ".ico" ".pif" ".lnk" ".a" ".ln" ".blg" ".bbl" ".dll" ".drv" ".vxd" ".386" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".fasl" ".ufsl" ".fsl" ".dxl" ".pfsl" ".dfsl" ".p64fsl" ".d64fsl" ".dx64fsl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".odt" ".pptx" ".ppt" ".txt" ".dat")))
- '(elpy-modules
-   (quote
-    (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults)))
- '(package-selected-packages
-   (quote
-    (stan-mode yaml-mode writeroom-mode window-margin websocket use-package synonyms smex request popup paredit pandoc-mode org-journal markdown-mode magit ivy-hydra ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel-projectile company-math color-theme-tango cl-generic avy autopair auctex ag)))
- '(send-mail-function (quote smtpmail-send-it)))
+;; (custom-set-variables
+;;  ;; custom-set-variables was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(completion-ignored-extensions
+;;    (quote
+;;     (".docx" ".xlsx" ".wmf" ".doc" ".xls" ".csv" ".bib" ".o" "~" ".bin" ".bak" ".obj" ".map" ".ico" ".pif" ".lnk" ".a" ".ln" ".blg" ".bbl" ".dll" ".drv" ".vxd" ".386" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".fasl" ".ufsl" ".fsl" ".dxl" ".pfsl" ".dfsl" ".p64fsl" ".d64fsl" ".dx64fsl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".odt" ".pptx" ".ppt" ".txt" ".dat")))
+;;  '(elpy-modules
+;;    (quote
+;;     (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults)))
+;;  '(package-selected-packages
+;;    (quote
+;;     (stan-mode yaml-mode writeroom-mode window-margin websocket use-package synonyms smex request popup paredit pandoc-mode org-journal markdown-mode magit ivy-hydra ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel-projectile company-math color-theme-tango cl-generic avy autopair auctex ag)))
+;;  '(send-mail-function (quote smtpmail-send-it)))
 
 ;; My magit setup
 ;; ========================================================
@@ -609,6 +618,36 @@ convoluted. We use part of it --- skip comment par we are in."
    (interactive)
    (ispell-change-dictionary "british")))
 
+(use-package ivy
+  :diminish (ivy-mode . "")
+  :bind
+  (:map ivy-mode-map
+        ("C-'" . ivy-avy))
+  :config
+  (ivy-mode 1)
+  ;; add `recentf-mode' and bookmarks to `ivy-switch-buffer'.
+  (setq ivy-use-virtual-buffers t)
+  ;; number of result lines to display
+  (setq ivy-height 15)
+  ;; does not count candidates
+  (setq ivy-count-format "")
+  ;; no regexp by default
+  (setq ivy-initial-inputs-alist nil)
+  ;; configure regexp engine.
+  (setq ivy-re-builders-alist
+        ;; allow input not in order
+        '((ivy-switch-buffer . ivy--regex-fuzzy)
+          (counsel-find-file . ivy--regex-plus)
+          (counsel-locate . ivy--regex-plus)
+          (counsel-M-x . ivy--regex-plus)
+          (t   . ivy--regex-plus))))
+
+(use-package ivy-hydra)
+(setq ivy-switch-buffer-faces-alist
+      '((emacs-lisp-mode . swiper-match-face-1)
+        (dired-mode . ivy-subdir)
+        (org-mode . org-level-4)))
+
 ;; Otra oportunidad a counsel
 (use-package counsel
   :demand t
@@ -627,7 +666,7 @@ convoluted. We use part of it --- skip comment par we are in."
   :config
   (ivy-mode 1)
   (setq ivy-height 10)
-  (setq counsel-find-file-at-point t)
+  ;; (setq counsel-find-file-at-point t)
   (setq ivy-use-virtual-buffers t)
   (setq ivy-display-style 'fancy)
   (setq ivy-initial-inputs-alist nil)
@@ -656,16 +695,14 @@ convoluted. We use part of it --- skip comment par we are in."
  ;; If there is more than one, they won't work right.
  )
 
-(setq ivy-re-builders-alist
-      '((t . ivy--regex-plus)))
-
 ;; Para que counsel-ag sólo busque R, python, y markdown
 ;; (setq counsel-ag-base-command "ag --nocolor --nogroup --r %s /home/alancho/")
 
 ;; Para evitar ciertos directorios en counsel find file
 (setq ivy-sort-file-function 'string-lessp)
 (setq ivy-extra-directories nil)
-(setq counsel-find-file-ignore-regexp (regexp-opt '(".dropbox")))
+;; (setq counsel-find-file-ignore-regexp (regexp-opt '(".dropbox")))
+
 
 ;; Para que no alerte cuando se llega al comienzo o final de un buffer
 (setq ring-bell-function #'ignore)
@@ -802,7 +839,7 @@ convoluted. We use part of it --- skip comment par we are in."
 		      (point-min) (point-max) '(mouse-face t))))
 
 ;; (setq ivy-do-completion-in-region nil)
-(define-key ess-mode-map (kbd "C-/") 'complete-symbol)
+;; (define-key ess-mode-map (kbd "C-/") 'complete-symbol)
 
 ;; Disable overwrite-mode for ever!
 (define-key global-map [(insert)] nil)
