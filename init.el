@@ -296,7 +296,7 @@
           company-show-numbers t
           company-tooltip-align-annotations t)
     (global-company-mode))
-  :bind (("<tab>" . company-complete)))
+  :bind (("<tab>" . company-indent-or-complete-common)))
 
 ;; expand region
 ;; ========================================================
@@ -857,3 +857,21 @@ convoluted. We use part of it --- skip comment par we are in."
   "Change the current buffer to DOS line-ends."
   (interactive)
   (set-buffer-file-coding-system 'dos t))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (notmuch zotxt yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode smex pkg-info paredit pandoc-mode org-gcal markdown-mode magit latex-extra julia-shell ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel company-math company-flx color-theme-tango avy autopair auto-complete auctex-latexmk arduino-mode))))
+(put 'downcase-region 'disabled nil)
+
+(setq shell-file-name "bash")
+(setq shell-command-switch "-ic")
+
+(defun here ()
+  (interactive)
+  (shell-command "here"))
+
+(global-set-key (kbd "<f9>") 'here)
