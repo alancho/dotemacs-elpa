@@ -5,3 +5,4 @@ alias up conda update conda && conda update --all
 alias ur r update-r-packages.R
 alias ud sudo updatedb
 alias ll ls -lha
+alias here nautilus .
