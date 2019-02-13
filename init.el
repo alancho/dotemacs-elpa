@@ -48,9 +48,12 @@
 			   paredit
 			   pkg-info
 			   popup
+			   polymode
+			   poly-markdown
 			   request
 			   s
 			   smex
+			   solarized-theme
 			   stan-mode
 			   synonyms
 			   wc-mode
@@ -68,6 +71,7 @@
 			   ivy
 			   ivy-hydra
 			   wgrep
+			   zenburn-theme
 			   zotxt)
   "Default packages")
 
@@ -287,16 +291,16 @@
 ;; (define-key company-active-map [tab] 'company-complete-selection)
 ;; (define-key company-active-map (kbd "TAB") 'company-complete-selection)
 
-(use-package company-math)
-(use-package company
-  :config
-  (progn
-    (setq company-tooltip-limit 20
-          company-idle-delay 0.5
-          company-show-numbers t
-          company-tooltip-align-annotations t)
-    (global-company-mode))
-  :bind (("<tab>" . company-indent-or-complete-common)))
+;; (use-package company-math)
+;; (use-package company
+;;   :config
+;;   (progn
+;;     (setq company-tooltip-limit 20
+;;           company-idle-delay 0.5
+;;           company-show-numbers t
+;;           company-tooltip-align-annotations t)
+;;     (global-company-mode))
+;;   :bind (("<tab>" . company-indent-or-complete-common)))
 
 ;; expand region
 ;; ========================================================
@@ -862,6 +866,9 @@ convoluted. We use part of it --- skip comment par we are in."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("d057f0430ba54f813a5d60c1d18f28cf97d271fd35a36be478e20924ea9451bd" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
  '(package-selected-packages
    (quote
     (notmuch zotxt yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode smex pkg-info paredit pandoc-mode org-gcal markdown-mode magit latex-extra julia-shell ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel company-math company-flx color-theme-tango avy autopair auto-complete auctex-latexmk arduino-mode))))
@@ -875,3 +882,6 @@ convoluted. We use part of it --- skip comment par we are in."
   (shell-command "here"))
 
 (global-set-key (kbd "<f9>") 'here)
+
+(require 'poly-markdown)
+(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown-mode))
