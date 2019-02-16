@@ -50,6 +50,7 @@
 			   popup
 			   polymode
 			   poly-markdown
+			   poly-R
 			   request
 			   s
 			   smex
@@ -885,3 +886,6 @@ convoluted. We use part of it --- skip comment par we are in."
 
 (require 'poly-markdown)
 (add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown-mode))
+
+;; Para que las oraciones con punto seguido sean reconocidas con un solo espacio
+(setq sentence-end-double-space nil)
