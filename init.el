@@ -884,8 +884,9 @@ convoluted. We use part of it --- skip comment par we are in."
 
 (global-set-key (kbd "<f9>") 'here)
 
+(require 'poly-R)
 (require 'poly-markdown)
-(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
 
 ;; Para que las oraciones con punto seguido sean reconocidas con un solo espacio
 (setq sentence-end-double-space nil)
