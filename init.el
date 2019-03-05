@@ -580,7 +580,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; (add-hook 'markdown-mode-hook 'my-markdown-mode-hook)
 ;; ;; (add-hook 'markdown-mode-hook 'flyspell-mode)
-;; (add-hook 'markdown-mode-hook 'visual-line-mode)
+(add-hook 'markdown-mode-hook 'visual-line-mode)
 ;; (add-hook 'markdown-mode-hook 'wc-mode)
 ;; (add-hook 'markdown-mode-hook 'writeroom-mode)
 ;; ;; (add-hook 'markdown-mode-hook 'writegood-mode)
