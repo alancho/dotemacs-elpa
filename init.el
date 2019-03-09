@@ -889,5 +889,14 @@ convoluted. We use part of it --- skip comment par we are in."
 (require 'poly-markdown)
 (add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
 
+;; Insert new chunk for Rmarkdown
+(defun tws-insert-r-chunk (header)
+  "Insert an r-chunk in markdown mode. Necessary due to interactions between polymode and yas snippet"
+  (interactive "sHeader: ")
+  (insert (concat "```{r " header "}\n\n```"))
+  (forward-line -1))
+
+(global-set-key (kbd "C-c C-i") 'tws-insert-r-chunk)
+
 ;; Para que las oraciones con punto seguido sean reconocidas con un solo espacio
 (setq sentence-end-double-space nil)
