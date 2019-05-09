@@ -732,16 +732,21 @@ convoluted. We use part of it --- skip comment par we are in."
 (global-set-key (kbd "C-c i") 'org-capture)
 (global-set-key (kbd "<f12>") 'org-agenda)
 
-(setq org-agenda-files (list "~/Dropbox/gtd/projects.org"
-			     "~/Dropbox/gtd/inbox.org"
-			     "~/Dropbox/gtd/tickler.org"
-			     "~/Dropbox/gtd/tareas.org"
-			     ))
+(setq org-agenda-files '("~/Dropbox/gtd"))
 
-(setq org-refile-targets '(("~/Dropbox/gtd/projects.org" :maxlevel . 1)
-                           ("~/Dropbox/gtd/someday.org" :maxlevel . 1)
-                           ("~/Dropbox/gtd/tareas.org" :maxlevel . 1)
-                           ("~/Dropbox/gtd/tickler.org" :maxlevel . 1)))
+;; (setq org-agenda-files (list "~/Dropbox/gtd/projects.org"
+;; 			     "~/Dropbox/gtd/inbox.org"
+;; 			     "~/Dropbox/gtd/tickler.org"
+;; 			     "~/Dropbox/gtd/tareas.org"
+;; 			     ))
+
+(setq org-refile-targets '((nil :level . 1)
+			   (org-agenda-files :level . 1)))
+
+;; (setq org-refile-targets '(("~/Dropbox/gtd/projects.org" :maxlevel . 1)
+;;                            ("~/Dropbox/gtd/someday.org" :maxlevel . 1)
+;;                            ("~/Dropbox/gtd/tareas.org" :maxlevel . 1)
+;;                            ("~/Dropbox/gtd/tickler.org" :maxlevel . 1)))
 
 (setq org-capture-templates
       (quote (("i" "Inbox" entry (file "~/Dropbox/gtd/inbox.org")
@@ -799,12 +804,22 @@ convoluted. We use part of it --- skip comment par we are in."
 	("n" "Next actions"
 	 ((todo "TODO"
 		((org-agenda-sorting-strategy '(priority-down))
-		 (org-agenda-files '("~/Dropbox/gtd/projects.org"
-				     "~/Dropbox/gtd/tareas.org"))
+		 (org-agenda-files '("~/Dropbox/gtd"))
 		 (org-agenda-overriding-header "Next")
 		 ;; (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)
 		 ))
 	  ))))
+;; (setq org-agenda-custom-commands
+;;       '(
+;; 	("n" "Next actions"
+;; 	 ((todo "TODO"
+;; 		((org-agenda-sorting-strategy '(priority-down))
+;; 		 (org-agenda-files '("~/Dropbox/gtd/projects.org"
+;; 				     "~/Dropbox/gtd/tareas.org"))
+;; 		 (org-agenda-overriding-header "Next")
+;; 		 ;; (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)
+;; 		 ))
+;; 	  ))))
 
 ;; (defun my-org-agenda-skip-all-siblings-but-first ()
 ;;   "Skip all but the first non-done entry."
@@ -863,18 +878,7 @@ convoluted. We use part of it --- skip comment par we are in."
   "Change the current buffer to DOS line-ends."
   (interactive)
   (set-buffer-file-coding-system 'dos t))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("d057f0430ba54f813a5d60c1d18f28cf97d271fd35a36be478e20924ea9451bd" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
- '(package-selected-packages
-   (quote
-    (notmuch zotxt yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode smex pkg-info paredit pandoc-mode org-gcal markdown-mode magit latex-extra julia-shell ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel company-math company-flx color-theme-tango avy autopair auto-complete auctex-latexmk arduino-mode))))
-(put 'downcase-region 'disabled nil)
+
 
 (setq shell-file-name "bash")
 (setq shell-command-switch "-ic")
@@ -885,6 +889,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 (global-set-key (kbd "<f9>") 'here)
 
+(require 'polymode)
 (require 'poly-R)
 (require 'poly-markdown)
 (add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
@@ -900,3 +905,17 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Para que las oraciones con punto seguido sean reconocidas con un solo espacio
 (setq sentence-end-double-space nil)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+ '(package-selected-packages
+   (quote
+    (notmuch zotxt zenburn-theme yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode solarized-theme smex pkg-info paredit pandoc-mode org-gcal markdown-mode magit latex-extra ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel company-math color-theme-tango avy autopair auto-complete auctex-latexmk arduino-mode))))
+
+(setq deft-extensions '("txt" "tex" "org"))
+(setq deft-directory "~/Dropbox")
