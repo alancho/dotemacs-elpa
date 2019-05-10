@@ -16,8 +16,8 @@
 ;; (add-to-list 'package-pinned-packages '(magit . "melpa-stable"))
 
 ;; Y estos son mis paquetes
-(defvar alancho/packages '(autopair
-			   arduino-mode
+(defvar alancho/packages '(;autopair
+			   ;; arduino-mode
 			   color-theme
 			   color-theme-tango
 			   auctex
@@ -518,7 +518,7 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Use the clipboard, pretty please, so that copy/paste "works"
 (setq x-select-enable-clipboard t)
 
-(require 'autopair)
+;; (require 'autopair)
 
 ;; Para editar los yaml a ingresar en R scripts cuando render
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
