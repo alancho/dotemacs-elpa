@@ -152,7 +152,7 @@
 
 (setq bibtex-completion-bibliography
       '("/home/alancho/Dropbox/Papers/bib/library.bib"))
-      ;; '("/home/alancho/Dropbox/Papers/bib/all-my-zotero-library.bib"))
+;; '("/home/alancho/Dropbox/Papers/bib/all-my-zotero-library.bib"))
 
 ;; (setq ivy-bibtex-default-action 'ivy-bibtex-insert-key)
 (setq ivy-bibtex-default-action 'ivy-bibtex-insert-citation)
@@ -732,27 +732,25 @@ convoluted. We use part of it --- skip comment par we are in."
 (global-set-key (kbd "C-c i") 'org-capture)
 (global-set-key (kbd "<f12>") 'org-agenda)
 
-(setq org-agenda-files '("~/Dropbox/gtd"))
+(setq org-agenda-files (list "~/Dropbox/gtd/gtd.org"
+			     "~/Dropbox/gtd/inbox.org"
+			     ))
 
-;; (setq org-agenda-files (list "~/Dropbox/gtd/projects.org"
-;; 			     "~/Dropbox/gtd/inbox.org"
-;; 			     "~/Dropbox/gtd/tickler.org"
-;; 			     "~/Dropbox/gtd/tareas.org"
-;; 			     ))
-
-(setq org-refile-targets '((nil :level . 1)
-			   (org-agenda-files :level . 1)))
-
-;; (setq org-refile-targets '(("~/Dropbox/gtd/projects.org" :maxlevel . 1)
-;;                            ("~/Dropbox/gtd/someday.org" :maxlevel . 1)
-;;                            ("~/Dropbox/gtd/tareas.org" :maxlevel . 1)
-;;                            ("~/Dropbox/gtd/tickler.org" :maxlevel . 1)))
+(setq org-refile-targets '(("~/Dropbox/gtd/gtd.org" :maxlevel . 2)
+                           ("~/Dropbox/gtd/someday.org" :maxlevel . 1)
+                           ))
 
 (setq org-capture-templates
       (quote (("i" "Inbox" entry (file "~/Dropbox/gtd/inbox.org")
-               "* %?\n%u")
+               "* TODO %?\n%u")
               )))
 
+(defun gtd ()
+  (interactive)
+  (find-file "~/Dropbox/gtd/gtd.org")
+  )
+
+(global-set-key (kbd "C-c g") 'gtd)
 
 (setq org-refile-use-outline-path 'file)
 
@@ -804,35 +802,25 @@ convoluted. We use part of it --- skip comment par we are in."
 	("n" "Next actions"
 	 ((todo "TODO"
 		((org-agenda-sorting-strategy '(priority-down))
-		 (org-agenda-files '("~/Dropbox/gtd"))
+		 (org-agenda-files '("~/Dropbox/gtd/gtd.org"
+				     "~/Dropbox/gtd/inbox.org"))
 		 (org-agenda-overriding-header "Next")
-		 ;; (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)
+		 (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)
 		 ))
 	  ))))
-;; (setq org-agenda-custom-commands
-;;       '(
-;; 	("n" "Next actions"
-;; 	 ((todo "TODO"
-;; 		((org-agenda-sorting-strategy '(priority-down))
-;; 		 (org-agenda-files '("~/Dropbox/gtd/projects.org"
-;; 				     "~/Dropbox/gtd/tareas.org"))
-;; 		 (org-agenda-overriding-header "Next")
-;; 		 ;; (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)
-;; 		 ))
-;; 	  ))))
 
-;; (defun my-org-agenda-skip-all-siblings-but-first ()
-;;   "Skip all but the first non-done entry."
-;;   (let (should-skip-entry)
-;;     (unless (org-current-is-todo)
-;;       (setq should-skip-entry t))
-;;     (save-excursion
-;;       (while (and (not should-skip-entry) (org-goto-sibling t))
-;;         (when (org-current-is-todo)
-;;           (setq should-skip-entry t))))
-;;     (when should-skip-entry
-;;       (or (outline-next-heading)
-;;           (goto-char (point-max))))))
+(defun my-org-agenda-skip-all-siblings-but-first ()
+  "Skip all but the first non-done entry."
+  (let (should-skip-entry)
+    (unless (org-current-is-todo)
+      (setq should-skip-entry t))
+    (save-excursion
+      (while (and (not should-skip-entry) (org-goto-sibling t))
+        (when (org-current-is-todo)
+          (setq should-skip-entry t))))
+    (when should-skip-entry
+      (or (outline-next-heading)
+          (goto-char (point-max))))))
 
 (defun org-current-is-todo ()
   (string= "TODO" (org-get-todo-state)))
@@ -905,6 +893,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Para que las oraciones con punto seguido sean reconocidas con un solo espacio
 (setq sentence-end-double-space nil)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -916,6 +905,3 @@ convoluted. We use part of it --- skip comment par we are in."
  '(package-selected-packages
    (quote
     (notmuch zotxt zenburn-theme yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode solarized-theme smex pkg-info paredit pandoc-mode org-gcal markdown-mode magit latex-extra ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel company-math color-theme-tango avy autopair auto-complete auctex-latexmk arduino-mode))))
-
-(setq deft-extensions '("txt" "tex" "org"))
-(setq deft-directory "~/Dropbox")
