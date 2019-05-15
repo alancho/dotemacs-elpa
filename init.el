@@ -43,7 +43,9 @@
 			   magit
 			   markdown-mode
 			   org
+			   org-cliplink
 			   org-gcal
+			   org-journal
 			   pandoc-mode
 			   paredit
 			   pkg-info
@@ -580,7 +582,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; (add-hook 'markdown-mode-hook 'my-markdown-mode-hook)
 ;; ;; (add-hook 'markdown-mode-hook 'flyspell-mode)
-(add-hook 'markdown-mode-hook 'visual-line-mode)
+;; (add-hook 'markdown-mode-hook 'visual-line-mode)
 ;; (add-hook 'markdown-mode-hook 'wc-mode)
 ;; (add-hook 'markdown-mode-hook 'writeroom-mode)
 ;; ;; (add-hook 'markdown-mode-hook 'writegood-mode)
@@ -715,6 +717,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Una oportunidad a org gtd
 (require 'org)
+(require 'org-journal)
 
 ;; This is to have no blank lines inserted after headings
 (setq org-blank-before-new-entry nil)
@@ -729,21 +732,29 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-hook 'org-mode-hook #'visual-line-mode)
 
 ;; (global-set-key (kbd "<f9>") 'org-capture)
-(global-set-key (kbd "C-c i") 'org-capture)
-(global-set-key (kbd "<f12>") 'org-agenda)
+;; (global-set-key (kbd "C-c i") 'org-capture)
 
-(setq org-agenda-files (list "~/Dropbox/gtd/gtd.org"
-			     "~/Dropbox/gtd/inbox.org"
-			     ))
 
-(setq org-refile-targets '(("~/Dropbox/gtd/gtd.org" :maxlevel . 2)
+(setq org-refile-targets '(("~/Dropbox/gtd/gtd.org" :maxlevel . 3)
                            ("~/Dropbox/gtd/someday.org" :maxlevel . 1)
                            ))
 
-(setq org-capture-templates
-      (quote (("i" "Inbox" entry (file "~/Dropbox/gtd/inbox.org")
-               "* TODO %?\n%u")
-              )))
+(setq org-journal-date-format 'org-journal-date-format-func)
+
+(customize-set-variable 'org-journal-dir "~/Dropbox/gtd/org-journal/")
+(customize-set-variable 'org-journal-date-format "%A, %d %B %Y")
+(customize-set-variable 'org-journal-enable-agenda-integration t)
+(defun org-journal-save-entry-and-exit()
+  "Simple convenience function.
+  Saves the buffer of the current day's entry and kills the window
+  Similar to org-capture like behavior"
+  (interactive)
+  (save-buffer)
+  (kill-buffer-and-window))
+(define-key org-journal-mode-map (kbd "C-c C-c") 'org-journal-save-entry-and-exit)
+(global-set-key (kbd "<f7>") 'org-journal-new-entry)
+(global-set-key (kbd "<f8>") 'org-journal-new-scheduled-entry)
+(global-set-key (kbd "<f12>") 'org-agenda)
 
 (defun gtd ()
   (interactive)
@@ -778,18 +789,19 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-ndays 21)
 
-(setq org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d)")))
+(setq org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d)" "CANCELLED(c)")))
 
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "cyan" :weight bold)
               ("DONE" :foreground "gray" :weight bold)
+              ("CANCELLED" :foreground "gray" :weight bold)
 	      )))
 
-;; Tags with fast selection keys
-(setq org-tag-alist (quote (("@inta" . ?i)
-                            ("@home" . ?h)
-                            ("@compu" . ?c)
-			    )))
+;; ;; Tags with fast selection keys
+;; (setq org-tag-alist (quote (("@inta" . ?i)
+;;                             ("@home" . ?h)
+;;                             ("@compu" . ?c)
+;; 			    )))
 
 (setq org-hide-leading-stars t)
 (setq org-startup-indented t)
@@ -894,14 +906,20 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Para que las oraciones con punto seguido sean reconocidas con un solo espacio
 (setq sentence-end-double-space nil)
 
+;; (require 'org-gcal)
+;; (setq org-gcal-client-id "973200746626-f83meknv12sr9s7vb79eg2u5eqj5ipjf.apps.googleusercontent.com"
+;;       org-gcal-client-secret "pPQwvJznLMXxNF8udySTRnRq"
+;;       org-gcal-file-alist '(("severini.alan@gmail.com" .  "~/Dropbox/gtd/calendar.org")))
+;; (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
+;; (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync)))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(package-selected-packages
    (quote
-    (notmuch zotxt zenburn-theme yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode solarized-theme smex pkg-info paredit pandoc-mode org-gcal markdown-mode magit latex-extra ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel company-math color-theme-tango avy autopair auto-complete auctex-latexmk arduino-mode))))
+    (org-cliplink notmuch zotxt zenburn-theme yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode solarized-theme smex poly-R pkg-info paredit pandoc-mode org-super-agenda org-plus-contrib org-journal org-gcal magit latex-extra ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy doom-modeline deft counsel company-math color-theme-tango avy autopair auto-complete auctex-latexmk arduino-mode))))
+
+;; Esto es para pegar links desde el clipboard
+(global-set-key (kbd "C-x p i") 'org-cliplink)
