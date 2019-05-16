@@ -809,30 +809,18 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Para que org-agenda ocupe toda la pantalla
 (setq org-agenda-window-setup 'current-window)
 
-(setq org-agenda-custom-commands
-      '(
-	("n" "Next actions"
-	 ((todo "TODO"
-		((org-agenda-sorting-strategy '(priority-down))
-		 (org-agenda-files '("~/Dropbox/gtd/gtd.org"
-				     "~/Dropbox/gtd/inbox.org"))
-		 (org-agenda-overriding-header "Next")
-		 (org-agenda-skip-function #'my-org-agenda-skip-all-siblings-but-first)
-		 ))
-	  ))))
-
-(defun my-org-agenda-skip-all-siblings-but-first ()
-  "Skip all but the first non-done entry."
-  (let (should-skip-entry)
-    (unless (org-current-is-todo)
-      (setq should-skip-entry t))
-    (save-excursion
-      (while (and (not should-skip-entry) (org-goto-sibling t))
-        (when (org-current-is-todo)
-          (setq should-skip-entry t))))
-    (when should-skip-entry
-      (or (outline-next-heading)
-          (goto-char (point-max))))))
+;; (defun my-org-agenda-skip-all-siblings-but-first ()
+;;   "Skip all but the first non-done entry."
+;;   (let (should-skip-entry)
+;;     (unless (org-current-is-todo)
+;;       (setq should-skip-entry t))
+;;     (save-excursion
+;;       (while (and (not should-skip-entry) (org-goto-sibling t))
+;;         (when (org-current-is-todo)
+;;           (setq should-skip-entry t))))
+;;     (when should-skip-entry
+;;       (or (outline-next-heading)
+;;           (goto-char (point-max))))))
 
 (defun org-current-is-todo ()
   (string= "TODO" (org-get-todo-state)))
