@@ -732,18 +732,23 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-hook 'org-mode-hook #'visual-line-mode)
 
 ;; (global-set-key (kbd "<f9>") 'org-capture)
-;; (global-set-key (kbd "C-c i") 'org-capture)
-
+(global-set-key (kbd "<f1>") 'org-journal-new-scheduled-entry)
+(global-set-key (kbd "<f2>") 'calendar)
+(global-set-key (kbd "C-c i") 'org-capture)
+(global-set-key (kbd "<f12>") 'org-agenda)
 
 (setq org-refile-targets '(("~/Dropbox/gtd/gtd.org" :maxlevel . 3)
                            ("~/Dropbox/gtd/someday.org" :maxlevel . 1)
                            ))
 
-(setq org-journal-date-format 'org-journal-date-format-func)
-
 (customize-set-variable 'org-journal-dir "~/Dropbox/gtd/org-journal/")
 (customize-set-variable 'org-journal-date-format "%A, %d %B %Y")
+;; (customize-set-variable 'org-journal-file-format "%Y-%m-%d")
 (customize-set-variable 'org-journal-enable-agenda-integration t)
+(customize-set-variable 'org-icalendar-store-UID t)
+(customize-set-variable 'org-icalendar-include-todo "all")
+(customize-set-variable 'org-icalendar-combined-agenda-file "~/Dropbox/gtd/org-journal.ics")
+
 (defun org-journal-save-entry-and-exit()
   "Simple convenience function.
   Saves the buffer of the current day's entry and kills the window
@@ -752,9 +757,17 @@ convoluted. We use part of it --- skip comment par we are in."
   (save-buffer)
   (kill-buffer-and-window))
 (define-key org-journal-mode-map (kbd "C-c C-c") 'org-journal-save-entry-and-exit)
-(global-set-key (kbd "<f7>") 'org-journal-new-entry)
-(global-set-key (kbd "<f8>") 'org-journal-new-scheduled-entry)
-(global-set-key (kbd "<f12>") 'org-agenda)
+
+(defun org-journal-find-location ()
+  ;; Open today's journal, but specify a non-nil prefix argument in order to
+  ;; inhibit inserting the heading; org-capture will insert the heading.
+  (org-journal-new-entry t)
+  ;; Position point on the journal's top-level heading so that org-capture
+  ;; will add the new entry as a child entry.
+  (goto-char (point-min)))
+
+(setq org-capture-templates '(("i" "Journal entry" entry (function org-journal-find-location)
+                               "* %(format-time-string org-journal-time-format)%?")))
 
 (defun gtd ()
   (interactive)
@@ -792,8 +805,8 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d)" "CANCELLED(c)")))
 
 (setq org-todo-keyword-faces
-      (quote (("TODO" :foreground "cyan" :weight bold)
-              ("DONE" :foreground "gray" :weight bold)
+      (quote (("TODO" :foreground "orange red" :weight bold)
+              ("DONE" :foreground "light green" :weight bold)
               ("CANCELLED" :foreground "gray" :weight bold)
 	      )))
 
@@ -907,7 +920,7 @@ convoluted. We use part of it --- skip comment par we are in."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (org-cliplink notmuch zotxt zenburn-theme yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode solarized-theme smex poly-R pkg-info paredit pandoc-mode org-super-agenda org-plus-contrib org-journal org-gcal magit latex-extra ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy doom-modeline deft counsel company-math color-theme-tango avy autopair auto-complete auctex-latexmk arduino-mode))))
+    (org-cliplink notmuch zotxt zenburn-theme yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode solarized-theme smex poly-R pkg-info paredit pandoc-mode org-super-agenda org-plus-contrib org-journal org-gcal magit latex-extra ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel company-math color-theme-tango avy autopair auto-complete auctex-latexmk arduino-mode))))
 
 ;; Esto es para pegar links desde el clipboard
 (global-set-key (kbd "C-x p i") 'org-cliplink)
