@@ -745,9 +745,11 @@ convoluted. We use part of it --- skip comment par we are in."
 (customize-set-variable 'org-journal-date-format "%A, %d %B %Y")
 ;; (customize-set-variable 'org-journal-file-format "%Y-%m-%d")
 (customize-set-variable 'org-journal-enable-agenda-integration t)
-(customize-set-variable 'org-icalendar-store-UID t)
-(customize-set-variable 'org-icalendar-include-todo "all")
-(customize-set-variable 'org-icalendar-combined-agenda-file "~/Dropbox/gtd/org-journal.ics")
+;; (customize-set-variable 'org-icalendar-store-UID t)
+;; (customize-set-variable 'org-icalendar-include-todo "all")
+;; (customize-set-variable 'org-icalendar-combined-agenda-file "~/Dropbox/gtd/org-journal.ics")
+(customize-set-variable 'org-journal-time-prefix "* ")
+(customize-set-variable 'org-journal-time-format "")
 
 (defun org-journal-save-entry-and-exit()
   "Simple convenience function.
