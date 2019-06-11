@@ -730,6 +730,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Para ver bien
 (add-hook 'org-mode-hook #'visual-line-mode)
+(setq org-support-shift-select 'always)
 
 ;; (global-set-key (kbd "<f9>") 'org-capture)
 (global-set-key (kbd "<f1>") 'org-journal-new-scheduled-entry)
