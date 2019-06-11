@@ -758,7 +758,7 @@ convoluted. We use part of it --- skip comment par we are in."
   (interactive)
   (save-buffer)
   (kill-buffer-and-window))
-(define-key org-journal-mode-map (kbd "C-c C-c") 'org-journal-save-entry-and-exit)
+(define-key org-journal-mode-map (kbd "<f7>") 'org-journal-save-entry-and-exit)
 
 (defun org-journal-find-location ()
   ;; Open today's journal, but specify a non-nil prefix argument in order to
@@ -781,6 +781,12 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-refile-use-outline-path 'file)
 
 (setq org-outline-path-complete-in-steps nil)
+
+;; Para poder poner código R en org-mode
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((R . t)))
+
 
 ;; Allow refile to create parent tasks with confirmation
 (setq org-refile-allow-creating-parent-nodes (quote confirm))
