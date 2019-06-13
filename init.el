@@ -153,8 +153,7 @@
 ;;         (t . ivy--regex-plus)))
 
 (setq bibtex-completion-bibliography
-      '("/home/alancho/Dropbox/Papers/bib/library.bib"))
-;; '("/home/alancho/Dropbox/Papers/bib/all-my-zotero-library.bib"))
+      '("/home/alancho/Dropbox/cronosoja/000_papers/cronosoja.bib"))
 
 ;; (setq ivy-bibtex-default-action 'ivy-bibtex-insert-key)
 (setq ivy-bibtex-default-action 'ivy-bibtex-insert-citation)
@@ -730,7 +729,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Para ver bien
 (add-hook 'org-mode-hook #'visual-line-mode)
-(setq org-support-shift-select 'always)
+;; (setq org-support-shift-select 'always)
 
 ;; (global-set-key (kbd "<f9>") 'org-capture)
 (global-set-key (kbd "<f1>") 'org-journal-new-scheduled-entry)
