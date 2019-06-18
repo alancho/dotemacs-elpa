@@ -810,10 +810,11 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-ndays 21)
 
-(setq org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d)" "CANCELLED(c)")))
+(setq org-todo-keywords '((sequence "TODO(t)" "SOMEDAY(s)" "|" "DONE(d)" "CANCELLED(c)")))
 
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "orange red" :weight bold)
+              ("SOMEDAY" :foreground "deep sky blue" :weight bold)
               ("DONE" :foreground "light green" :weight bold)
               ("CANCELLED" :foreground "gray" :weight bold)
 	      )))
