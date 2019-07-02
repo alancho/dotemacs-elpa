@@ -771,7 +771,7 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq org-capture-templates '(("i" "Journal entry" entry (function org-journal-find-location)
                                "* %(format-time-string org-journal-time-format)%?")
 			      ("a" "Journal entry with link" entry (function org-journal-find-location)
-                               "* TODO Seguí acá: %(format-time-string org-journal-time-format)%?\n %a")))
+                               "* TODO %(format-time-string org-journal-time-format)%?\n %a")))
 
 (defun gtd ()
   (interactive)
