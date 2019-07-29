@@ -93,6 +93,7 @@
 ;; Exec-path-from-shell
 ;; ========================================================
 ;; (require 'exec-path-from-shell) ;; if not using the ELPA package
+(setq exec-path-from-shell-check-startup-files nil)
 (exec-path-from-shell-initialize)
 
 ;; Start in *scratch*
@@ -123,21 +124,21 @@
 (add-hook 'TeX-mode-hook 'flyspell-mode)
 (add-hook 'TeX-mode-hook 'turn-on-reftex)
 (add-hook 'LaTeX-mode-hook (lambda () (linum-mode -1)))
-(add-hook 'LaTeX-mode-hook 'writeroom-mode)
+;; (add-hook 'LaTeX-mode-hook 'writeroom-mode)
 (setq font-latex-fontify-script nil)
 
-(setq reftex-cite-prompt-optional-args t)
-(setq reftex-plug-into-AUCTeX t)
-;; (setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
-(setq reftex-default-bibliography '("/home/alancho/Dropbox/Papers/bib/library.bib"))
-(setq reftex-cite-format; Get ReTeX with biblatex, see https://tex.stackexchange.com/questions/31966/setting-up-reftex-with-biblatex-citation-commands/31992#31992
-      '((?t . "\\textcite[]{%l}")
-	(?a . "\\autocite[]{%l}")
-	(?c . "\\cite[]{%l}")
-	(?s . "\\smartcite[]{%l}")
-	(?f . "\\footcite[]{%l}")
-	(?n . "\\nocite{%l}")
-	(?b . "\\blockcquote[]{%l}{}")))
+;; (setq reftex-cite-prompt-optional-args t)
+;; (setq reftex-plug-into-AUCTeX t)
+;; ;; (setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
+;; (setq reftex-default-bibliography '("/home/alancho/Dropbox/Papers/bib/library.bib"))
+;; (setq reftex-cite-format; Get ReTeX with biblatex, see https://tex.stackexchange.com/questions/31966/setting-up-reftex-with-biblatex-citation-commands/31992#31992
+;;       '((?t . "\\textcite[]{%l}")
+;; 	(?a . "\\autocite[]{%l}")
+;; 	(?c . "\\cite[]{%l}")
+;; 	(?s . "\\smartcite[]{%l}")
+;; 	(?f . "\\footcite[]{%l}")
+;; 	(?n . "\\nocite{%l}")
+;; 	(?b . "\\blockcquote[]{%l}{}")))
 
 (require 'auctex-latexmk)
 (auctex-latexmk-setup)
@@ -153,7 +154,8 @@
 ;;         (t . ivy--regex-plus)))
 
 (setq bibtex-completion-bibliography
-      '("/home/alancho/Dropbox/cronosoja/000_papers/cronosoja.bib"))
+      '("/home/alancho/tesis_zujic/biblio.bib"
+	"/home/alancho/Dropbox/convocatoria_cofinanciada_2019/proyecto/biblio.bib"))
 
 ;; (setq ivy-bibtex-default-action 'ivy-bibtex-insert-key)
 (setq ivy-bibtex-default-action 'ivy-bibtex-insert-citation)
@@ -579,6 +581,8 @@ convoluted. We use part of it --- skip comment par we are in."
 ;;   (setq-local company-math-allow-unicode-symbols-in-faces t)
 ;;   (setq-local company-math-disallow-unicode-symbols-in-faces nil))
 
+(add-hook 'markdown-mode-hook 'turn-on-reftex)
+
 ;; (add-hook 'markdown-mode-hook 'my-markdown-mode-hook)
 ;; ;; (add-hook 'markdown-mode-hook 'flyspell-mode)
 ;; (add-hook 'markdown-mode-hook 'visual-line-mode)
@@ -934,7 +938,7 @@ convoluted. We use part of it --- skip comment par we are in."
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" default)))
+    ("a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" default)))
  '(org-journal-date-format "%A, %d %B %Y")
  '(org-journal-dir "~/Dropbox/gtd/org-journal/")
  '(org-journal-enable-agenda-integration t)
@@ -942,7 +946,7 @@ convoluted. We use part of it --- skip comment par we are in."
  '(org-journal-time-prefix "** ")
  '(package-selected-packages
    (quote
-    (org-cliplink notmuch zotxt zenburn-theme yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode solarized-theme smex poly-R pkg-info paredit pandoc-mode org-super-agenda org-plus-contrib org-journal org-gcal magit latex-extra ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel company-math color-theme-tango avy autopair auto-complete auctex-latexmk arduino-mode))))
+    (org-cliplink notmuch zotxt zenburn-theme yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode solarized-theme smex poly-R pkg-info paredit pandoc-mode org-super-agenda org-plus-contrib org-journal org-gcal magit latex-extra ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell epc elpy deft counsel company-math color-theme-tango avy autopair auto-complete auctex-latexmk arduino-mode))))
 
 ;; Esto es para pegar links desde el clipboard
 (global-set-key (kbd "C-x p i") 'org-cliplink)
