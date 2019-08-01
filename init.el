@@ -154,7 +154,8 @@
 ;;         (t . ivy--regex-plus)))
 
 (setq bibtex-completion-bibliography
-      '("/home/alancho/tesis_zujic/biblio.bib"
+      '("/home/alancho/Dropbox/consumo_agua_selvi_2019_06_07/compartidos_github/biblio.bib"
+	"/home/alancho/Dropbox/POSGRADO/TESIS/compartidos_para_git/biblio.bib"
 	"/home/alancho/Dropbox/convocatoria_cofinanciada_2019/proyecto/biblio.bib"))
 
 ;; (setq ivy-bibtex-default-action 'ivy-bibtex-insert-key)
@@ -950,3 +951,5 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Esto es para pegar links desde el clipboard
 (global-set-key (kbd "C-x p i") 'org-cliplink)
+
+(setq writeroom-width 120)
