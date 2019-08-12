@@ -778,6 +778,8 @@ convoluted. We use part of it --- skip comment par we are in."
 			      ("a" "Journal entry with link" entry (function org-journal-find-location)
                                "* TODO %(format-time-string org-journal-time-format)%?\n %a")))
 
+(setq org-journal-find-file #'find-file)
+
 (defun gtd ()
   (interactive)
   (find-file "~/Dropbox/gtd/gtd.org")
