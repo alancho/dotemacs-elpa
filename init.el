@@ -736,11 +736,13 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-hook 'org-mode-hook #'visual-line-mode)
 ;; (setq org-support-shift-select 'always)
 
-;; (global-set-key (kbd "<f9>") 'org-capture)
+(global-set-key (kbd "<f9>") 'org-capture)
 (global-set-key (kbd "<f1>") 'org-journal-new-scheduled-entry)
 (global-set-key (kbd "<f2>") 'calendar)
-(global-set-key (kbd "C-c i") 'org-capture)
+;; (global-set-key (kbd "C-c i") 'org-capture)
 (global-set-key (kbd "<f12>") 'org-agenda)
+(global-set-key (kbd "<f7>") 'org-journal-new-entry)
+
 
 (setq org-refile-targets '(("~/Dropbox/gtd/gtd.org" :maxlevel . 3)
                            ("~/Dropbox/gtd/someday.org" :maxlevel . 1)
@@ -756,14 +758,14 @@ convoluted. We use part of it --- skip comment par we are in."
 (customize-set-variable 'org-journal-time-prefix "** ")
 (customize-set-variable 'org-journal-time-format "")
 
-(defun org-journal-save-entry-and-exit()
-  "Simple convenience function.
-  Saves the buffer of the current day's entry and kills the window
-  Similar to org-capture like behavior"
-  (interactive)
-  (save-buffer)
-  (kill-buffer-and-window))
-(define-key org-journal-mode-map (kbd "<f7>") 'org-journal-save-entry-and-exit)
+;; (defun org-journal-save-entry-and-exit()
+;;   "Simple convenience function.
+;;   Saves the buffer of the current day's entry and kills the window
+;;   Similar to org-capture like behavior"
+;;   (interactive)
+;;   (save-buffer)
+;;   (kill-buffer-and-window))
+;; (define-key org-journal-mode-map (kbd "<f7>") 'org-journal-save-entry-and-exit)
 
 (defun org-journal-find-location ()
   ;; Open today's journal, but specify a non-nil prefix argument in order to
