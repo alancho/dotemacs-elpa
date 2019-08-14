@@ -736,12 +736,12 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-hook 'org-mode-hook #'visual-line-mode)
 ;; (setq org-support-shift-select 'always)
 
-(global-set-key (kbd "<f9>") 'org-capture)
+;; (global-set-key (kbd "<f9>") 'org-capture)
 (global-set-key (kbd "<f1>") 'org-journal-new-scheduled-entry)
 (global-set-key (kbd "<f2>") 'calendar)
-;; (global-set-key (kbd "C-c i") 'org-capture)
+(global-set-key (kbd "C-c i") 'org-capture)
 (global-set-key (kbd "<f12>") 'org-agenda)
-(global-set-key (kbd "<f7>") 'org-journal-new-entry)
+(global-set-key (kbd "C-c C-j") 'org-journal-new-entry)
 
 
 (setq org-refile-targets '(("~/Dropbox/gtd/gtd.org" :maxlevel . 3)
@@ -757,28 +757,6 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; (customize-set-variable 'org-icalendar-combined-agenda-file "~/Dropbox/gtd/org-journal.ics")
 (customize-set-variable 'org-journal-time-prefix "** ")
 (customize-set-variable 'org-journal-time-format "")
-
-;; (defun org-journal-save-entry-and-exit()
-;;   "Simple convenience function.
-;;   Saves the buffer of the current day's entry and kills the window
-;;   Similar to org-capture like behavior"
-;;   (interactive)
-;;   (save-buffer)
-;;   (kill-buffer-and-window))
-;; (define-key org-journal-mode-map (kbd "<f7>") 'org-journal-save-entry-and-exit)
-
-(defun org-journal-find-location ()
-  ;; Open today's journal, but specify a non-nil prefix argument in order to
-  ;; inhibit inserting the heading; org-capture will insert the heading.
-  (org-journal-new-entry t)
-  ;; Position point on the journal's top-level heading so that org-capture
-  ;; will add the new entry as a child entry.
-  (goto-char (point-min)))
-
-(setq org-capture-templates '(("i" "Journal entry" entry (function org-journal-find-location)
-                               "* %(format-time-string org-journal-time-format)%?")
-			      ("a" "Journal entry with link" entry (function org-journal-find-location)
-                               "* TODO %(format-time-string org-journal-time-format)%?\n %a")))
 
 (setq org-journal-find-file #'find-file)
 
