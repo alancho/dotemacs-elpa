@@ -721,7 +721,6 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; Una oportunidad a org gtd
 (require 'org)
-(require 'org-journal)
 
 ;; This is to have no blank lines inserted after headings
 (setq org-blank-before-new-entry nil)
@@ -736,29 +735,20 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-hook 'org-mode-hook #'visual-line-mode)
 ;; (setq org-support-shift-select 'always)
 
-;; (global-set-key (kbd "<f9>") 'org-capture)
-(global-set-key (kbd "<f1>") 'org-journal-new-scheduled-entry)
-(global-set-key (kbd "<f2>") 'calendar)
 (global-set-key (kbd "C-c i") 'org-capture)
 (global-set-key (kbd "<f12>") 'org-agenda)
-(global-set-key (kbd "C-c C-j") 'org-journal-new-entry)
 
 
 (setq org-refile-targets '(("~/Dropbox/gtd/gtd.org" :maxlevel . 3)
                            ("~/Dropbox/gtd/someday.org" :maxlevel . 1)
                            ))
 
-(customize-set-variable 'org-journal-dir "~/Dropbox/gtd/org-journal/")
-(customize-set-variable 'org-journal-date-format "%A, %d %B %Y")
-;; (customize-set-variable 'org-journal-file-format "%Y-%m-%d")
-(customize-set-variable 'org-journal-enable-agenda-integration t)
-;; (customize-set-variable 'org-icalendar-store-UID t)
-;; (customize-set-variable 'org-icalendar-include-todo "all")
-;; (customize-set-variable 'org-icalendar-combined-agenda-file "~/Dropbox/gtd/org-journal.ics")
-(customize-set-variable 'org-journal-time-prefix "** ")
-(customize-set-variable 'org-journal-time-format "")
 
-(setq org-journal-find-file #'find-file)
+(setq org-capture-templates
+      (quote (("i" "Inbox" entry (file "~/Dropbox/gtd/inbox.org")
+               "* TODO %?")
+              ("a" "Inbox" entry (file "~/Dropbox/gtd/inbox.org")
+               "* TODO %?\n%a"))))
 
 (defun gtd ()
   (interactive)
