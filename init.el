@@ -740,6 +740,12 @@ convoluted. We use part of it --- skip comment par we are in."
 (global-set-key (kbd "<f12>") 'org-agenda)
 
 
+(setq org-agenda-files (list "~/Dropbox/gtd/projects.org"
+			     "~/Dropbox/gtd/inbox.org"
+			     "~/Dropbox/gtd/tickler.org"
+			     "~/Dropbox/gtd/tareas.org"
+			     ))
+
 (setq org-refile-targets '(("~/Dropbox/gtd/gtd.org" :maxlevel . 3)
                            ("~/Dropbox/gtd/someday.org" :maxlevel . 1)
                            ))
@@ -879,50 +885,13 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq shell-file-name "bash")
 (setq shell-command-switch "-ic")
 
-;; (defun here ()
-;;   (interactive)
-;;   (shell-command "here"))
-;; (global-set-key (kbd "<f9>") 'here)
-
 (require 'polymode)
 (require 'poly-R)
 (require 'poly-markdown)
 (add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
 
-;; Insert new chunk for Rmarkdown
-(defun tws-insert-r-chunk (header)
-  "Insert an r-chunk in markdown mode. Necessary due to interactions between polymode and yas snippet"
-  (interactive "sHeader: ")
-  (insert (concat "```{r " header "}\n\n```"))
-  (forward-line -1))
-
-(global-set-key (kbd "C-c C-i") 'tws-insert-r-chunk)
-
 ;; Para que las oraciones con punto seguido sean reconocidas con un solo espacio
 (setq sentence-end-double-space nil)
-
-;; (require 'org-gcal)
-;; (setq org-gcal-client-id "973200746626-f83meknv12sr9s7vb79eg2u5eqj5ipjf.apps.googleusercontent.com"
-;;       org-gcal-client-secret "pPQwvJznLMXxNF8udySTRnRq"
-;;       org-gcal-file-alist '(("severini.alan@gmail.com" .  "~/Dropbox/gtd/calendar.org")))
-;; (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync) ))
-;; (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync)))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" default)))
- '(org-journal-date-format "%A, %d %B %Y")
- '(org-journal-dir "~/Dropbox/gtd/org-journal/")
- '(org-journal-enable-agenda-integration t)
- '(org-journal-time-format "")
- '(org-journal-time-prefix "** ")
- '(package-selected-packages
-   (quote
-    (org-cliplink notmuch zotxt zenburn-theme yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode solarized-theme smex poly-R pkg-info paredit pandoc-mode org-super-agenda org-plus-contrib org-journal org-gcal magit latex-extra ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell epc elpy deft counsel company-math color-theme-tango avy autopair auto-complete auctex-latexmk arduino-mode))))
 
 ;; Esto es para pegar links desde el clipboard
 (global-set-key (kbd "C-x p i") 'org-cliplink)
