@@ -735,7 +735,8 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-hook 'org-mode-hook #'visual-line-mode)
 ;; (setq org-support-shift-select 'always)
 
-(global-set-key (kbd "C-c i") 'org-capture)
+;; (global-set-key (kbd "C-c i") 'org-capture)
+(global-set-key (kbd "<f9>") 'org-capture)
 (global-set-key (kbd "<f12>") 'org-agenda)
 
 
@@ -748,7 +749,10 @@ convoluted. We use part of it --- skip comment par we are in."
       (quote (("i" "Inbox" entry (file "~/Dropbox/gtd/inbox.org")
                "* TODO %?")
               ("a" "Inbox" entry (file "~/Dropbox/gtd/inbox.org")
-               "* TODO %?\n%a"))))
+               "* TODO %?\n%a")
+	      ("l" "Inbox" entry (file "~/Dropbox/gtd/inbox.org")
+               "* SOMEDAY %(org-cliplink-capture)")
+	      )))
 
 (defun gtd ()
   (interactive)
@@ -875,11 +879,10 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq shell-file-name "bash")
 (setq shell-command-switch "-ic")
 
-(defun here ()
-  (interactive)
-  (shell-command "here"))
-
-(global-set-key (kbd "<f9>") 'here)
+;; (defun here ()
+;;   (interactive)
+;;   (shell-command "here"))
+;; (global-set-key (kbd "<f9>") 'here)
 
 (require 'polymode)
 (require 'poly-R)
