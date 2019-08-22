@@ -740,10 +740,8 @@ convoluted. We use part of it --- skip comment par we are in."
 (global-set-key (kbd "<f12>") 'org-agenda)
 
 
-(setq org-agenda-files (list "~/Dropbox/gtd/projects.org"
-			     "~/Dropbox/gtd/inbox.org"
-			     "~/Dropbox/gtd/tickler.org"
-			     "~/Dropbox/gtd/tareas.org"
+(setq org-agenda-files (list "~/Dropbox/gtd/inbox.org"
+			     "~/Dropbox/gtd/gtd.org"
 			     ))
 
 (setq org-refile-targets '(("~/Dropbox/gtd/gtd.org" :maxlevel . 3)
