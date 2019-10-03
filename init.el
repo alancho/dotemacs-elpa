@@ -154,12 +154,15 @@
 ;;         (t . ivy--regex-plus)))
 
 (setq bibtex-completion-bibliography
-      '("/home/alancho/Dropbox/consumo_agua_selvi_2019_06_07/compartidos_github/biblio.bib"
-	"/home/alancho/Dropbox/POSGRADO/TESIS/compartidos_para_git/biblio.bib"
+      '(;; "/home/alancho/Dropbox/consumo_agua_selvi_2019_06_07/compartidos_github/biblio.bib"
+	;; "/home/alancho/Dropbox/POSGRADO/TESIS/compartidos_para_git/biblio.bib"
+	"/home/alancho/Dropbox/paper_rooting-depth-screening/02_rewriting_Rmd/roots.bib"
 	"/home/alancho/Dropbox/convocatoria_cofinanciada_2019/proyecto/biblio.bib"))
 
 ;; (setq ivy-bibtex-default-action 'ivy-bibtex-insert-key)
 (setq ivy-bibtex-default-action 'ivy-bibtex-insert-citation)
+
+(global-set-key (kbd "<f8>") 'ivy-bibtex-insert-citation)
 
 ;; (setq bibtex-completion-pdf-open-function
 ;;   (lambda (fpath)
@@ -903,6 +906,9 @@ convoluted. We use part of it --- skip comment par we are in."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" default)))
  '(package-selected-packages
    (quote
     (notmuch zotxt zenburn-theme yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode solarized-theme smex poly-R pkg-info paredit pandoc-mode org-super-agenda org-plus-contrib org-journal org-gcal org-cliplink magit latex-extra ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel company-math color-theme-tango avy autopair auto-complete auctex-latexmk arduino-mode))))
