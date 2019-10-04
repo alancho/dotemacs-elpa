@@ -162,7 +162,7 @@
 ;; (setq ivy-bibtex-default-action 'ivy-bibtex-insert-key)
 (setq ivy-bibtex-default-action 'ivy-bibtex-insert-citation)
 
-(global-set-key (kbd "<f8>") 'ivy-bibtex-insert-citation)
+(global-set-key (kbd "<f8>") 'ivy-bibtex)
 
 ;; (setq bibtex-completion-pdf-open-function
 ;;   (lambda (fpath)
@@ -908,7 +908,7 @@ convoluted. We use part of it --- skip comment par we are in."
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" default)))
+    ("0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" default)))
  '(package-selected-packages
    (quote
     (notmuch zotxt zenburn-theme yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode solarized-theme smex poly-R pkg-info paredit pandoc-mode org-super-agenda org-plus-contrib org-journal org-gcal org-cliplink magit latex-extra ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel company-math color-theme-tango avy autopair auto-complete auctex-latexmk arduino-mode))))
