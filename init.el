@@ -37,7 +37,7 @@
 			   expand-region
 			   ;; helm
 			   ;; flyspell-correct
-			   ;; flyspell-correct-ivy
+			   flyspell-correct-ivy
 			   idle-highlight-mode
 			   ido-ubiquitous
 			   ivy-bibtex
@@ -424,7 +424,7 @@ convoluted. We use part of it --- skip comment par we are in."
 (electric-pair-mode 1)
 (visual-line-mode 1)
 (setq visible-bell t)
-(setq ispell-program-name "aspell")
+;; (setq ispell-program-name "aspell")
 (prefer-coding-system 'utf-8)
 (setq column-number-mode t)
 ;; (auto-fill-mode -1)
@@ -591,7 +591,7 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-hook 'markdown-mode-hook 'turn-on-reftex)
 
 ;; (add-hook 'markdown-mode-hook 'my-markdown-mode-hook)
-;; ;; (add-hook 'markdown-mode-hook 'flyspell-mode)
+(add-hook 'markdown-mode-hook 'flyspell-mode)
 ;; (add-hook 'markdown-mode-hook 'visual-line-mode)
 ;; (add-hook 'markdown-mode-hook 'wc-mode)
 ;; (add-hook 'markdown-mode-hook 'writeroom-mode)
@@ -623,18 +623,6 @@ convoluted. We use part of it --- skip comment par we are in."
 
 
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
-
-;; Para cambiar el idioma de ispell con un shortcut
-(global-set-key
- [f5]
- (lambda ()
-   (interactive)
-   (ispell-change-dictionary "spanish")))
-(global-set-key
- [f6]
- (lambda ()
-   (interactive)
-   (ispell-change-dictionary "british")))
 
 (use-package ivy
   :diminish (ivy-mode . "")
@@ -925,3 +913,33 @@ convoluted. We use part of it --- skip comment par we are in."
 (define-key company-mode-map [remap indent-for-tab-command] #'company-indent-or-complete-common)
 (define-key company-mode-map (kbd "C-M-i") 'company-complete)
 (define-key company-mode-map (kbd "C-M-S-i") 'counsel-company)
+
+;; (use-package flyspell
+;;   :defer 1
+;;   :custom
+;;   (flyspell-abbrev-p t)
+;;   (flyspell-issue-message-flag nil)
+;;   (flyspell-issue-welcome-flag nil)
+;;   (flyspell-mode 1))
+
+(use-package flyspell-correct-ivy
+  :after flyspell
+  :bind (:map flyspell-mode-map
+        ("C-;" . flyspell-correct-at-point))
+  :custom (flyspell-correct-interface 'flyspell-correct-ivy))
+
+(setq ispell-program-name (executable-find "aspell")
+      ispell-dictionary "en_GB")
+
+;; Para cambiar el idioma de ispell con un shortcut
+(global-set-key
+ (kbd "C-c E")
+ (lambda ()
+   (interactive)
+   (ispell-change-dictionary "spanish")))
+
+(global-set-key
+ (kbd "C-c B")
+ (lambda ()
+   (interactive)
+   (ispell-change-dictionary "british")))
