@@ -36,6 +36,8 @@
 			   exec-path-from-shell
 			   expand-region
 			   ;; helm
+			   ;; flyspell-correct
+			   ;; flyspell-correct-ivy
 			   idle-highlight-mode
 			   ido-ubiquitous
 			   ivy-bibtex
@@ -908,7 +910,18 @@ convoluted. We use part of it --- skip comment par we are in."
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" default)))
+    ("a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" default)))
  '(package-selected-packages
    (quote
     (notmuch zotxt zenburn-theme yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode solarized-theme smex poly-R pkg-info paredit pandoc-mode org-super-agenda org-plus-contrib org-journal org-gcal org-cliplink magit latex-extra ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel company-math color-theme-tango avy autopair auto-complete auctex-latexmk arduino-mode))))
+
+;; bind flyspell-correct-wrapper
+;; (define-key flyspell-mode-map (kbd "C-;") #'flyspell-correct-wrapper)
+;; (require 'flyspell-correct-ivy)
+;; (define-key flyspell-mode-map (kbd "C-;") 'flyspell-correct-wrapper)
+
+;; completion key bindings
+(setq tab-always-indent 'complete)
+(define-key company-mode-map [remap indent-for-tab-command] #'company-indent-or-complete-common)
+(define-key company-mode-map (kbd "C-M-i") 'company-complete)
+(define-key company-mode-map (kbd "C-M-S-i") 'counsel-company)
