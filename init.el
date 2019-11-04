@@ -11,8 +11,8 @@
 			 ("org" . "http://orgmode.org/elpa/")
 			 ("melpa-stable" . "http://stable.melpa.org/packages/")))
 
-(add-to-list 'package-archives
-             '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+;; (add-to-list 'package-archives
+;;              '("elpy" . "http://jorgenschaefer.github.io/packages/"))
 ;; (add-to-list 'package-pinned-packages '(magit . "melpa-stable"))
 
 ;; Y estos son mis paquetes
@@ -186,7 +186,7 @@
 ;; ========================================================
 ;; No estoy usando Python ni elpy, y de acuerdo a esup este ultimo
 ;; esta usando bastante tiempo del startup. Por ende, lo desactivo:
-(elpy-enable)
+;; (elpy-enable)
 ;; (elpy-use-ipython)
 ;; (setq python-shell-interpreter "ipython" python-shell-interpreter-args "--simple-prompt --pprint")
 ;; (setq elpy-rpc-backend "jedi")
@@ -909,10 +909,10 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; (define-key flyspell-mode-map (kbd "C-;") 'flyspell-correct-wrapper)
 
 ;; completion key bindings
-(setq tab-always-indent 'complete)
-(define-key company-mode-map [remap indent-for-tab-command] #'company-indent-or-complete-common)
-(define-key company-mode-map (kbd "C-M-i") 'company-complete)
-(define-key company-mode-map (kbd "C-M-S-i") 'counsel-company)
+;; (setq tab-always-indent 'complete)
+;; (define-key company-mode-map [remap indent-for-tab-command] #'company-indent-or-complete-common)
+;; (define-key company-mode-map (kbd "C-M-i") 'company-complete)
+;; (define-key company-mode-map (kbd "C-M-S-i") 'counsel-company)
 
 ;; (use-package flyspell
 ;;   :defer 1
