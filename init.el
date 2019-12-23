@@ -39,7 +39,7 @@
 			   expand-region
 			   ;; helm
 			   ;; flyspell-correct
-			   ;; flyspell-correct-ivy
+			   flyspell-correct-ivy
 			   idle-highlight-mode
 			   ido-ubiquitous
 			   ivy-bibtex
@@ -188,7 +188,7 @@
 ;; ========================================================
 ;; No estoy usando Python ni elpy, y de acuerdo a esup este ultimo
 ;; esta usando bastante tiempo del startup. Por ende, lo desactivo:
-(elpy-enable)
+;; (elpy-enable)
 ;; (elpy-use-ipython)
 ;; (setq python-shell-interpreter "ipython" python-shell-interpreter-args "--simple-prompt --pprint")
 ;; (setq elpy-rpc-backend "jedi")
@@ -426,7 +426,7 @@ convoluted. We use part of it --- skip comment par we are in."
 (electric-pair-mode 1)
 (visual-line-mode 1)
 (setq visible-bell t)
-(setq ispell-program-name "aspell")
+;; (setq ispell-program-name "aspell")
 (prefer-coding-system 'utf-8)
 (setq column-number-mode t)
 ;; (auto-fill-mode -1)
@@ -593,7 +593,7 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-hook 'markdown-mode-hook 'turn-on-reftex)
 
 ;; (add-hook 'markdown-mode-hook 'my-markdown-mode-hook)
-;; ;; (add-hook 'markdown-mode-hook 'flyspell-mode)
+(add-hook 'markdown-mode-hook 'flyspell-mode)
 ;; (add-hook 'markdown-mode-hook 'visual-line-mode)
 ;; (add-hook 'markdown-mode-hook 'wc-mode)
 ;; (add-hook 'markdown-mode-hook 'writeroom-mode)
@@ -625,18 +625,6 @@ convoluted. We use part of it --- skip comment par we are in."
 
 
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
-
-;; Para cambiar el idioma de ispell con un shortcut
-(global-set-key
- [f5]
- (lambda ()
-   (interactive)
-   (ispell-change-dictionary "spanish")))
-(global-set-key
- [f6]
- (lambda ()
-   (interactive)
-   (ispell-change-dictionary "british")))
 
 (use-package ivy
   :diminish (ivy-mode . "")
