@@ -5,6 +5,7 @@
 
 (load "package")
 (package-initialize)
+
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
 			 ("marmalade" . "http://marmalade-repo.org/packages/")
 			 ("melpa" . "http://melpa.org/packages/")
@@ -13,6 +14,7 @@
 
 (add-to-list 'package-archives
              '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+
 ;; (add-to-list 'package-pinned-packages '(magit . "melpa-stable"))
 
 ;; Y estos son mis paquetes
@@ -925,3 +927,4 @@ convoluted. We use part of it --- skip comment par we are in."
 (define-key company-mode-map [remap indent-for-tab-command] #'company-indent-or-complete-common)
 (define-key company-mode-map (kbd "C-M-i") 'company-complete)
 (define-key company-mode-map (kbd "C-M-S-i") 'counsel-company)
+(put 'downcase-region 'disabled nil)
