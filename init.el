@@ -885,6 +885,9 @@ convoluted. We use part of it --- skip comment par we are in."
 (require 'poly-R)
 (require 'poly-markdown)
 (add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
+ (setq polymode-display-process-buffers nil
+        polymode-exporter-output-file-format "%s")
+
 
 ;; Para que las oraciones con punto seguido sean reconocidas con un solo espacio
 (setq sentence-end-double-space nil)
@@ -912,7 +915,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; completion key bindings
 (setq tab-always-indent 'complete)
-(define-key company-mode-map [remap indent-for-tab-command] #'company-indent-or-complete-common)
-(define-key company-mode-map (kbd "C-M-i") 'company-complete)
-(define-key company-mode-map (kbd "C-M-S-i") 'counsel-company)
-(put 'downcase-region 'disabled nil)
+;; (define-key company-mode-map [remap indent-for-tab-command] #'company-indent-or-complete-common)
+;; (define-key company-mode-map (kbd "C-M-i") 'company-complete)
+;; (define-key company-mode-map (kbd "C-M-S-i") 'counsel-company)
+;; (put 'downcase-region 'disabled nil)
