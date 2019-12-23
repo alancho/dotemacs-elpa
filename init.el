@@ -5,6 +5,7 @@
 
 (load "package")
 (package-initialize)
+
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
 			 ("marmalade" . "http://marmalade-repo.org/packages/")
 			 ("melpa" . "http://melpa.org/packages/")
@@ -13,6 +14,7 @@
 
 (add-to-list 'package-archives
              '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+
 ;; (add-to-list 'package-pinned-packages '(magit . "melpa-stable"))
 
 ;; Y estos son mis paquetes
@@ -186,7 +188,7 @@
 ;; ========================================================
 ;; No estoy usando Python ni elpy, y de acuerdo a esup este ultimo
 ;; esta usando bastante tiempo del startup. Por ende, lo desactivo:
-(elpy-enable)
+;; (elpy-enable)
 ;; (elpy-use-ipython)
 ;; (setq python-shell-interpreter "ipython" python-shell-interpreter-args "--simple-prompt --pprint")
 ;; (setq elpy-rpc-backend "jedi")
@@ -883,6 +885,9 @@ convoluted. We use part of it --- skip comment par we are in."
 (require 'poly-R)
 (require 'poly-markdown)
 (add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
+ (setq polymode-display-process-buffers nil
+        polymode-exporter-output-file-format "%s")
+
 
 ;; Para que las oraciones con punto seguido sean reconocidas con un solo espacio
 (setq sentence-end-double-space nil)
@@ -910,36 +915,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; completion key bindings
 (setq tab-always-indent 'complete)
-(define-key company-mode-map [remap indent-for-tab-command] #'company-indent-or-complete-common)
-(define-key company-mode-map (kbd "C-M-i") 'company-complete)
-(define-key company-mode-map (kbd "C-M-S-i") 'counsel-company)
-
-;; (use-package flyspell
-;;   :defer 1
-;;   :custom
-;;   (flyspell-abbrev-p t)
-;;   (flyspell-issue-message-flag nil)
-;;   (flyspell-issue-welcome-flag nil)
-;;   (flyspell-mode 1))
-
-(use-package flyspell-correct-ivy
-  :after flyspell
-  :bind (:map flyspell-mode-map
-        ("C-;" . flyspell-correct-at-point))
-  :custom (flyspell-correct-interface 'flyspell-correct-ivy))
-
-(setq ispell-program-name (executable-find "aspell")
-      ispell-dictionary "en_GB")
-
-;; Para cambiar el idioma de ispell con un shortcut
-(global-set-key
- (kbd "C-c E")
- (lambda ()
-   (interactive)
-   (ispell-change-dictionary "spanish")))
-
-(global-set-key
- (kbd "C-c B")
- (lambda ()
-   (interactive)
-   (ispell-change-dictionary "british")))
+;; (define-key company-mode-map [remap indent-for-tab-command] #'company-indent-or-complete-common)
+;; (define-key company-mode-map (kbd "C-M-i") 'company-complete)
+;; (define-key company-mode-map (kbd "C-M-S-i") 'counsel-company)
+;; (put 'downcase-region 'disabled nil)
