@@ -32,3 +32,4 @@ org-clock-save.el
 network-security.data
 transient
 /org-gcal/.org-gcal-token
+/org-journal.cache
