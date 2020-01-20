@@ -709,7 +709,7 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Para evitar ciertos directorios en counsel find file
 (setq ivy-sort-file-function 'string-lessp)
 (setq ivy-extra-directories nil)
-;; (setq counsel-find-file-ignore-regexp (regexp-opt '(".dropbox")))
+(setq counsel-find-file-ignore-regexp (regexp-opt '(".dropbox")))
 
 
 ;; Para que no alerte cuando se llega al comienzo o final de un buffer
