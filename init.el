@@ -26,6 +26,7 @@
 			   auctex-latexmk
 			   auto-complete
 			   company-math
+			   conda
 			   ctable
 			   dash
 			   deferred
@@ -188,13 +189,13 @@
 ;; ========================================================
 ;; No estoy usando Python ni elpy, y de acuerdo a esup este ultimo
 ;; esta usando bastante tiempo del startup. Por ende, lo desactivo:
-;; (elpy-enable)
+(elpy-enable)
 ;; (elpy-use-ipython)
 ;; (setq python-shell-interpreter "ipython" python-shell-interpreter-args "--simple-prompt --pprint")
 ;; (setq elpy-rpc-backend "jedi")
 ;; (setq ac-modes (remove 'python-mode ac-modes))
-;; (define-key elpy-mode-map [(shift return)] 'elpy-shell-send-region-or-buffer)
-;; (define-key elpy-mode-map [(C-return)] 'elpy-company-backend)
+(define-key elpy-mode-map [(shift return)] 'elpy-shell-send-region-or-buffer)
+(define-key elpy-mode-map [(C-return)] 'elpy-company-backend)
 
 ;; Encryption
 ;; ========================================================
@@ -903,7 +904,7 @@ convoluted. We use part of it --- skip comment par we are in."
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("13a8eaddb003fd0d561096e11e1a91b029d3c9d64554f8e897b2513dbf14b277" "56ed144b399e3fbf1fcfc5af854f0053b21c0e3e7cfc824f0473da6f4e179695" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" default)))
+    ("7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "13a8eaddb003fd0d561096e11e1a91b029d3c9d64554f8e897b2513dbf14b277" "56ed144b399e3fbf1fcfc5af854f0053b21c0e3e7cfc824f0473da6f4e179695" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" default)))
  '(package-selected-packages
    (quote
     (notmuch zotxt zenburn-theme yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode solarized-theme smex poly-R pkg-info paredit pandoc-mode org-super-agenda org-plus-contrib org-journal org-gcal org-cliplink magit latex-extra ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel company-math color-theme-tango avy autopair auto-complete auctex-latexmk arduino-mode))))
@@ -918,4 +919,10 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; (define-key company-mode-map [remap indent-for-tab-command] #'company-indent-or-complete-common)
 ;; (define-key company-mode-map (kbd "C-M-i") 'company-complete)
 ;; (define-key company-mode-map (kbd "C-M-S-i") 'counsel-company)
-;; (put 'downcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+
+(use-package conda
+  :ensure t
+  :init
+  (setq conda-anaconda-home (expand-file-name "~/anaconda3"))
+  (setq conda-env-home-directory (expand-file-name "~/anaconda3")))
