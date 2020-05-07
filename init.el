@@ -12,8 +12,8 @@
 			 ("org" . "http://orgmode.org/elpa/")
 			 ("melpa-stable" . "http://stable.melpa.org/packages/")))
 
-(add-to-list 'package-archives
-             '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+;; (add-to-list 'package-archives
+;;              '("elpy" . "https://jorgenschaefer.github.io/packages/"))
 
 ;; (add-to-list 'package-pinned-packages '(magit . "melpa-stable"))
 
@@ -126,7 +126,7 @@
 
 (add-hook 'TeX-mode-hook 'LaTeX-math-mode)
 (add-hook 'TeX-mode-hook 'visual-line-mode)
-(add-hook 'TeX-mode-hook 'flyspell-mode)
+;; (add-hook 'TeX-mode-hook 'flyspell-mode)
 (add-hook 'TeX-mode-hook 'turn-on-reftex)
 (add-hook 'LaTeX-mode-hook (lambda () (linum-mode -1)))
 ;; (add-hook 'LaTeX-mode-hook 'writeroom-mode)
@@ -904,7 +904,7 @@ convoluted. We use part of it --- skip comment par we are in."
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "13a8eaddb003fd0d561096e11e1a91b029d3c9d64554f8e897b2513dbf14b277" "56ed144b399e3fbf1fcfc5af854f0053b21c0e3e7cfc824f0473da6f4e179695" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" default)))
+    ("cdb4ffdecc682978da78700a461cdc77456c3a6df1c1803ae2dd55c59fa703e3" "13a8eaddb003fd0d561096e11e1a91b029d3c9d64554f8e897b2513dbf14b277" "56ed144b399e3fbf1fcfc5af854f0053b21c0e3e7cfc824f0473da6f4e179695" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" default)))
  '(package-selected-packages
    (quote
     (notmuch zotxt zenburn-theme yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode solarized-theme smex poly-R pkg-info paredit pandoc-mode org-super-agenda org-plus-contrib org-journal org-gcal org-cliplink magit latex-extra ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel company-math color-theme-tango avy autopair auto-complete auctex-latexmk arduino-mode))))
