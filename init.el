@@ -27,6 +27,7 @@
 			   auctex-latexmk
 			   auto-complete
 			   company-math
+			   conda
 			   ctable
 			   dash
 			   deferred
@@ -925,3 +926,10 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; (define-key company-mode-map (kbd "C-M-i") 'company-complete)
 ;; (define-key company-mode-map (kbd "C-M-S-i") 'counsel-company)
 (put 'downcase-region 'disabled nil)
+
+(use-package conda
+  :ensure t
+  :init
+  (setq conda-anaconda-home (expand-file-name "~/anaconda3"))
+  (setq conda-env-home-directory (expand-file-name "~/anaconda3")))
+
