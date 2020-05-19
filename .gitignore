@@ -33,3 +33,4 @@ network-security.data
 transient
 /org-gcal/.org-gcal-token
 /org-journal.cache
+/elpy/
