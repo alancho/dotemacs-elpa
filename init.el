@@ -331,8 +331,8 @@
 ;; This are my faces, fonts, etcetera
 ;; ========================================================
 ;; (set-face-attribute 'default nil :family "Ubuntu Mono" :height 110 :weight 'normal)
-;; (set-face-attribute 'default nil :height 125 :family "Inconsolata")
-(set-face-attribute 'default nil :height 110 :family "Monaco")
+(set-face-attribute 'default nil :height 125 :family "Ubuntu Mono")
+;; (set-face-attribute 'default nil :height 105 :family "Fira Code")
 ;; (set-face-attribute 'default nil :height 110 :family "Dejavu Sans Mono")
 
 
