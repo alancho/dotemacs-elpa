@@ -191,8 +191,8 @@
 
 (elpy-enable)
 
-(setq python-shell-interpreter "python"
-      python-shell-interpreter-args "-i")
+;; (setq python-shell-interpreter "python"
+;;       python-shell-interpreter-args "-i")
 
 ;; (setq python-shell-interpreter "jupyter"
 ;;       python-shell-interpreter-args "console --simple-prompt"
