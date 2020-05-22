@@ -133,31 +133,11 @@
 ;; (add-hook 'LaTeX-mode-hook 'writeroom-mode)
 (setq font-latex-fontify-script nil)
 
-;; (setq reftex-cite-prompt-optional-args t)
-;; (setq reftex-plug-into-AUCTeX t)
-;; ;; (setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
-;; (setq reftex-default-bibliography '("/home/alancho/Dropbox/Papers/bib/library.bib"))
-;; (setq reftex-cite-format; Get ReTeX with biblatex, see https://tex.stackexchange.com/questions/31966/setting-up-reftex-with-biblatex-citation-commands/31992#31992
-;;       '((?t . "\\textcite[]{%l}")
-;; 	(?a . "\\autocite[]{%l}")
-;; 	(?c . "\\cite[]{%l}")
-;; 	(?s . "\\smartcite[]{%l}")
-;; 	(?f . "\\footcite[]{%l}")
-;; 	(?n . "\\nocite{%l}")
-;; 	(?b . "\\blockcquote[]{%l}{}")))
-
 (require 'auctex-latexmk)
 (auctex-latexmk-setup)
 (setq auctex-latexmk-inherit-TeX-PDF-mode t)
 
 (autoload 'ivy-bibtex "ivy-bibtex" "" t)
-;; ivy-bibtex requires ivy's `ivy--regex-ignore-order` regex builder, which
-;; ignores the order of regexp tokens when searching for matching candidates.
-;; Add something like this to your init file:
-
-;; (setq ivy-re-builders-alist
-;;       '((ivy-bibtex . ivy--regex-ignore-order)
-;;         (t . ivy--regex-plus)))
 
 (setq bibtex-completion-bibliography
       '(;; "/home/alancho/Dropbox/consumo_agua_selvi_2019_06_07/compartidos_github/biblio.bib"
