@@ -330,11 +330,8 @@
 
 ;; This are my faces, fonts, etcetera
 ;; ========================================================
-;; (set-face-attribute 'default nil :family "Ubuntu Mono" :height 110 :weight 'normal)
-(set-face-attribute 'default nil :height 125 :family "Ubuntu Mono")
-;; (set-face-attribute 'default nil :height 105 :family "Fira Code")
-;; (set-face-attribute 'default nil :height 110 :family "Dejavu Sans Mono")
-
+(set-face-attribute 'default nil :height 110 :family "Monaco")
+;; (set-face-attribute 'default nil :height 105 :family "monospace")
 
 ;; This is to unfill paragraphs
 ;; ========================================================
@@ -862,7 +859,7 @@ convoluted. We use part of it --- skip comment par we are in."
 		      (point-min) (point-max) '(mouse-face t))))
 
 ;; Para que org exporte ODT con cierto formato
-(setq org-odt-styles-file "~/Dropbox/templates/Frontiers_Template.ott") 
+(setq org-odt-styles-file "~/Dropbox/templates/Frontiers_Template.ott")
 
 ;; (setq ivy-do-completion-in-region nil)
 ;; (define-key ess-mode-map (kbd "C-/") 'complete-symbol)
@@ -903,17 +900,6 @@ convoluted. We use part of it --- skip comment par we are in."
 (global-set-key (kbd "C-x p i") 'org-cliplink)
 
 (setq writeroom-width 120)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "285d1bf306091644fb49993341e0ad8bafe57130d9981b680c1dbd974475c5c7" "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "51ec7bfa54adf5fff5d466248ea6431097f5a18224788d0bd7eb1257a4f7b773" "cdb4ffdecc682978da78700a461cdc77456c3a6df1c1803ae2dd55c59fa703e3" "13a8eaddb003fd0d561096e11e1a91b029d3c9d64554f8e897b2513dbf14b277" "56ed144b399e3fbf1fcfc5af854f0053b21c0e3e7cfc824f0473da6f4e179695" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" default)))
- '(package-selected-packages
-   (quote
-    (notmuch zotxt zenburn-theme yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode solarized-theme smex poly-R pkg-info paredit pandoc-mode org-super-agenda org-plus-contrib org-journal org-gcal org-cliplink magit latex-extra ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel company-math color-theme-tango avy autopair auto-complete auctex-latexmk arduino-mode))))
 
 ;; bind flyspell-correct-wrapper
 ;; (define-key flyspell-mode-map (kbd "C-;") #'flyspell-correct-wrapper)
@@ -932,4 +918,3 @@ convoluted. We use part of it --- skip comment par we are in."
   :init
   (setq conda-anaconda-home (expand-file-name "~/anaconda3"))
   (setq conda-env-home-directory (expand-file-name "~/anaconda3")))
-
