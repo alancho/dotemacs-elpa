@@ -12,16 +12,8 @@
 			 ("org" . "http://orgmode.org/elpa/")
 			 ("melpa-stable" . "http://stable.melpa.org/packages/")))
 
-;; No hay necesidad porque ahora uso sudo apt-get install elpa-elpy:
-;; (add-to-list 'package-archives
-;;              '("elpy" . "https://jorgenschaefer.github.io/packages/"))
-
-;; (add-to-list 'package-pinned-packages '(magit . "melpa-stable"))
-
 ;; Y estos son mis paquetes
-(defvar alancho/packages '(;autopair
-			   ;; arduino-mode
-			   color-theme
+(defvar alancho/packages '(color-theme
 			   color-theme-tango
 			   auctex
 			   auctex-latexmk
@@ -32,26 +24,18 @@
 			   dash
 			   deferred
 			   deft
-			   ;; elpy
+			   elpy
 			   epc
 			   epl
 			   ess
-			   ;; esup
 			   exec-path-from-shell
 			   expand-region
-			   ;; helm
-			   ;; flyspell-correct
-			   flyspell-correct-ivy
 			   idle-highlight-mode
 			   ido-ubiquitous
 			   ivy-bibtex
 			   latex-extra
 			   magit
 			   markdown-mode
-			   org
-			   org-cliplink
-			   org-gcal
-			   org-journal
 			   pandoc-mode
 			   paredit
 			   pkg-info
@@ -80,8 +64,7 @@
 			   ivy
 			   ivy-hydra
 			   wgrep
-			   zenburn-theme
-			   zotxt)
+			   zenburn-theme)
   "Default packages")
 
 (defun alancho/packages-installed-p ()
@@ -213,18 +196,6 @@
 (define-key
   inferior-ess-r-mode-map "_" #'ess-insert-assign)
 
-;; (eval-after-load "ess-mode"
-;;   '(progn
-;;      (define-key ess-mode-map [(control return)] nil)
-;;      (define-key ess-mode-map [(shift return)] 'ess-eval-region-or-line-and-step))
-;;   )
-
-;; (add-hook 'ess-mode-hook
-;; 	  '(lambda()
-;; 	     (local-set-key [(shift return)] 'ess-eval-region-or-line-and-step)))
-;; (add-hook 'Rnw-mode-hook
-;; 	  '(lambda()
-;; 	     (local-set-key [(shift return)] 'ess-eval-region-or-line-and-step)))
 (add-hook 'ess-mode-hook
 	  '(lambda()
 	     (local-set-key [(shift return)] 'ess-eval-region-or-function-or-paragraph-and-step)))
@@ -274,99 +245,21 @@
   (interactive)
   (ess-swv-run-in-R "rmarkdown::render"))
 
-;; (global-company-mode 1)
-
-;; (add-hook 'ess-mode-hook
-;;           (defun my-R-mode-hook ()
-;;             (company-mode)
-;;             (local-set-key (kbd "TAB") 'company-indent-or-complete-common)))
-
-;; (setq company-selection-wrap-around t
-;;       company-show-numbers 1
-;;       company-tooltip-align-annotations t
-;;       company-idle-delay 10
-;;       company-minimum-prefix-length 2
-;;       company-tooltip-limit 10)
-
-;; (define-key company-active-map [return] nil)
-;; (define-key company-active-map [tab] 'company-complete-selection)
-;; (define-key company-active-map (kbd "TAB") 'company-complete-selection)
-
-;; (use-package company-math)
-;; (use-package company
-;;   :config
-;;   (progn
-;;     (setq company-tooltip-limit 20
-;;           company-idle-delay 0.5
-;;           company-show-numbers t
-;;           company-tooltip-align-annotations t)
-;;     (global-company-mode))
-;;   :bind (("<tab>" . company-indent-or-complete-common)))
 
 ;; expand region
 ;; ========================================================
-;; (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
 ;; This are my faces, fonts, etcetera
 ;; ========================================================
-;; (set-face-attribute 'default nil :height 110 :family "Monaco")
 (set-face-attribute 'default nil :height 105 :family "monospace" :weight 'normal :width 'normal)
-
-;; This is to unfill paragraphs
-;; ========================================================
-(defun my-fill-latex-paragraph ()
-  "Fill the current paragraph, separating sentences w/ a newline.
-AUCTeX's latex.el reimplements the fill functions and is *very*
-convoluted. We use part of it --- skip comment par we are in."
-  (interactive)
-  (if (save-excursion
-	(beginning-of-line) (looking-at TeX-comment-start-regexp))
-      (TeX-comment-forward)
-    (let ((to (progn
-		(LaTeX-forward-paragraph)
-		(point)))
-	  (from (progn
-		  (LaTeX-backward-paragraph)
-		  (point)))
-	  (to-marker (make-marker)))
-      (set-marker to-marker to)
-      (while (< from (marker-position to-marker))
-	(forward-sentence)
-	(setq tmp-end (point))
-	(LaTeX-fill-region-as-paragraph from tmp-end)
-	(setq from (point))
-	(unless (bolp)
-	  (LaTeX-newline))))))
-
-(eval-after-load "latex"
-  '(define-key LaTeX-mode-map (kbd "M-q") 'my-fill-latex-paragraph))
 
 ;; I don't need to highlight current line
 ;; ========================================================
 (remove-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
 
-;; When C-x C-f I don't want to see this extensions
-;; ========================================================
-;; (custom-set-variables
-;;  ;; custom-set-variables was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  '(completion-ignored-extensions
-;;    (quote
-;;     (".docx" ".xlsx" ".wmf" ".doc" ".xls" ".csv" ".bib" ".o" "~" ".bin" ".bak" ".obj" ".map" ".ico" ".pif" ".lnk" ".a" ".ln" ".blg" ".bbl" ".dll" ".drv" ".vxd" ".386" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".fasl" ".ufsl" ".fsl" ".dxl" ".pfsl" ".dfsl" ".p64fsl" ".d64fsl" ".dx64fsl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".odt" ".pptx" ".ppt" ".txt" ".dat")))
-;;  '(elpy-modules
-;;    (quote
-;;     (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-sane-defaults)))
-;;  '(package-selected-packages
-;;    (quote
-;;     (stan-mode yaml-mode writeroom-mode window-margin websocket use-package synonyms smex request popup paredit pandoc-mode org-journal markdown-mode magit ivy-hydra ido-ubiquitous idle-highlight-mode expand-region exec-path-from-shell ess epc elpy deft counsel-projectile company-math color-theme-tango cl-generic avy autopair auctex ag)))
-;;  '(send-mail-function (quote smtpmail-send-it)))
-
 ;; My magit setup
 ;; ========================================================
-;; (require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
 
 ;; Recent mode
@@ -376,21 +269,6 @@ convoluted. We use part of it --- skip comment par we are in."
 (add-to-list 'recentf-exclude "\\.ido\\.last")
 (add-to-list 'recentf-exclude "bookmark")
 (add-to-list 'recentf-exclude (format "%s/\\.emacs\\.d/elpa/.*" (getenv "HOME")))
-
-;; (defun ido-recentf ()
-;;   "Use ido to select a recently opened file from the `recentf-list'"
-;;   (interactive)
-;;   (let
-;;       ((home (expand-file-name (getenv "HOME"))))
-;;     (find-file
-;;      (ido-completing-read
-;;       "Recentf open: "
-;;       (mapcar (lambda (path)
-;; 		(replace-regexp-in-string home "~" path))
-;; 	      recentf-list)
-;;       nil t))))
-
-;; (global-set-key (kbd "C-x C-r") 'ido-recentf)
 
 ;; This is my color theme
 ;; ========================================================
@@ -464,18 +342,8 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; I need smex
 ;; ========================================================
-;; (require 'smex)
-;; (global-set-key (kbd "M-x") 'smex)
-;; (setq smex-save-file "~/.smex-items")
-;; (defun smex-update-after-load (unused)
-;;   (when (boundp 'smex-cache)
-;;     (smex-update)))
-;; (add-hook 'after-load-functions 'smex-update-after-load)
-
 (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory))
 (smex-initialize)
-;; (global-set-key (kbd "M-x") 'smex)
-;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 ;; To answer quicker
 ;; ========================================================
@@ -483,19 +351,7 @@ convoluted. We use part of it --- skip comment par we are in."
 
 ;; This is for dired mode to omit extensions I don't want to see
 (require 'dired-x)
-;; (setq-default dired-omit-files-p t) ; Buffer-local variable
-;; (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
-;; In dired, sort directories first
 (setq dired-listing-switches "-aBhl  --group-directories-first")
-
-;; Ignore case in eshell
-(setq eshell-cmpl-ignore-case t)
-;; (define-key eshell-mode-map (kbd "<tab>") 'completion-at-point)
-;; Start emacs in eshell
-;; (add-hook 'emacs-startup-hook
-;;           (lambda ()
-;;             (cd default-directory)
-;;             (eshell)))
 
 ;; I use to enable ido mode in org-mode. Because I don't use org
 ;; anymore I need to define how to use ido next
@@ -504,17 +360,9 @@ convoluted. We use part of it --- skip comment par we are in."
 (setq ido-enable-flex-matching t)
 (setq ido-default-buffer-method 'selected-window)
 
-;; full screen
-;; (defun fullscreen ()
-;;   (interactive)
-;;   (set-frame-parameter nil 'fullscreen
-;; 		       (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
-;; (global-set-key [f10] 'fullscreen)
 
 ;; Use the clipboard, pretty please, so that copy/paste "works"
 (setq x-select-enable-clipboard t)
-
-;; (require 'autopair)
 
 ;; Para editar los yaml a ingresar en R scripts cuando render
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
@@ -530,83 +378,12 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Backup files no sirven para nada y nunca los he usado
 (setq make-backup-files nil)
 
-;; Autocomplete
-;; ========================================================
-;; (require 'auto-complete)
-;; (ac-config-default)
-;; (setq ac-auto-show-menu nil)
-;; (setq ac-use-quick-help nil)
-
-;; (defun my-ac-ess-config ()
-;;   (setq ac-souces
-;; 	'(ac-source-R)))
-
-;; (add-hook 'ess-mode-hook 'my-ac-ess-config)
-;; (add-hook 'ess-post-run-hook 'my-ac-ess-config)
-
-;; (setq ac-source-R
-;;       '((prefix . ess-ac-start)
-;; 	(requires . 2)
-;; 	(candidates . ess-ac-candidates)
-;; 	(document . ess-ac-help)))
-
-;; So that RefTeX finds my bibliography
-;; (setq reftex-default-bibliography '("/home/alancho/Dropbox/Papers/All_zotero_library/all-my-zotero-library.bib"))
-
-;; (defvar reftex-cite-format-markdown
-;;   '((?p . "[@%l]")
-;;     (?k . "@%l")))
-
-;; ;; Enable math
-;; (setq markdown-enable-math t)
-
-;; (defun my-markdown-mode-hook()
-;;   (define-key markdown-mode-map [f8]
-;;     (lambda ()
-;;       (interactive)
-;;       (let ((reftex-cite-format reftex-cite-format-markdown))
-;; 	(reftex-citation))))
-;;   (setq-local
-;;    company-backends
-;;    (append '(company-math-symbols-latex) company-backends))
-;;   (setq-local company-math-allow-latex-symbols-in-faces t)
-;;   (setq-local company-math-disallow-latex-symbols-in-faces nil)
-;;   (setq-local company-math-allow-unicode-symbols-in-faces t)
-;;   (setq-local company-math-disallow-unicode-symbols-in-faces nil))
-
 (add-hook 'markdown-mode-hook 'turn-on-reftex)
-
-;; (add-hook 'markdown-mode-hook 'my-markdown-mode-hook)
-;; (add-hook 'markdown-mode-hook 'flyspell-mode)
-;; (add-hook 'markdown-mode-hook 'visual-line-mode)
-;; (add-hook 'markdown-mode-hook 'wc-mode)
-;; (add-hook 'markdown-mode-hook 'writeroom-mode)
-;; ;; (add-hook 'markdown-mode-hook 'writegood-mode)
-
-;; ;; Esto es porque linum mode en markdown causa conflicto con writeroom
-;; (add-hook 'markdown-mode-hook (lambda () (linum-mode -1)))
-;; ;; (add-hook 'markdown-mode-hook 'turn-on-window-margin-mode)
 
 ;; Pandoc mode está bueno porque pese a que no uso sus keybindings me
 ;; permite tener syntax highlighting específico para pandoc
 ;; (e.g. citations)
 (add-hook 'markdown-mode-hook 'pandoc-mode)
-
-(setq compilation-finish-function
-      (lambda (buf str)
-	(if (null (string-match ".*exited abnormally.*" str))
-	    ;;no errors, make the compilation window go away in a few seconds
-	    (progn
-	      (run-at-time
-	       "2 sec" nil 'delete-windows-on
-	       (get-buffer-create "*compilation*"))
-	      (message "No Compilation Errors!")))))
-
-;; Use synonyms package
-(setq synonyms-file "/home/alancho/mthesaur.txt")
-(setq synonyms-cache-file "/home/alancho/mthesaur.txt.cache")
-(require 'synonyms)
-
 
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 
@@ -634,12 +411,6 @@ convoluted. We use part of it --- skip comment par we are in."
           (counsel-M-x . ivy--regex-plus)
           (t   . ivy--regex-plus))))
 
-(use-package ivy-hydra)
-(setq ivy-switch-buffer-faces-alist
-      '((emacs-lisp-mode . swiper-match-face-1)
-        (dired-mode . ivy-subdir)
-        (org-mode . org-level-4)))
-
 ;; Otra oportunidad a counsel
 (use-package counsel
   :demand t
@@ -662,7 +433,8 @@ convoluted. We use part of it --- skip comment par we are in."
   (setq ivy-use-virtual-buffers t)
   (setq ivy-display-style 'fancy)
   (setq ivy-initial-inputs-alist nil)
-  (define-key ivy-minibuffer-map (kbd "<return>") 'ivy-alt-done))
+  ;; (define-key ivy-minibuffer-map (kbd "<return>") 'ivy-alt-done)
+  )
 
 ;; Y otra oportunidad a swiper
 (use-package swiper
@@ -699,168 +471,12 @@ convoluted. We use part of it --- skip comment par we are in."
 ;; Para que no alerte cuando se llega al comienzo o final de un buffer
 (setq ring-bell-function #'ignore)
 
-;; Una oportunidad a org gtd
-(require 'org)
-
-;; This is to have no blank lines inserted after headings
-(setq org-blank-before-new-entry nil)
-
-;; This is to view all at startup
-(setq org-startup-folded nil)
-
-;; Change todo state with C-c C-t KEY
-(setq org-use-fast-todo-selection t)
-
-;; Para ver bien
-(add-hook 'org-mode-hook #'visual-line-mode)
-
-;; (setq org-support-shift-select 'always)
-(setq org-archive-location "~/Dropbox/gtd/archives/archive.org::")
-
-;; (global-set-key (kbd "C-c i") 'org-capture)
-(global-set-key (kbd "<f9>") 'org-capture)
-(global-set-key (kbd "<f12>") 'org-agenda)
-
-
-(setq org-agenda-files (list "~/Dropbox/gtd/inbox.org"
-			     "~/Dropbox/gtd/gtd.org"
-			     ))
-
-(setq org-refile-targets '(("~/Dropbox/gtd/gtd.org" :maxlevel . 3)
-                           ("~/Dropbox/gtd/someday.org" :maxlevel . 1)
-                           ))
-
-
-(setq org-capture-templates
-      (quote (("i" "Inbox" entry (file "~/Dropbox/gtd/inbox.org")
-               "* TODO %?")
-              ("a" "Inbox" entry (file "~/Dropbox/gtd/inbox.org")
-               "* TODO %?\n%a")
-	      ("l" "Inbox" entry (file "~/Dropbox/gtd/inbox.org")
-               "* %(org-cliplink-capture)")
-	      )))
-
-(defun gtd ()
-  (interactive)
-  (find-file "~/Dropbox/gtd/gtd.org")
-  )
-
-(global-set-key (kbd "C-c g") 'gtd)
-
-(setq org-refile-use-outline-path 'file)
-
-(setq org-outline-path-complete-in-steps nil)
-
-;; Para poder poner código R en org-mode
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((R . t)))
-
-
-;; Allow refile to create parent tasks with confirmation
-(setq org-refile-allow-creating-parent-nodes (quote confirm))
-
-;; Use IDO for both buffer and file completion and ido-everywhere to t
-(setq org-completion-use-ido t)
-(setq ido-everywhere t)
-(setq ido-max-directory-size 100000)
-(ido-mode (quote both))
-
-;; Remove completed deadline tasks from the agenda view
-(setq org-agenda-skip-deadline-if-done t)
-
-;; Remove completed scheduled tasks from the agenda view
-(setq org-agenda-skip-scheduled-if-done t)
-
-;; Remove completed items from search results
-(setq org-agenda-skip-timestamp-if-done t)
-
-;; ;; This is to have always the 10 coming days in the week
-(setq org-agenda-start-on-weekday nil)
-(setq org-agenda-ndays 21)
-
-(setq org-todo-keywords '((sequence "TODO(t)" "HOY(h)" "|" "DONE(d)" "CANCELLED(c)")))
-
-(setq org-todo-keyword-faces
-      (quote (("TODO" :foreground "orange red" :weight bold)
-              ("DONE" :foreground "light green" :weight bold)
-              ("HOY" :foreground "dodger blue" :weight bold)
-              ("CANCELLED" :foreground "gray" :weight bold)
-	      )))
-
-;; ;; Tags with fast selection keys
-;; (setq org-tag-alist (quote (("@inta" . ?i)
-;;                             ("@home" . ?h)
-;;                             ("@compu" . ?c)
-;; 			    )))
-
-(setq org-hide-leading-stars t)
-(setq org-startup-indented t)
-
-;; Para que org-agenda ocupe toda la pantalla
-(setq org-agenda-window-setup 'current-window)
-
-;; (defun my-org-agenda-skip-all-siblings-but-first ()
-;;   "Skip all but the first non-done entry."
-;;   (let (should-skip-entry)
-;;     (unless (org-current-is-todo)
-;;       (setq should-skip-entry t))
-;;     (save-excursion
-;;       (while (and (not should-skip-entry) (org-goto-sibling t))
-;;         (when (org-current-is-todo)
-;;           (setq should-skip-entry t))))
-;;     (when should-skip-entry
-;;       (or (outline-next-heading)
-;;           (goto-char (point-max))))))
-
-(defun org-current-is-todo ()
-  (string= "TODO" (org-get-todo-state)))
-
-;; For tag searches ignore tasks with scheduled and deadline dates
-(setq org-agenda-tags-todo-honor-ignore-options t)
-(setq org-archive-mark-done nil)
-(setq org-alphabetical-lists t)
-
-;; Remove completed items from search results
-(setq org-agenda-skip-timestamp-if-done t)
-
-;; Show all future entries for repeating tasks
-(setq org-agenda-repeating-timestamp-show-all t)
-
-;; Show all agenda dates - even if they are empty
-(setq org-agenda-show-all-dates t)
-
-;; Display tags farther right
-(setq org-agenda-tags-column -102)
-
-;; Para que el mouse no haga highlight sobre la agenda
-(add-hook 'org-finalize-agenda-hook
-	  (lambda () (remove-text-properties
-		      (point-min) (point-max) '(mouse-face t))))
-
-;; Para que org exporte ODT con cierto formato
-(setq org-odt-styles-file "~/Dropbox/templates/Frontiers_Template.ott")
-
-;; (setq ivy-do-completion-in-region nil)
-;; (define-key ess-mode-map (kbd "C-/") 'complete-symbol)
 
 ;; Disable overwrite-mode for ever!
 (define-key global-map [(insert)] nil)
 
 ;; Para que los archivos .apsim se abran en xml-mode
 (add-to-list 'auto-mode-alist '("\\.apsim$" . nxml-mode))
-
-;; Para cambiar line endings
-(defun unix-file ()
-  "Change the current buffer to Unix line-ends."
-  (interactive)
-  (set-buffer-file-coding-system 'unix t))
-
-(defun dos-file ()
-  "Change the current buffer to DOS line-ends."
-  (interactive)
-  (set-buffer-file-coding-system 'dos t))
-
 
 (setq shell-file-name "bash")
 (setq shell-command-switch "-ic")
@@ -872,19 +488,10 @@ convoluted. We use part of it --- skip comment par we are in."
  (setq polymode-display-process-buffers nil
         polymode-exporter-output-file-format "%s")
 
-
 ;; Para que las oraciones con punto seguido sean reconocidas con un solo espacio
 (setq sentence-end-double-space nil)
 
-;; Esto es para pegar links desde el clipboard
-(global-set-key (kbd "C-x p i") 'org-cliplink)
-
 (setq writeroom-width 120)
-
-;; bind flyspell-correct-wrapper
-;; (define-key flyspell-mode-map (kbd "C-;") #'flyspell-correct-wrapper)
-;; (require 'flyspell-correct-ivy)
-;; (define-key flyspell-mode-map (kbd "C-;") 'flyspell-correct-wrapper)
 
 ;; completion key bindings
 (setq tab-always-indent 'complete)
@@ -898,6 +505,7 @@ convoluted. We use part of it --- skip comment par we are in."
   :init
   (setq conda-anaconda-home (expand-file-name "~/anaconda3"))
   (setq conda-env-home-directory (expand-file-name "~/anaconda3")))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
