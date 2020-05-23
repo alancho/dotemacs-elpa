@@ -34,4 +34,5 @@ transient
 /org-gcal/.org-gcal-token
 /org-journal.cache
 /elpy/
-/projectile-bookmarks.eld
+/*.eld
+*.cache

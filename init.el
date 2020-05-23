@@ -49,6 +49,7 @@
 			   smex
 			   solarized-theme
 			   stan-mode
+			   shell-pop
 			   synonyms
 			   wc-mode
 			   wc-goal-mode
@@ -424,6 +425,7 @@
    ;; ("C-c d" . counsel-dired-jump)
    ;; ("C-c j" . counsel-git-grep)
    ("C-x C-d" . counsel-ag)
+   ;; ("C-x C-d" . counsel-rg)
    ("C-x C-r" . counsel-recentf)
    ("C-x C-l" . counsel-locate)
    ("M-y" . counsel-yank-pop))
@@ -516,6 +518,20 @@
    (quote
     (zotxt zenburn-theme yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode solarized-theme smex poly-R pkg-info paredit pandoc-mode org-journal org-gcal org-cliplink magit latex-extra ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode flyspell-correct-ivy expand-region exec-path-from-shell ess epc elpy deft counsel conda company-math color-theme-tango avy auto-complete auctex-latexmk))))
 
-(projectile-mode +1)
-(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+(use-package projectile
+  :ensure t
+  :pin melpa-stable
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :config
+  (setq projectile-completion-system 'ivy)
+  (setq projectile-enable-caching t)
+  (projectile-mode))
+
+(use-package shell-pop
+  :bind (("<f9>" . shell-pop))
+  :config
+  (setq shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell shell-pop-term-shell)))))
+  (setq shell-pop-term-shell "/bin/bash")
+  ;; need to do this manually or not picked up by `shell-pop'
+  (shell-pop--set-shell-type 'shell-pop-shell-type shell-pop-shell-type))
