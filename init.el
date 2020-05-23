@@ -49,6 +49,7 @@
 			   smex
 			   solarized-theme
 			   stan-mode
+			   shell-pop
 			   synonyms
 			   wc-mode
 			   wc-goal-mode
@@ -521,3 +522,11 @@
   :config
   (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
   (projectile-mode +1))
+
+(use-package shell-pop
+  :bind (("<f9>" . shell-pop))
+  :config
+  (setq shell-pop-shell-type (quote ("eshell" "*eshell*" (lambda nil (eshell shell-pop-term-shell)))))
+  (setq shell-pop-term-shell "/bin/bash")
+  ;; need to do this manually or not picked up by `shell-pop'
+  (shell-pop--set-shell-type 'shell-pop-shell-type shell-pop-shell-type))
