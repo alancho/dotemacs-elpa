@@ -35,3 +35,4 @@ transient
 /org-journal.cache
 /elpy/
 /*.eld
+*.cache

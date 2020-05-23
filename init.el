@@ -425,6 +425,7 @@
    ;; ("C-c d" . counsel-dired-jump)
    ;; ("C-c j" . counsel-git-grep)
    ("C-x C-d" . counsel-ag)
+   ;; ("C-x C-d" . counsel-rg)
    ("C-x C-r" . counsel-recentf)
    ("C-x C-l" . counsel-locate)
    ("M-y" . counsel-yank-pop))
@@ -519,9 +520,13 @@
 
 (use-package projectile
   :ensure t
+  :pin melpa-stable
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
   :config
-  (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
-  (projectile-mode +1))
+  (setq projectile-completion-system 'ivy)
+  (setq projectile-enable-caching t)
+  (projectile-mode))
 
 (use-package shell-pop
   :bind (("<f9>" . shell-pop))
