@@ -7,3 +7,4 @@ alias ud sudo updatedb
 alias ll ls -lha
 alias here nautilus .
 alias apsim /home/alancho/trunk/Model/Apsim.exe
+alias un unison sandisco
