@@ -436,7 +436,7 @@
   (setq ivy-use-virtual-buffers t)
   (setq ivy-display-style 'fancy)
   (setq ivy-initial-inputs-alist nil)
-  ;; (define-key ivy-minibuffer-map (kbd "<return>") 'ivy-alt-done)
+  (define-key ivy-minibuffer-map (kbd "TAB") 'ivy-alt-done)
   )
 
 ;; Y otra oportunidad a swiper
