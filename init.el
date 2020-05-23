@@ -22,6 +22,7 @@
 			   conda
 			   ctable
 			   dash
+			   dashboard
 			   deferred
 			   deft
 			   elpy
@@ -521,3 +522,12 @@
   :config
   (define-key projectile-mode-map (kbd "C-x p") 'projectile-command-map)
   (projectile-mode +1))
+
+(use-package dashboard
+  :ensure t
+  :init
+  (progn
+    (setq dashboard-items '((recents . 1)
+			    (projects . 1))))
+  :config
+  (dashboard-setup-startup-hook))
