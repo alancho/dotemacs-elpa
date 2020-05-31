@@ -34,6 +34,7 @@
 			   ido-ubiquitous
 			   ivy-bibtex
 			   latex-extra
+			   lsp-python-ms
 			   magit
 			   markdown-mode
 			   pandoc-mode
@@ -154,7 +155,7 @@
 ;; Python
 ;; ========================================================
 
-(elpy-enable)
+;; (elpy-enable)
 
 ;; (setq python-shell-interpreter "python"
 ;;       python-shell-interpreter-args "-i")
