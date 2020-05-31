@@ -278,6 +278,7 @@
 
 ;; This is how I prefer text to behave
 ;; ========================================================
+(display-time-mode 1)
 (delete-selection-mode 1)
 (setq shift-select-mode t)
 (transient-mark-mode t)
