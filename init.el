@@ -128,8 +128,8 @@
 (setq bibtex-completion-bibliography
       '(;; "/home/alancho/Dropbox/consumo_agua_selvi_2019_06_07/compartidos_github/biblio.bib"
 	;; "/home/alancho/Dropbox/POSGRADO/TESIS/compartidos_para_git/biblio.bib"
-	"/home/alancho/Dropbox/paper_rooting-depth-screening/02_rewriting_Rmd/roots.bib"
-	"/home/alancho/Dropbox/convocatoria_cofinanciada_2019/proyecto/biblio.bib"))
+	;; "/home/alancho/Dropbox/paper_rooting-depth-screening/02_rewriting_Rmd/roots.bib"
+	"/home/alancho/Dropbox/cic_2020/cic2020.bib"))
 
 ;; (setq ivy-bibtex-default-action 'ivy-bibtex-insert-key)
 (setq ivy-bibtex-default-action 'ivy-bibtex-insert-citation)
