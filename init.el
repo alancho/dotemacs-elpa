@@ -15,10 +15,13 @@
 ;; Y estos son mis paquetes
 (defvar alancho/packages '(color-theme
 			   color-theme-tango
+			   ag
+			   anaconda-mode
 			   auctex
 			   auctex-latexmk
 			   auto-complete
 			   company-math
+			   company-anaconda
 			   conda
 			   ctable
 			   dash
@@ -507,6 +510,10 @@
   (setq conda-anaconda-home (expand-file-name "~/anaconda3"))
   (setq conda-env-home-directory (expand-file-name "~/anaconda3")))
 
+(add-hook 'python-mode-hook 'anaconda-mode)
+(add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -527,6 +534,7 @@
   :config
   (setq projectile-completion-system 'ivy)
   (setq projectile-enable-caching t)
+  ;; (setq projectile-project-search-path '("~"))
   (projectile-mode))
 
 (use-package shell-pop
