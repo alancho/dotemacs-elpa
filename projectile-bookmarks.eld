@@ -1,0 +1,1 @@
+("~/.emacs.d/" "~/disat45/" "~/Dropbox/tesis_zujic2/" "~/Dropbox/canopy_temperature_reanalysis_2020/" "~/Dropbox/dssat_to_apsim_soils/" "~/Dropbox/dssat_tidy/" "~/Dropbox/soja_abiotico/" "~/Dropbox/cronosoja4/" "~/paper-particion/" "~/cuanto_da_la_ganancia/" "~/cronochecado/" "~/Dropbox/rgee/")
