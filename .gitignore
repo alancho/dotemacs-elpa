@@ -36,3 +36,4 @@ transient
 /elpy/
 *.cache
 /.lsp-session-v1
+/anaconda-mode/
