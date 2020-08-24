@@ -34,6 +34,5 @@ transient
 /org-gcal/.org-gcal-token
 /org-journal.cache
 /elpy/
-/*.eld
 *.cache
 /.lsp-session-v1
