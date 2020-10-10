@@ -432,8 +432,8 @@
    ("C-x C-f" . counsel-find-file)
    ;; ("C-c d" . counsel-dired-jump)
    ;; ("C-c j" . counsel-git-grep)
-   ("C-x C-d" . counsel-ag)
-   ;; ("C-x C-d" . counsel-rg)
+   ;; ("C-x C-d" . counsel-ag)
+   ("C-x C-d" . counsel-rg)
    ("C-x C-r" . counsel-recentf)
    ("C-x C-l" . counsel-locate)
    ("M-y" . counsel-yank-pop))
@@ -466,6 +466,9 @@
 
 ;; Para que counsel-ag sólo busque R, python, y markdown
 ;; (setq counsel-ag-base-command "ag --nocolor --nogroup --r %s /home/alancho/")
+
+(setq counsel-rg-base-command
+      "rg -i -M 120 --no-heading --line-number --color never %s . -tr")
 
 ;; Para evitar ciertos directorios en counsel find file
 (setq ivy-sort-file-function 'string-lessp)
