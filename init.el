@@ -199,7 +199,7 @@
 (setq comint-scroll-to-bottom-on-input t)
 (setq comint-scroll-to-bottom-on-output t)
 (setq comint-move-point-for-output t)
-;; (setq ess-eval-visibly-p t)
+(setq ess-eval-visibly-p nil)
 
 (define-key
   ess-r-mode-map "_" #'ess-insert-assign)
