@@ -50,6 +50,7 @@
 			   poly-R
 			   projectile
 			   request
+			   restart-emacs
 			   s
 			   smex
 			   solarized-theme
@@ -200,6 +201,7 @@
 (setq comint-scroll-to-bottom-on-output t)
 (setq comint-move-point-for-output t)
 (setq ess-eval-visibly-p nil)
+(setq ess-eval-visibly 'nowait)
 
 (define-key
   ess-r-mode-map "_" #'ess-insert-assign)
@@ -530,7 +532,7 @@
     ("c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "51ec7bfa54adf5fff5d466248ea6431097f5a18224788d0bd7eb1257a4f7b773" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "285d1bf306091644fb49993341e0ad8bafe57130d9981b680c1dbd974475c5c7" "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "13a8eaddb003fd0d561096e11e1a91b029d3c9d64554f8e897b2513dbf14b277" default)))
  '(package-selected-packages
    (quote
-    (zotxt zenburn-theme yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode solarized-theme smex poly-R pkg-info paredit pandoc-mode org-journal org-gcal org-cliplink magit latex-extra ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode flyspell-correct-ivy expand-region exec-path-from-shell ess epc elpy deft counsel conda company-math color-theme-tango avy auto-complete auctex-latexmk))))
+    (restart-emacs zotxt zenburn-theme yaml-mode writeroom-mode writegood-mode window-margin wgrep websocket wc-mode wc-goal-mode use-package synonyms stan-mode solarized-theme smex poly-R pkg-info paredit pandoc-mode org-journal org-gcal org-cliplink magit latex-extra ivy-hydra ivy-bibtex ido-ubiquitous idle-highlight-mode flyspell-correct-ivy expand-region exec-path-from-shell ess epc elpy deft counsel conda company-math color-theme-tango avy auto-complete auctex-latexmk))))
 
 (use-package projectile
   :ensure t
