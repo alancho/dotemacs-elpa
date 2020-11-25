@@ -396,6 +396,7 @@
 ;; (e.g. citations)
 (add-hook 'markdown-mode-hook 'pandoc-mode)
 (add-hook 'markdown-mode-hook 'turn-on-reftex)
+(add-hook 'markdown-mode-hook 'visual-line-mode)
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 
 (use-package ivy
