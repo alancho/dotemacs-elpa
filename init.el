@@ -31,7 +31,6 @@
 			   epc
 			   epl
 			   ess
-			   ess-view
 			   exec-path-from-shell
 			   expand-region
 			   idle-highlight-mode
@@ -97,37 +96,6 @@
 ;; ========================================================
 (setq inhibit-startup-message t)
 
-;; AucTeX
-;; ========================================================
-;; (add-hook 'LaTeX-mode-hook '(lambda ()
-;; 			      (if (string-match "\\.Rnw\\'" buffer-file-name)
-;; 				  (setq fill-column 80))))
-
-(remove-hook 'text-mode-hook #'turn-on-auto-fill)
-
-(setq TeX-parse-self t); Enable parse on load.
-(setq TeX-auto-save t); Enable parse on save.
-(setq-default TeX-master nil)
-(setq TeX-PDF-mode t); PDF mode (rather than DVI-mode)
-(setq TeX-electric-sub-and-superscript t)
-(add-hook 'LaTeX-mode-hook
-	  (lambda () (set (make-variable-buffer-local 'TeX-electric-math)
-			  (cons "$" "$"))))
-
-(setq LaTeX-babel-hyphen nil); Disable language-specific hyphen insertion.
-
-(add-hook 'TeX-mode-hook 'LaTeX-math-mode)
-(add-hook 'TeX-mode-hook 'visual-line-mode)
-;; (add-hook 'TeX-mode-hook 'flyspell-mode)
-(add-hook 'TeX-mode-hook 'turn-on-reftex)
-(add-hook 'LaTeX-mode-hook (lambda () (linum-mode -1)))
-;; (add-hook 'LaTeX-mode-hook 'writeroom-mode)
-(setq font-latex-fontify-script nil)
-
-(require 'auctex-latexmk)
-(auctex-latexmk-setup)
-(setq auctex-latexmk-inherit-TeX-PDF-mode t)
-
 (autoload 'ivy-bibtex "ivy-bibtex" "" t)
 
 (setq bibtex-completion-bibliography
@@ -143,43 +111,8 @@
 
 (global-set-key (kbd "<f8>") 'ivy-bibtex)
 
-;; (setq bibtex-completion-pdf-open-function
-;;   (lambda (fpath)
-;;     (call-process "evince" nil 0 nil fpath)))
-
 (setq bibtex-completion-cite-prompt-for-optional-arguments nil)
 (setq bibtex-completion-cite-commands '("citep" "citet" "citeauthor" "citeyear"))
-
-;; (ivy-set-actions
-;;  'ivy-bibtex
-;;  '(("p" ivy-bibtex-open-any "Open PDF, URL, or DOI")
-;;    ("i" ivy-bibtex-insert-citation "Edit notes")))
-
-;; Default directory
-;; ========================================================
-;; (setq default-directory "~/Dropbox/")
-
-;; Python
-;; ========================================================
-
-;; (elpy-enable)
-
-;; (setq python-shell-interpreter "python"
-;;       python-shell-interpreter-args "-i")
-
-;; (setq python-shell-interpreter "jupyter"
-;;       python-shell-interpreter-args "console --simple-prompt"
-;;       python-shell-prompt-detect-failure-warning nil)
-;; (add-to-list 'python-shell-completion-native-disabled-interpreters
-;;              "jupyter")
-
-;; (define-key elpy-mode-map [(shift return)] 'elpy-shell-send-region-or-buffer)
-;; (define-key elpy-mode-map [(C-return)] 'elpy-company-backend)
-
-;; Encryption
-;; ========================================================
-;; (require 'epa-file)
-;; (epa-file-enable)
 
 ;; ESS
 ;; ========================================================
@@ -189,7 +122,6 @@
   (setq-local split-width-threshold 0))
 
 (require 'ess-site)
-(require 'ess-view)
 
 (add-hook 'ess-mode-hook
           'forbid-vertical-split)
@@ -331,9 +263,6 @@
   (let ((fill-column (point-max)))
     (fill-region beg end)))
 
-;; Handy key definition
-(define-key global-map "\C-\M-Q" 'unfill-region)
-
 ;; Smooth movement of buffer when scrolling or moving with arrow keys
 (setq redisplay-dont-pause t
       scroll-margin 1
@@ -468,9 +397,6 @@
   :config
   (setq avy-keys '(?h ?t ?n ?s)))
 
-;; Para que counsel-ag sólo busque R, python, y markdown
-;; (setq counsel-ag-base-command "ag --nocolor --nogroup --r %s /home/alancho/")
-
 (setq counsel-rg-base-command
       "rg -i -M 120 --no-heading --line-number --color never %s . -tr")
 
@@ -479,10 +405,8 @@
 (setq ivy-extra-directories nil)
 (setq counsel-find-file-ignore-regexp (regexp-opt '(".dropbox")))
 
-
 ;; Para que no alerte cuando se llega al comienzo o final de un buffer
 (setq ring-bell-function #'ignore)
-
 
 ;; Disable overwrite-mode for ever!
 (define-key global-map [(insert)] nil)
@@ -521,7 +445,6 @@
 (add-hook 'python-mode-hook 'anaconda-mode)
 (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
 
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -552,14 +475,6 @@
   (setq shell-pop-term-shell "/bin/bash")
   ;; need to do this manually or not picked up by `shell-pop'
   (shell-pop--set-shell-type 'shell-pop-shell-type shell-pop-shell-type))
-
-;; ;; A ver cómo anda python lsp
-;; (use-package lsp-python-ms
-;;   :ensure t
-;;   :init (setq lsp-python-ms-auto-install-server t)
-;;   :hook (python-mode . (lambda ()
-;;                           (require 'lsp-python-ms)
-;;                           (lsp))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
