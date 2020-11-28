@@ -497,8 +497,8 @@
 (require 'poly-R)
 (require 'poly-markdown)
 (add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
- (setq polymode-display-process-buffers nil
-        polymode-exporter-output-file-format "%s")
+(setq polymode-display-process-buffers nil
+      polymode-exporter-output-file-format "%s")
 
 ;; Para que las oraciones con punto seguido sean reconocidas con un solo espacio
 (setq sentence-end-double-space nil)
